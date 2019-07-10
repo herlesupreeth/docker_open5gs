@@ -21,11 +21,11 @@ cd ~/docker_nextepc/nextepc
 docker run --rm -it --cap-add=NET_ADMIN --env-file=docker_env --name epc --net=host --device /dev/net/tun --sysctl net.ipv4.ip_forward=1 nextepc:v0.1
 ```
 
-###### Notes:
+###### Notes
 - --net=host is required in order to allow binding of ports in the container
 - The container requires NET_ADMIN permission in order to create a tun interface
 
-## Configuration:
+## Configuration
 
 The following parameters can be modified in 'docker_env' file before running 'docker run' command to suit your Core Network deployment
 
@@ -33,3 +33,20 @@ The following parameters can be modified in 'docker_env' file before running 'do
 * MNC - Mobile Network Code
 * TAC1 - Tracking Area Code
 * EPC_IF - Network Interface name to bind SGW and MME
+
+## Register a UE information
+
+Open (http://localhost:3000) in a web browser on the machine/VM running the NextEPC docker image. Login with following credentials
+```
+Username : admin
+Password : 1423
+```
+
+Using Web UI, you can add a subscriber as follows.
+```
+- Go to Subscriber Menu
+- Click `+` Button to add a new subscriber
+- Fill the IMSI, security context(K, OPc, AMF), and APN of the subscriber
+- Click `SAVE` Button
+```
+This addition is applied immediately without restarting any NextEPC daemon

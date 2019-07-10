@@ -10,14 +10,14 @@ Docker files to build and run NextEPC in a docker
 Download and build docker image of NextEPC: 
 ```
 cd ~ && git clone https://github.com/herlesupreeth/docker_nextepc
-cd nextepc
+cd docker_nextepc/nextepc
 docker build --force-rm -t nextepc:v0.1 .
 ```
 
 ## Execution Instructions
 
 ```
-cd ~/nextepc
+cd ~/docker_nextepc/nextepc
 docker run --rm -it --cap-add=NET_ADMIN --env-file=docker_env --name epc --net=host --device /dev/net/tun --sysctl net.ipv4.ip_forward=1 nextepc:v0.1
 ```
 

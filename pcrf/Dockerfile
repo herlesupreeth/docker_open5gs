@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2019, Supreeth Herle
@@ -26,7 +24,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-sed -i 's|EPC_IF|'$EPC_IF'|g' /nextepc/install/etc/nextepc/nextepc.conf
-sed -i 's|MCC|'$MCC'|g' /nextepc/install/etc/nextepc/nextepc.conf
-sed -i 's|MNC|'$MNC'|g' /nextepc/install/etc/nextepc/nextepc.conf
-sed -i 's|TAC1|'$TAC1'|g' /nextepc/install/etc/nextepc/nextepc.conf
+FROM open5gs:v0.1
+
+# Expose port 3868 for Diameter queries
+EXPOSE 3868/udp
+EXPOSE 3868/tcp
+EXPOSE 3868/sctp
+EXPOSE 5868/udp
+EXPOSE 5868/tcp
+EXPOSE 5868/sctp
+
+CMD /mnt/pcrf/pcrf_init.sh  && \
+    cd install/bin && ./open5gs-pcrfd

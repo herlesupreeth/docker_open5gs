@@ -1,0 +1,55 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/mme.log
+
+parameter:
+    no_ipv6: true
+    prefer_ipv4: true
+
+mme:
+    freeDiameter:
+      identity: mme.epc.mnc001.mcc001.3gppnetwork.org
+      realm: epc.mnc001.mcc001.3gppnetwork.org
+      port: 3868
+      sec_port: 5868
+      listen_on: MME_IP
+      load_extension:
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dbg_msg_dumps.fdx
+          conf: 0x8888
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_rfc5777.fdx
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_mip6i.fdx
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_nasreq.fdx
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_nas_mipv6.fdx
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca.fdx
+        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx
+      connect:
+        - identity: hss.epc.mnc001.mcc001.3gppnetwork.org
+          addr: HSS_IP
+          port: 3868
+    s1ap:
+      dev: MME_IF
+    gtpc:
+      dev: MME_IF
+    gummei: 
+      plmn_id:
+        mcc: 001
+        mnc: 01
+      mme_gid: 2
+      mme_code: 1
+    tai:
+      plmn_id:
+        mcc: 001
+        mnc: 01
+      tac: 1
+    security:
+        integrity_order : [ EIA1, EIA2, EIA0 ]
+        ciphering_order : [ EEA0, EEA1, EEA2 ]
+    network_name:
+        full: Open5GS
+
+sgw:
+    gtpc:
+      addr: SGW_IP
+
+pgw:
+    gtpc:
+      addr: PGW_IP

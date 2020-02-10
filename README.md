@@ -4,11 +4,12 @@ Docker files to build and run open5gs in a docker
 ## Build and Execution Instructions
 
 * Mandatory requirements:
-	* [docker-ce](https://docs.docker.com/install/linux/docker-ce)
+	* [docker-ce](https://docs.docker.com/install/linux/docker-ce/ubuntu)
 	* [docker-compose](https://docs.docker.com/compose)
 
-Clone repository and build docker image of open5gs:
+
 ```
+# Clone repository and build docker image of open5gs
 cd ~ && git clone https://github.com/herlesupreeth/docker_open5gs
 
 # Compile open5gs base image
@@ -62,7 +63,9 @@ Using Web UI, add a subscriber
 
 On the eNB, make sure to have the static route to SGW container (since internal IP of the SGW container is advertised in S1AP messages and UE wont find the core in Uplink)
 
-$ ip r add <SGW_CONTAINER_IP> via <DOCKER_HOST_IP>
+```
+ip r add <SGW_CONTAINER_IP> via <DOCKER_HOST_IP>
+```
 
 ## Not supported
 - IPv6 usage in Docker

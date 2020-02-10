@@ -8,42 +8,53 @@ Docker files to build and run open5gs in a docker
 	* [docker-compose](https://docs.docker.com/compose)
 
 
+Clone repository and build base docker image of open5gs
+
 ```
-# Clone repository and build docker image of open5gs
-cd ~ && git clone https://github.com/herlesupreeth/docker_open5gs
-
-# Compile open5gs base image
+git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
-docker build --force-rm -t open5gs:v0.1 .
+docker build --force-rm -t docker_nextepc_open5gs .
+```
 
+### Steps when using only docker-ce
+
+```
 # Create EPC Network
 docker network create --subnet=172.18.0.0/16 epc_net
 
 # HSS
 cd ../hss
-docker build --force-rm -t hss:v0.1 .
-docker run -dit -v "$(pwd)":/mnt/hss -p 3000:3000 -e MME_IP='172.18.0.3' --net epc_net --ip 172.18.0.2 --name hss hss:v0.1
+docker build --force-rm -t docker_nextepc_hss .
+docker run -dit -v "$(pwd)":/mnt/hss -p 3000:3000 -e MME_IP='172.18.0.3' --net epc_net --ip 172.18.0.2 --name hss docker_nextepc_hss
 
 # PCRF
 cd ../pcrf
-docker build --force-rm -t pcrf:v0.1 .
-docker run -dit -v "$(pwd)":/mnt/pcrf -e PGW_IP='172.18.0.5' -e HSS_IP='172.18.0.2' --net epc_net --ip 172.18.0.6 --name pcrf pcrf:v0.1
+docker build --force-rm -t docker_nextepc_pcrf .
+docker run -dit -v "$(pwd)":/mnt/pcrf -e PGW_IP='172.18.0.5' -e HSS_IP='172.18.0.2' --net epc_net --ip 172.18.0.6 --name pcrf docker_nextepc_pcrf
 
 # SGW
 cd ../sgw
-docker build --force-rm -t sgw:v0.1 .
-docker run -dit -v "$(pwd)":/mnt/sgw -p 2152:2152/udp --net epc_net --ip 172.18.0.4 --name sgw sgw:v0.1
+docker build --force-rm -t docker_nextepc_sgw .
+docker run -dit -v "$(pwd)":/mnt/sgw -p 2152:2152/udp --net epc_net --ip 172.18.0.4 --name sgw docker_nextepc_sgw
 
 # PGW
 cd ../pgw
-docker build --force-rm -t pgw:v0.1 .
-docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun -e PCRF_IP='172.18.0.6' --sysctl net.ipv4.ip_forward=1 --net epc_net --ip 172.18.0.5 --name pgw pgw:v0.1
+docker build --force-rm -t docker_nextepc_pgw .
+docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun -e PCRF_IP='172.18.0.6' --sysctl net.ipv4.ip_forward=1 --net epc_net --ip 172.18.0.5 --name pgw docker_nextepc_pgw
 
 # MME
 cd ../mme
-docker build --force-rm -t mme:v0.1 .
-docker run -dit -v "$(pwd)":/mnt/mme -p 36412:36412/sctp -e HSS_IP='172.18.0.2' -e SGW_IP='172.18.0.4' -e PGW_IP='172.18.0.5' --net epc_net --ip 172.18.0.3 --name mme mme:v0.1
+docker build --force-rm -t docker_nextepc_mme .
+docker run -dit -v "$(pwd)":/mnt/mme -p 36412:36412/sctp -e HSS_IP='172.18.0.2' -e SGW_IP='172.18.0.4' -e PGW_IP='172.18.0.5' --net epc_net --ip 172.18.0.3 --name mme docker_nextepc_mme
 ```
+
+### Steps when using docker-compose
+
+```
+cd ..
+docker-compose up
+```
+
 
 ## Configuration
 

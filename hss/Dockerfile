@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM open5gs:v0.1
+FROM docker_nextepc_open5gs
 
 # Expose port 3868 for Diameter queries
 EXPOSE 3868/udp
@@ -42,4 +42,4 @@ EXPOSE 27017/udp
 EXPOSE 27017/tcp
 
 CMD /mnt/hss/hss_init.sh  && \
-    cd install/bin && sleep 20 && ./open5gs-hssd
+    cd install/bin && sleep 5 && ./open5gs-hssd

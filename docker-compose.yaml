@@ -1,0 +1,81 @@
+version: '3'
+services:
+  hss:
+    build: ./hss
+    image: docker_nextepc_hss
+    container_name: hss
+    volumes:
+      - ./hss:/mnt/hss
+    environment:
+      - MME_IP=172.18.0.3
+    ports:
+      - "3000:3000"
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
+  sgw:
+    build: ./sgw
+    image: docker_nextepc_sgw
+    container_name: sgw
+    volumes:
+      - ./sgw:/mnt/sgw
+    ports:
+      - "2152:2152/udp"
+    networks:
+      default:
+        ipv4_address: 172.18.0.4
+  pgw:
+    build: ./pgw
+    image: docker_nextepc_pgw
+    container_name: pgw
+    volumes:
+      - ./pgw:/mnt/pgw
+    environment:
+      - PCRF_IP=172.18.0.6
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
+  mme:
+    build: ./mme
+    image: docker_nextepc_mme
+    depends_on:
+      - hss
+      - sgw
+      - pgw
+    container_name: mme
+    volumes:
+      - ./mme:/mnt/mme
+    ports:
+      - "36412:36412/sctp"
+    environment:
+      - HSS_IP=172.18.0.2
+      - SGW_IP=172.18.0.4
+      - PGW_IP=172.18.0.5
+    networks:
+      default:
+        ipv4_address: 172.18.0.3
+  pcrf:
+    build: ./pcrf
+    image: docker_nextepc_pcrf
+    container_name: pcrf
+    depends_on:
+      - hss
+    volumes:
+      - ./pcrf:/mnt/pcrf
+    environment:
+      - PGW_IP=172.18.0.5
+      - HSS_IP=172.18.0.2
+    networks:
+      default:
+        ipv4_address: 172.18.0.6
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24

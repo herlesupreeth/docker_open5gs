@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM open5gs:v0.1
+FROM docker_nextepc_open5gs
 
 # Expose port 3868 for Diameter queries
 EXPOSE 3868/udp
@@ -34,5 +34,5 @@ EXPOSE 5868/udp
 EXPOSE 5868/tcp
 EXPOSE 5868/sctp
 
-CMD /mnt/pcrf/pcrf_init.sh  && \
+CMD /mnt/pcrf/pcrf_init.sh && sleep 10 && \
     cd install/bin && ./open5gs-pcrfd

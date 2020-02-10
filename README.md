@@ -13,7 +13,7 @@ Clone repository and build base docker image of open5gs
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
-docker build --force-rm -t docker_nextepc_open5gs .
+docker build --force-rm -t docker_open5gs .
 ```
 
 ### Steps when using only docker-ce

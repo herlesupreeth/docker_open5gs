@@ -2,7 +2,7 @@ version: '3'
 services:
   hss:
     build: ./hss
-    image: docker_nextepc_hss
+    image: docker_open5gs_hss
     container_name: hss
     volumes:
       - ./hss:/mnt/hss
@@ -15,7 +15,7 @@ services:
         ipv4_address: 172.18.0.2
   sgw:
     build: ./sgw
-    image: docker_nextepc_sgw
+    image: docker_open5gs_sgw
     container_name: sgw
     volumes:
       - ./sgw:/mnt/sgw
@@ -26,7 +26,7 @@ services:
         ipv4_address: 172.18.0.4
   pgw:
     build: ./pgw
-    image: docker_nextepc_pgw
+    image: docker_open5gs_pgw
     container_name: pgw
     volumes:
       - ./pgw:/mnt/pgw
@@ -43,7 +43,7 @@ services:
         ipv4_address: 172.18.0.5
   mme:
     build: ./mme
-    image: docker_nextepc_mme
+    image: docker_open5gs_mme
     depends_on:
       - hss
       - sgw
@@ -62,7 +62,7 @@ services:
         ipv4_address: 172.18.0.3
   pcrf:
     build: ./pcrf
-    image: docker_nextepc_pcrf
+    image: docker_open5gs_pcrf
     container_name: pcrf
     depends_on:
       - hss

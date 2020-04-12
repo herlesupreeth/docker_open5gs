@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2019, Supreeth Herle
@@ -26,11 +24,10 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cd webui && npm run dev &
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
+FROM docker_open5gs
 
-cp /mnt/hss/hss.yaml install/etc/open5gs
-sed -i 's|HSS_IP|'$IP_ADDR'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
+# Expose port 27017 for Mongodb queries
+EXPOSE 27017/udp
+EXPOSE 27017/tcp
 
+CMD /mnt/mongo/mongo_init.sh

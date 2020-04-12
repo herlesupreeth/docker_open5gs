@@ -1,17 +1,32 @@
 version: '3'
 services:
+  mongo:
+    build: ./mongo
+    image: docker_open5gs_mongo
+    container_name: mongo
+    volumes:
+      - ./mongo:/mnt/mongo
+      - ./mongodb:/var/lib/mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      default:
+        ipv4_address: 172.18.0.10
   hss:
     build: ./hss
     image: docker_open5gs_hss
     container_name: hss
     volumes:
       - ./hss:/mnt/hss
-      - ./mongodb:/var/lib/mongodb
+      - ./log:/open5gs/install/var/log/open5gs
     environment:
+      - MONGO_IP=172.18.0.10
       - MME_IP=172.18.0.3
+      - DB_URI=mongodb://172.18.0.10/open5gs
+    depends_on:
+      - mongo
     ports:
       - "3000:3000"
-      - "27017:27017"
     networks:
       default:
         ipv4_address: 172.18.0.2
@@ -21,6 +36,7 @@ services:
     container_name: sgw
     volumes:
       - ./sgw:/mnt/sgw
+      - ./log:/open5gs/install/var/log/open5gs
     ports:
       - "2152:2152/udp"
     networks:
@@ -32,6 +48,7 @@ services:
     container_name: pgw
     volumes:
       - ./pgw:/mnt/pgw
+      - ./log:/open5gs/install/var/log/open5gs
     environment:
       - PCRF_IP=172.18.0.6
     cap_add:
@@ -53,6 +70,7 @@ services:
     container_name: mme
     volumes:
       - ./mme:/mnt/mme
+      - ./log:/open5gs/install/var/log/open5gs
     ports:
       - "36412:36412/sctp"
     environment:
@@ -67,12 +85,13 @@ services:
     image: docker_open5gs_pcrf
     container_name: pcrf
     depends_on:
-      - hss
+      - mongo
     volumes:
       - ./pcrf:/mnt/pcrf
+      - ./log:/open5gs/install/var/log/open5gs
     environment:
       - PGW_IP=172.18.0.5
-      - HSS_IP=172.18.0.2
+      - MONGO_IP=172.18.0.10
     networks:
       default:
         ipv4_address: 172.18.0.6

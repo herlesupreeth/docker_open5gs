@@ -1,4 +1,4 @@
-db_uri: mongodb://localhost/open5gs
+db_uri: mongodb://MONGO_IP/open5gs
 
 logger:
     file: /open5gs/install/var/log/open5gs/hss.log

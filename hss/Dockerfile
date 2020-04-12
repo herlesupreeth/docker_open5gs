@@ -37,9 +37,5 @@ EXPOSE 5868/sctp
 # Expose port 3000 Web UI of HSS
 EXPOSE 3000/tcp
 
-# Expose port 27017 for Mongodb queries
-EXPOSE 27017/udp
-EXPOSE 27017/tcp
-
 CMD /mnt/hss/hss_init.sh  && \
     cd install/bin && sleep 5 && ./open5gs-hssd

@@ -14,6 +14,9 @@ Clone repository and build base docker image of open5gs
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
+
+cd ../srslte
+docker build --no-cache --force-rm -t docker_srsenb .
 ```
 
 ### Steps when using only docker-ce
@@ -54,6 +57,16 @@ docker run -dit -v "$(pwd)":/mnt/mme -p 36412:36412/sctp -e HSS_IP='172.18.0.2' 
 cd ..
 docker-compose build --no-cache
 docker-compose up
+```
+
+### Run srsENB in a separated container
+
+Sometimes you may want to restart srsENB while keeping the core network running.  It is thus recommended to run srsENB separately.
+
+```
+cd srsenb
+cp ../.env .
+docker run -it --rm --privileged -v "$(pwd)":/mnt/srsenb -v /dev/bus/usb:/dev/bus/usb --net docker_open5gs_default --ip 172.18.0.7 --name srsenb docker_srsenb
 ```
 
 

@@ -6,10 +6,12 @@ services:
     container_name: hss
     volumes:
       - ./hss:/mnt/hss
+      - ./mongodb:/var/lib/mongodb
     environment:
       - MME_IP=172.18.0.3
     ports:
       - "3000:3000"
+      - "27017:27017"
     networks:
       default:
         ipv4_address: 172.18.0.2

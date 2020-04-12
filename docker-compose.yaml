@@ -71,8 +71,8 @@ services:
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
-    ports:
-      - "36412:36412/sctp"
+#    ports:
+#      - "36412:36412/sctp"
     environment:
       - HSS_IP=${HSS_IP}
       - SGW_IP=${SGW_IP}

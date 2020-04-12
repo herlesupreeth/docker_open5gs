@@ -39,7 +39,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout tags/v1.2.1 && meson build --prefix=`pwd`/install && \
+    git checkout tags/v1.2.3 && meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install
 
 # Set the working directory to open5gs

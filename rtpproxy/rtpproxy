@@ -1,0 +1,9 @@
+# Defaults for rtpproxy
+
+# The control socket.
+#CONTROL_SOCK="unix:/var/run/rtpproxy/rtpproxy.sock"
+# To listen on an UDP socket, uncomment this line:
+CONTROL_SOCK=udp:0.0.0.0:7722
+
+# Additional options that are passed to the daemon.
+EXTRA_OPTS="-l 0.0.0.0 -d DBUG:LOG_LOCAL0"

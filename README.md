@@ -17,6 +17,9 @@ docker build --no-cache --force-rm -t docker_open5gs .
 
 cd ../srslte
 docker build --no-cache --force-rm -t docker_srsenb .
+
+cd ../kamailio_base
+docker build --no-cache --force-rm -t open5gs_kamailio .
 ```
 
 ### Steps when using only docker-ce

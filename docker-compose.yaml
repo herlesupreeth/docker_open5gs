@@ -128,6 +128,18 @@ services:
     networks:
       default:
         ipv4_address: ${MYSQL_IP}
+  rtpengine:
+    build: ./rtpengine
+    image: open5gs_rtpengine
+    privileged: true
+    container_name: rtpengine
+    volumes:
+      - ./rtpengine:/mnt/rtpengine
+    environment:
+      - RTPENGINE_IP=${RTPENGINE_IP}
+    networks:
+      default:
+        ipv4_address: ${RTPENGINE_IP}
 networks:
   default:
     ipam:

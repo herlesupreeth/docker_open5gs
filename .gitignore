@@ -1,3 +1,4 @@
 log/
 mongodb/
+mysql_db/
 */.env

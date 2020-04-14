@@ -119,6 +119,15 @@ services:
     networks:
       default:
         ipv4_address: ${PCRF_IP}
+  mysql:
+    build: ./mysql
+    image: open5gs_mysql
+    container_name: mysql
+    volumes:
+      - ./mysql_db:/var/lib/mysql
+    networks:
+      default:
+        ipv4_address: ${MYSQL_IP}
 networks:
   default:
     ipam:

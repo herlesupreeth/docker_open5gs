@@ -35,7 +35,9 @@ services:
       - MME_IP=${MME_IP}
       - DB_URI=mongodb://${MONGO_IP}/open5gs
     depends_on:
+      - dns
       - mongo
+    dns: ${DNS_IP}
     ports:
       - "3000:3000"
     networks:
@@ -48,6 +50,9 @@ services:
     volumes:
       - ./sgw:/mnt/sgw
       - ./log:/open5gs/install/var/log/open5gs
+    depends_on:
+      - dns
+    dns: ${DNS_IP}
     ports:
       - "2152:2152/udp"
     networks:
@@ -62,6 +67,9 @@ services:
       - ./log:/open5gs/install/var/log/open5gs
     environment:
       - PCRF_IP=${PCRF_IP}
+    depends_on:
+      - dns
+    dns: ${DNS_IP}
     cap_add:
       - NET_ADMIN
     devices:
@@ -82,6 +90,9 @@ services:
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
+    depends_on:
+      - dns
+    dns: ${DNS_IP}
 #    ports:
 #      - "36412:36412/sctp"
     environment:
@@ -97,6 +108,8 @@ services:
     container_name: pcrf
     depends_on:
       - mongo
+      - dns
+    dns: ${DNS_IP}
     volumes:
       - ./pcrf:/mnt/pcrf
       - ./log:/open5gs/install/var/log/open5gs

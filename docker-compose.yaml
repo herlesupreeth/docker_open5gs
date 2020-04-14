@@ -140,6 +140,66 @@ services:
     networks:
       default:
         ipv4_address: ${RTPENGINE_IP}
+  pcscf:
+    build: ./pcscf
+    image: docker_open5gs_pcscf
+    container_name: pcscf
+    privileged: true
+    volumes:
+      - ./pcscf:/mnt/pcscf
+    depends_on:
+      - dns
+      - mysql
+      - pcrf
+    environment:
+      - MYSQL_IP=${MYSQL_IP}
+      - PCSCF_IP=${PCSCF_IP}
+      - RTPENGINE_IP=${RTPENGINE_IP}
+    dns: ${DNS_IP}
+    ports:
+      - "5060:5060/tcp"
+      - "5060:5060/udp"
+    networks:
+      default:
+        ipv4_address: ${PCSCF_IP}
+  icscf:
+    build: ./icscf
+    image: docker_open5gs_icscf
+    container_name: icscf
+    volumes:
+      - ./icscf:/mnt/icscf
+    depends_on:
+      - dns
+      - mysql
+    environment:
+      - MYSQL_IP=${MYSQL_IP}
+      - ICSCF_IP=${ICSCF_IP}
+    dns: ${DNS_IP}
+    ports:
+      - "4060:4060/tcp"
+      - "4060:4060/udp"
+    networks:
+      default:
+        ipv4_address: ${ICSCF_IP}
+  scscf:
+    build: ./scscf
+    image: docker_open5gs_scscf
+    container_name: scscf
+    volumes:
+      - ./scscf:/mnt/scscf
+    depends_on:
+      - dns
+      - mysql
+    environment:
+      - MYSQL_IP=${MYSQL_IP}
+      - SCSCF_IP=${SCSCF_IP}
+    dns: ${DNS_IP}
+    ports:
+      - "6060:6060/tcp"
+      - "6060:6060/udp"
+    networks:
+      default:
+        ipv4_address: ${SCSCF_IP}
 networks:
   default:
     ipam:

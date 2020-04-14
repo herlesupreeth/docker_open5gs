@@ -1,5 +1,16 @@
 version: '3'
 services:
+  dns:
+    build: ./dns
+    image: docker_open5gs_dns
+    container_name: dns
+    volumes:
+      - ./dns:/mnt/dns
+    expose:
+      - "53/udp"
+    networks:
+      default:
+        ipv4_address: ${DNS_IP}
   mongo:
     build: ./mongo
     image: docker_open5gs_mongo

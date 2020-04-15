@@ -2,6 +2,7 @@ db_uri: mongodb://MONGO_IP/open5gs
 
 logger:
     file: /open5gs/install/var/log/open5gs/pcrf.log
+    level: DEBUG
 
 parameter:
     no_ipv6: true
@@ -28,5 +29,5 @@ pcrf:
           addr: PGW_IP
           port: 3868
         - identity: pcscf.ims.mnc001.mcc001.3gppnetwork.org
-          addr: 10.4.128.21
+          addr: PCSCF_IP
           port: 3871

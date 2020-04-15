@@ -118,6 +118,7 @@ services:
     environment:
       - PGW_IP=${PGW_IP}
       - MONGO_IP=${MONGO_IP}
+      - PCSCF_IP=${PCSCF_IP}
     networks:
       default:
         ipv4_address: ${PCRF_IP}

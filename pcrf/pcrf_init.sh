@@ -34,3 +34,4 @@ sed -i 's|NAME|'$NAME'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|REALM|'$REALM'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCRF_IP|'$IP_ADDR'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PGW_IP|'$PGW_IP'|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/pcrf.yaml

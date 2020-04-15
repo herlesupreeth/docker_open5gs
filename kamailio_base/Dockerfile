@@ -16,8 +16,8 @@ RUN apt-get -y install libxml2-dev libmysqlclient-dev libmnl-dev \
 		ipsec-tools libradcli-dev libradcli4
 
 RUN git clone https://github.com/herlesupreeth/kamailio && \
-    cd kamailio && \
-    git checkout -b 5.3 origin/5.3
+    cd kamailio
+#    git checkout -b 5.3 origin/5.3
 
 COPY modules.lst /tmp/
 

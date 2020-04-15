@@ -155,6 +155,7 @@ services:
       - dns
       - mysql
       - pcrf
+      - rtpengine
     environment:
       - MYSQL_IP=${MYSQL_IP}
       - PCSCF_IP=${PCSCF_IP}

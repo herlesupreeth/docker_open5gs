@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<web-app>
+	<display-name>HSS Management Console</display-name>
+	
+	<!-- Standard Action Servlet Configuration (with debugging) -->
+	
+	<filter id="respFilterId">
+        <filter-name>respFilter</filter-name>
+        <filter-class>de.fhg.fokus.hss.web.servlet.ResponseFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>respFilter</filter-name>
+	    <url-pattern>/pages/services/sp.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>respFilter</filter-name>
+	    <url-pattern>/pages/network/capability_set.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>respFilter</filter-name>
+<!--	    <servlet-name>action</servlet-name> -->
+	        <url-pattern>/pages/info/overview.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>respFilter</filter-name>
+	    <url-pattern>/pages/profiles/dStruct.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>respFilter</filter-name>
+	    <url-pattern>/pages/info/data.jsp</url-pattern>
+    </filter-mapping>
+
+	<servlet id="actionId">
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet id="Log4jInitId">
+		<servlet-name>Log4jInit</servlet-name>
+		<servlet-class>de.fhg.fokus.hss.Log4jInit</servlet-class>
+
+		<init-param>
+			<param-name>log4j-init-file</param-name>
+			<param-value>log4j.properties</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet id="JUnitEETestServlet">
+	    <servlet-name>JUnitEETestServlet</servlet-name>
+	    <description>JUnitEE test runner</description>
+	    <servlet-class>org.junitee.servlet.JUnitEEServlet</servlet-class>
+	    <init-param>
+	      <param-name>searchResources</param-name>
+	      <param-value>hss.core.test.jar</param-value>
+	    </init-param>
+    </servlet>	
+	
+	<!-- Standard Action Servlet Mapping -->
+	<servlet-mapping id="actionMappingId">
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	  <servlet-mapping>
+	    <servlet-name>JUnitEETestServlet</servlet-name>
+	    <url-pattern>/TestServlet/*</url-pattern>
+	  </servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>frameset.jsp</welcome-file>
+	</welcome-file-list>
+	
+
+
+	<!-- Struts Tag Library Descriptors -->
+	<taglib>
+		<taglib-uri>/tags/struts-bean</taglib-uri>
+		<taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-html</taglib-uri>
+		<taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-logic</taglib-uri>
+		<taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-nested</taglib-uri>
+		<taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-tiles</taglib-uri>
+		<taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+	</taglib>
+	
+	 <!-- Define reference to the user database for looking up roles -->
+  <resource-env-ref>
+    <description>
+      Link to the UserDatabase instance from which we request lists of
+      defined role names.  Typically, this will be connected to the global
+      user database with a ResourceLink element in server.xml or the context
+      configuration file for the Manager web application.
+    </description>
+    <resource-env-ref-name>users</resource-env-ref-name>
+    <resource-env-ref-type>
+      org.apache.catalina.UserDatabase
+    </resource-env-ref-type>
+  </resource-env-ref>
+
+  <!-- Define a Security Constraint on this Application -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>hss.web.console</web-resource-name>
+      <url-pattern>*</url-pattern>
+<!--      <url-pattern>/index.jsp</url-pattern> -->
+    </web-resource-collection>
+    <auth-constraint>
+       <role-name>hss_user</role-name>
+    </auth-constraint>
+  </security-constraint>
+  
+  <!-- Define the Login Configuration for this Application -->
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>ims.mnc001.mcc001.3gppnetwork.org</realm-name>
+  </login-config>
+
+  <!-- Security roles referenced by this web application -->
+  <security-role>
+    <description>
+      The role that is required to log into the HSS
+    </description>
+    <role-name>hss_user</role-name>
+  </security-role>
+
+</web-app>

@@ -201,6 +201,24 @@ services:
     networks:
       default:
         ipv4_address: ${SCSCF_IP}
+  fhoss:
+    build: ./fhoss
+    image: docker_open5gs_fhoss
+    container_name: fhoss
+    volumes:
+      - ./fhoss:/mnt/fhoss
+    depends_on:
+      - dns
+      - mysql
+    environment:
+      - MYSQL_IP=${MYSQL_IP}
+      - FHOSS_IP=${FHOSS_IP}
+    dns: ${DNS_IP}
+    ports:
+      - "8080:8080/tcp"
+    networks:
+      default:
+        ipv4_address: ${FHOSS_IP}
 networks:
   default:
     ipam:

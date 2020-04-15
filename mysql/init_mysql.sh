@@ -54,6 +54,7 @@ if [ ! -f /var/lib/mysql/kamailio.sem ]; then
 	:> /var/lib/mysql/kamailio.sem
 fi
 
+echo 'MySQL is running.'
 while true; do
 	sleep 1
 done

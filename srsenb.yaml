@@ -1,0 +1,21 @@
+version: '3'
+services:
+  srsenb:
+    build: ./srslte
+    image: open5gs_srslte
+    container_name: srsenb
+    privileged: true
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ./srslte:/mnt/srsenb
+    environment:
+      - MME_IP=${MME_IP}
+      - ENB_IP=${ENB_IP}
+      - DL_EARFCN=${DL_EARFCN}
+    networks:
+      default:
+        ipv4_address: ${ENB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

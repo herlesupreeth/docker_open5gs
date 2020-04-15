@@ -1,12 +1,19 @@
 #!/bin/bash -e
 cp /mnt/mysql/mysqld.cnf /etc/mysql/mysql.conf.d/
 
+rm -f /var/run/mysqld/mysqld.sock
+
 if [ ! -e /var/lib/mysql/ibdata1 ]; then
 	echo 'Initialize MySQL DB'
 	mysqld --initialize-insecure
 fi
 
-/etc/init.d/mysql start
+while true; do
+	echo 'Waiting for MySQL to start.'
+	/etc/init.d/mysql restart
+	echo 'quit' | mysql --connect-timeout=1 && break
+done
+
 
 if [ ! -d /var/lib/mysql/pcscf ]; then
 	echo 'Creating database for P-CSCF'
@@ -47,7 +54,6 @@ if [ ! -f /var/lib/mysql/kamailio.sem ]; then
 	:> /var/lib/mysql/kamailio.sem
 fi
 
-echo 'MySQL is running.'
 while true; do
-	sleep 5
+	sleep 1
 done

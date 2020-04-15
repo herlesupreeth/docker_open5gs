@@ -40,7 +40,7 @@ docker-compose up mongo mysql
 docker-compose up
 
 # To start Open5GS core network without IMS
-docker-compose up dns mongo hss mme pcrf pgw sgw
+docker-compose up dns hss mme pcrf pgw sgw
 
 # To start IMS only
 docker-compose up mysql rtpengine fhoss pcscf icscf scscf

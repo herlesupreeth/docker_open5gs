@@ -66,6 +66,13 @@ docker-compose up
 
 Sometimes you may want to restart srsENB while keeping the core network running.  It is thus recommended to run srsENB separately.
 
+With Docker-Compose:
+```
+docker-compose -f srsenb.yaml build --no-cache
+docker-compose -f srsenb.yaml up
+```
+
+With Docker CE only:
 ```
 cd srsenb
 cp ../.env .

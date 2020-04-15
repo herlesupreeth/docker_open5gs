@@ -38,5 +38,5 @@ cp /mnt/pgw/pgw.yaml install/etc/open5gs
 sed -i 's|PGW_IP|'$IP_ADDR'|g' install/etc/open5gs/pgw.yaml
 sed -i 's|PGW_IF|'$IF_NAME'|g' install/etc/open5gs/pgw.yaml
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' install/etc/open5gs/pgw.yaml
-
-
+sed -i 's|DNS_IP|'$DNS_IP'|g' install/etc/open5gs/pgw.yaml
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/pgw.yaml

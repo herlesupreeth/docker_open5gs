@@ -67,6 +67,8 @@ services:
       - ./log:/open5gs/install/var/log/open5gs
     environment:
       - PCRF_IP=${PCRF_IP}
+      - DNS_IP=${DNS_IP}
+      - PCSCF_IP=${PCSCF_IP}
     depends_on:
       - dns
     dns: ${DNS_IP}

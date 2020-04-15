@@ -59,7 +59,17 @@ docker run -dit -v "$(pwd)":/mnt/mme -p 36412:36412/sctp -e HSS_IP='172.18.0.2' 
 ```
 cd ..
 docker-compose build --no-cache
+
+# To start everything
 docker-compose up
+
+
+# To start Open5GS core network without IMS
+docker-compose up dns mongo hss mme pcrf pgw sgw
+
+# To start IMS only
+docker-compose up mysql rtpengine fhoss pcscf icscf scscf
+
 ```
 
 ### Run srsENB in a separated container

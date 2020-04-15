@@ -125,6 +125,7 @@ services:
     container_name: mysql
     volumes:
       - ./mysql_db:/var/lib/mysql
+      - ./mysql:/mnt/mysql
     networks:
       default:
         ipv4_address: ${MYSQL_IP}

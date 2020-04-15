@@ -1,4 +1,6 @@
 #!/bin/bash -e
+cp /mnt/mysql/mysqld.cnf /etc/mysql/mysql.conf.d/
+
 if [ ! -e /var/lib/mysql/ibdata1 ]; then
 	echo 'Initialize MySQL DB'
 	mysqld --initialize-insecure
@@ -31,9 +33,17 @@ if [ ! -d /var/lib/mysql/scscf ]; then
 	mysql -u root scscf < /kamailio/utils/kamctl/mysql/ims_charging-create.sql
 fi
 
+if [ ! -d /var/lib/mysql/hss_db ]; then
+	echo 'Creating database for FHoSS'
+	mysql -u root < /mnt/mysql/fhoss/init.sql
+	mysql -u root hss_db < /mnt/mysql/fhoss/hss_db.sql
+	mysql -u root hss_db < /mnt/mysql/fhoss/userdata.sql
+fi
+
+
 if [ ! -f /var/lib/mysql/kamailio.sem ]; then
 	echo 'Grant privileges.'
-	mysql -u root < /init.sql
+	mysql -u root < /mnt/mysql/init.sql
 	:> /var/lib/mysql/kamailio.sem
 fi
 

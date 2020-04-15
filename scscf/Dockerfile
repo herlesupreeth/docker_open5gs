@@ -1,5 +1,6 @@
 FROM open5gs_kamailio
 
+RUN apt-get install -y netcat
 ADD kamailio_scscf /etc/kamailio_scscf/
 
 EXPOSE 6060/tcp

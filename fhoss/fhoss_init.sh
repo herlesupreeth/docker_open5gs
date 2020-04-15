@@ -11,5 +11,6 @@ sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' ./config/hibernate.properties
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' ./deploy/hibernate.properties 
 sed -i 's|FHOSS_IP|'$FHOSS_IP'|g' ./config/DiameterPeerHSS.xml 
 sed -i 's|FHOSS_IP|'$FHOSS_IP'|g' ./deploy/DiameterPeerHSS.xml
+cp ./config/hss.properties ./deploy/hss.properties
 
 /hss.sh

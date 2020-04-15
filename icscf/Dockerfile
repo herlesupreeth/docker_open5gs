@@ -1,5 +1,6 @@
 FROM open5gs_kamailio
 
+RUN apt-get install -y netcat
 ADD kamailio_icscf /etc/kamailio_icscf/
 
 EXPOSE 4060/tcp

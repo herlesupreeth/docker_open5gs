@@ -30,4 +30,6 @@ RUN apt-get install -y linux-headers-$(uname -r) linux-image-$(uname -r) && \
     module-assistant update && \
     module-assistant auto-install ngcp-rtpengine-kernel-source
 
+EXPOSE 2223/udp
+
 CMD /mnt/rtpengine/rtpengine_init.sh

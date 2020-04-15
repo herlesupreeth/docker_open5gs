@@ -30,6 +30,9 @@ docker build --no-cache --force-rm -t open5gs_kamailio .
 cd ..
 docker-compose build --no-cache
 
+# Copy DNS setting to containers
+./copy-env.sh
+
 # Start MySQL and MongoDB first, in order to initialize the databases
 docker-compose up mongo mysql
 
@@ -41,6 +44,9 @@ docker-compose up dns mongo hss mme pcrf pgw sgw
 
 # To start IMS only
 docker-compose up mysql rtpengine fhoss pcscf icscf scscf
+
+# To test whether DNS is properly running
+./test-dns.sh
 
 ```
 

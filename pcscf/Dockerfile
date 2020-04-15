@@ -7,6 +7,12 @@ ADD kamailio_pcscf /etc/kamailio_pcscf/
 EXPOSE 5060-5064/tcp
 EXPOSE 5060-5064/udp
 
+# ipsec client/server
+EXPOSE 5100/udp
+EXPOSE 6100/udp
+EXPOSE 5100/tcp
+EXPOSE 6100/tcp
+
 # Diameter
 EXPOSE 3871/tcp
 EXPOSE 3871/sctp

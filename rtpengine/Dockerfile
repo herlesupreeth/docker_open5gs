@@ -7,7 +7,7 @@ RUN apt-get update && \
 		libio-multiplex-perl libio-socket-inet6-perl libiptc-dev libjson-glib-dev libnet-interface-perl \
 		libpcap0.8-dev libsocket6-perl libspandsp-dev libswresample-dev libsystemd-dev \
 		libxmlrpc-core-c3-dev markdown dkms module-assistant keyutils libnfsidmap2 libtirpc1 \
-		nfs-common rpcbind
+		nfs-common rpcbind netcat iptables
 
 ENV DEB_BUILD_PROFILES="pkg.ngcp-rtpengine.nobcg729"
 RUN apt-get install -y dpkg-dev libcurl4-openssl-dev
@@ -22,7 +22,6 @@ RUN dpkg-checkbuilddeps && \
 
 # ngcp-rtpengine-utils depends on netcat
 RUN cd .. && \
-    apt-get install -y netcat iptables && \
     dpkg -i *.deb
 
 ENV DEBIAN_FRONTEND=noninteractive

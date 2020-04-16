@@ -13,11 +13,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y install libxml2-dev libmysqlclient-dev libmnl-dev \
 		mysql-server tcpdump screen ntp ntpdate dkms make \
 		libcurl4-openssl-dev libpcre3-dev bash-completion \
-		ipsec-tools libradcli-dev libradcli4
+		ipsec-tools libradcli-dev libradcli4 netcat
 
 RUN git clone https://github.com/herlesupreeth/kamailio && \
-    cd kamailio && \
-    git checkout -b 5.3 origin/5.3
+    cd kamailio
+
+#RUN git clone https://github.com/kamailio/kamailio && \
+#    cd kamailio && \
+#    git checkout -b 5.3 origin/5.3
 
 COPY modules.lst /tmp/
 

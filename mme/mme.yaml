@@ -52,4 +52,6 @@ sgw:
 
 pgw:
     gtpc:
-      addr: PGW_IP
+      addr:
+        - PGW_IP
+        - ::1

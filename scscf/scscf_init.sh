@@ -1,11 +1,5 @@
 #!/bin/bash
 
-loop() {
-	while true; do
-		sleep 1
-	done
-}
-
 while true; do
 	echo 'Waiting for MySQL to start.'
 	echo '' | nc -w 1 $MYSQL_IP 3306 && break
@@ -17,4 +11,4 @@ sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.xml
 
-/etc/init.d/kamailio_scscf start && loop
+/etc/init.d/kamailio_scscf start

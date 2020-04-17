@@ -26,12 +26,11 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-mongod --smallfiles --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongodb.log --bind_ip 0.0.0.0 &
 cd webui && npm run dev &
 export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
 cp /mnt/hss/hss.yaml install/etc/open5gs
 sed -i 's|HSS_IP|'$IP_ADDR'|g' install/etc/open5gs/hss.yaml
 sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/hss.yaml
-
+sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
 

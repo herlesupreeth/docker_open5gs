@@ -29,7 +29,7 @@
 export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
 cp /mnt/pcrf/pcrf.yaml install/etc/open5gs
-sed -i 's|mongodb://localhost/|mongodb://'$HSS_IP'/|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|NAME|'$NAME'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|REALM|'$REALM'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCRF_IP|'$IP_ADDR'|g' install/etc/open5gs/pcrf.yaml

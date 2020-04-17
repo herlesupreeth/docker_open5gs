@@ -24,26 +24,10 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:bionic
+FROM docker_open5gs
 
-# Install updates and dependencies
-RUN apt-get update && \
-    apt-get -y install python3-pip python3-setuptools python3-wheel ninja-build \
-                    build-essential flex bison git libsctp-dev libgnutls28-dev \
-                    libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev \
-                    libyaml-dev meson vim ifupdown mongodb curl gnupg gdb iptables net-tools \
-                    iputils-ping
-RUN pip3 install click
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs && \
-    apt-get autoremove -y && apt-get clean
+# Expose port 27017 for Mongodb queries
+EXPOSE 27017/udp
+EXPOSE 27017/tcp
 
-# Get open5gs code and install
-RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout tags/v1.2.3 && meson build --prefix=`pwd`/install && \
-    ninja -C build && cd build && ninja install
-
-# Set the working directory to open5gs
-WORKDIR open5gs
-
-# Building WebUI of open5gs
-RUN cd webui && npm install
+CMD /mnt/mongo/mongo_init.sh

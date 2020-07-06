@@ -37,6 +37,8 @@ services:
     volumes:
       - ./sgw:/mnt/sgw
       - ./log:/open5gs/install/var/log/open5gs
+    environment:
+      - CONTAINER_HOST_IP=192.168.48.104
     ports:
       - "2152:2152/udp"
     networks:

@@ -78,6 +78,7 @@ Using Web UI, add a subscriber
 
 ## eNB settings
 
+If CONTAINER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
 On the eNB, make sure to have the static route to SGW container (since internal IP of the SGW container is advertised in S1AP messages and UE wont find the core in Uplink)
 
 ```

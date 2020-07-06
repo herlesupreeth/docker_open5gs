@@ -22,20 +22,25 @@ docker build --no-cache --force-rm -t docker_open5gs .
 # Create EPC Network
 docker network create --subnet=172.18.0.0/16 epc_net
 
+# MONGODB
+cd ../mongo
+docker build --no-cache --force-rm -t docker_nextepc_mongo .
+docker run -dit -v "$(pwd)":/mnt/mongo -v ../mongodb:/var/lib/mongodb --net epc_net --ip 172.18.0.10 --name mongo docker_nextepc_mongo
+
 # HSS
 cd ../hss
 docker build --no-cache --force-rm -t docker_nextepc_hss .
-docker run -dit -v "$(pwd)":/mnt/hss -p 3000:3000 -e MME_IP='172.18.0.3' --net epc_net --ip 172.18.0.2 --name hss docker_nextepc_hss
+docker run -dit -v "$(pwd)":/mnt/hss -p 3000:3000 -e MME_IP='172.18.0.3' -e MONGO_IP='172.18.0.10' --net epc_net --ip 172.18.0.2 --name hss docker_nextepc_hss
 
 # PCRF
 cd ../pcrf
 docker build --no-cache --force-rm -t docker_nextepc_pcrf .
-docker run -dit -v "$(pwd)":/mnt/pcrf -e PGW_IP='172.18.0.5' -e HSS_IP='172.18.0.2' --net epc_net --ip 172.18.0.6 --name pcrf docker_nextepc_pcrf
+docker run -dit -v "$(pwd)":/mnt/pcrf -e PGW_IP='172.18.0.5' -e MONGO_IP='172.18.0.10' --net epc_net --ip 172.18.0.6 --name pcrf docker_nextepc_pcrf
 
 # SGW
 cd ../sgw
 docker build --no-cache --force-rm -t docker_nextepc_sgw .
-docker run -dit -v "$(pwd)":/mnt/sgw -p 2152:2152/udp --net epc_net --ip 172.18.0.4 --name sgw docker_nextepc_sgw
+docker run -dit -v "$(pwd)":/mnt/sgw -p 2152:2152/udp -e CONTAINER_HOST_IP='192.168.48.104' --net epc_net --ip 172.18.0.4 --name sgw docker_nextepc_sgw
 
 # PGW
 cd ../pgw

@@ -32,7 +32,7 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 python3 /mnt/pgw/tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range fd84:6aea:c36e:2b69::/64
-python3 /mnt/pgw/tun_if.py --tun_ifname ogstun2 --ipv4_range 192.168.101.0/24 --ipv6_range fd1f:76f3:da9b:0101::/64
+python3 /mnt/pgw/tun_if.py --tun_ifname ogstun2 --ipv4_range 192.168.101.0/24 --ipv6_range fd1f:76f3:da9b:0101::/64 --nat_rule 'no'
 
 cp /mnt/pgw/pgw.yaml install/etc/open5gs
 sed -i 's|PGW_IP|'$IP_ADDR'|g' install/etc/open5gs/pgw.yaml

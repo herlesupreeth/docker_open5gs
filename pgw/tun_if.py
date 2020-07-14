@@ -53,9 +53,13 @@ def validate_ip_net(ctx, param, value):
 			required=True,
 			callback=validate_ip_net,
 			help='UE IPv6 Address range in CIDR format e.g. fd84:6aea:c36e:2b69::/64')
+@click.option('--nat_rule',
+			default='yes',
+			help='Option specifying whether to add NATing iptables rule or not')
 def start(tun_ifname,
 		  ipv4_range,
-		  ipv6_range):
+		  ipv6_range,
+		  nat_rule):
 
 	# Get the first IP address in the IP range and netmask prefix length
 	first_ipv4_addr = next(ipv4_range.hosts(), None)
@@ -77,16 +81,17 @@ def start(tun_ifname,
 	execute_bash_cmd('ip tuntap add name ' + tun_ifname + ' mode tun')
 	execute_bash_cmd('ip addr add ' + first_ipv4_addr + '/' + str(ipv4_netmask_prefix) + ' dev ' + tun_ifname)
 	execute_bash_cmd('ip addr add ' + first_ipv6_addr + '/' + str(ipv6_netmask_prefix) + ' dev ' + tun_ifname)
-	execute_bash_cmd('ip link set ' + tun_ifname + ' mtu 1400')
+	execute_bash_cmd('ip link set ' + tun_ifname + ' mtu 1450')
 	execute_bash_cmd('ip link set ' + tun_ifname + ' up')
-	execute_bash_cmd('if ! iptables-save | grep -- \"-A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
-		'iptables -t nat -A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
-	execute_bash_cmd('if ! ip6tables-save | grep -- \"-A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
-		'ip6tables -t nat -A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
-	execute_bash_cmd('if ! iptables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +
-		'iptables -A INPUT -i ' + tun_ifname + ' -j ACCEPT; fi')
-	execute_bash_cmd('if ! ip6tables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +
-		'ip6tables -A INPUT -i ' + tun_ifname + ' -j ACCEPT; fi')
+	if nat_rule == 'yes':
+		execute_bash_cmd('if ! iptables-save | grep -- \"-A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
+			'iptables -t nat -A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
+		execute_bash_cmd('if ! ip6tables-save | grep -- \"-A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
+			'ip6tables -t nat -A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
+		execute_bash_cmd('if ! iptables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +
+			'iptables -A INPUT -i ' + tun_ifname + ' -j ACCEPT; fi')
+		execute_bash_cmd('if ! ip6tables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +
+			'ip6tables -A INPUT -i ' + tun_ifname + ' -j ACCEPT; fi')
 
 def execute_bash_cmd(bash_cmd):
 	#print("Executing: /bin/bash -c " + bash_cmd)

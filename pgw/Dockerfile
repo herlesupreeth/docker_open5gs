@@ -26,19 +26,5 @@
 
 FROM docker_open5gs
 
-# Expose port 3868 for Diameter queries
-EXPOSE 3868/udp
-EXPOSE 3868/tcp
-EXPOSE 3868/sctp
-EXPOSE 5868/udp
-EXPOSE 5868/tcp
-EXPOSE 5868/sctp
-
-# Expose port 2152
-EXPOSE 2152/udp
-
-# Expose port 2123
-EXPOSE 2123/udp
-
 CMD /mnt/pgw/pgw_init.sh  && \
     cd install/bin && ./open5gs-pgwd

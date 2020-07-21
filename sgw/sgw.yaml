@@ -9,4 +9,4 @@ sgw:
       dev: SGW_IF
     gtpu:
       dev: SGW_IF
-      advertise_addr: CONTAINER_HOST_IP
+      advertise_addr: DOCKER_HOST_IP

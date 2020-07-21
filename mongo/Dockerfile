@@ -26,8 +26,4 @@
 
 FROM docker_open5gs
 
-# Expose port 27017 for Mongodb queries
-EXPOSE 27017/udp
-EXPOSE 27017/tcp
-
 CMD /mnt/mongo/mongo_init.sh

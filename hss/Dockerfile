@@ -26,16 +26,5 @@
 
 FROM docker_open5gs
 
-# Expose port 3868 for Diameter queries
-EXPOSE 3868/udp
-EXPOSE 3868/tcp
-EXPOSE 3868/sctp
-EXPOSE 5868/udp
-EXPOSE 5868/tcp
-EXPOSE 5868/sctp
-
-# Expose port 3000 Web UI of HSS
-EXPOSE 3000/tcp
-
 CMD /mnt/hss/hss_init.sh  && \
     cd install/bin && sleep 5 && ./open5gs-hssd

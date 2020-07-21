@@ -30,4 +30,4 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 cp /mnt/sgw/sgw.yaml install/etc/open5gs
 sed -i 's|SGW_IF|'$IF_NAME'|g' install/etc/open5gs/sgw.yaml
-sed -i 's|CONTAINER_HOST_IP|'$CONTAINER_HOST_IP'|g' install/etc/open5gs/sgw.yaml
+sed -i 's|DOCKER_HOST_IP|'$DOCKER_HOST_IP'|g' install/etc/open5gs/sgw.yaml

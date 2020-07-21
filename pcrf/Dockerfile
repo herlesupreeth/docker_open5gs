@@ -26,13 +26,5 @@
 
 FROM docker_open5gs
 
-# Expose port 3868 for Diameter queries
-EXPOSE 3868/udp
-EXPOSE 3868/tcp
-EXPOSE 3868/sctp
-EXPOSE 5868/udp
-EXPOSE 5868/tcp
-EXPOSE 5868/sctp
-
 CMD /mnt/pcrf/pcrf_init.sh && sleep 10 && \
     cd install/bin && ./open5gs-pcrfd

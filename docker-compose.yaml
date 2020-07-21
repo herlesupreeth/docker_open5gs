@@ -7,52 +7,69 @@ services:
     volumes:
       - ./mongo:/mnt/mongo
       - ./mongodb:/var/lib/mongodb
-    ports:
-      - "27017:27017"
+    expose:
+      - "27017/udp"
+      - "27017/tcp"
     networks:
       default:
-        ipv4_address: 172.18.0.10
+        ipv4_address: ${MONGO_IP}
   hss:
     build: ./hss
     image: docker_open5gs_hss
     container_name: hss
+    env_file:
+      - .env
     volumes:
       - ./hss:/mnt/hss
       - ./log:/open5gs/install/var/log/open5gs
-    environment:
-      - MONGO_IP=172.18.0.10
-      - MME_IP=172.18.0.3
-      - DB_URI=mongodb://172.18.0.10/open5gs
     depends_on:
       - mongo
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
     ports:
-      - "3000:3000"
+      - "3000:3000/tcp"
     networks:
       default:
-        ipv4_address: 172.18.0.2
+        ipv4_address: ${HSS_IP}
   sgw:
     build: ./sgw
     image: docker_open5gs_sgw
     container_name: sgw
+    env_file:
+      - .env
     volumes:
       - ./sgw:/mnt/sgw
       - ./log:/open5gs/install/var/log/open5gs
-    environment:
-      - CONTAINER_HOST_IP=192.168.48.104
+    expose:
+      - "2123/udp"
     ports:
       - "2152:2152/udp"
     networks:
       default:
-        ipv4_address: 172.18.0.4
+        ipv4_address: ${SGW_IP}
   pgw:
     build: ./pgw
     image: docker_open5gs_pgw
     container_name: pgw
+    env_file:
+      - .env
     volumes:
       - ./pgw:/mnt/pgw
       - ./log:/open5gs/install/var/log/open5gs
-    environment:
-      - PCRF_IP=172.18.0.6
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "2152/udp"
+      - "2123/udp"
     cap_add:
       - NET_ADMIN
     devices:
@@ -61,7 +78,7 @@ services:
       - net.ipv4.ip_forward=1
     networks:
       default:
-        ipv4_address: 172.18.0.5
+        ipv4_address: ${PGW_IP}
   mme:
     build: ./mme
     image: docker_open5gs_mme
@@ -70,35 +87,46 @@ services:
       - sgw
       - pgw
     container_name: mme
+    env_file:
+      - .env
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
     ports:
       - "36412:36412/sctp"
-    environment:
-      - HSS_IP=172.18.0.2
-      - SGW_IP=172.18.0.4
-      - PGW_IP=172.18.0.5
     networks:
       default:
-        ipv4_address: 172.18.0.3
+        ipv4_address: ${MME_IP}
   pcrf:
     build: ./pcrf
     image: docker_open5gs_pcrf
     container_name: pcrf
+    env_file:
+      - .env
     depends_on:
       - mongo
     volumes:
       - ./pcrf:/mnt/pcrf
       - ./log:/open5gs/install/var/log/open5gs
-    environment:
-      - PGW_IP=172.18.0.5
-      - MONGO_IP=172.18.0.10
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
     networks:
       default:
-        ipv4_address: 172.18.0.6
+        ipv4_address: ${PCRF_IP}
 networks:
   default:
     ipam:
       config:
-        - subnet: 172.18.0.0/24
+        - subnet: ${TEST_NETWORK}

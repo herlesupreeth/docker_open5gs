@@ -19,44 +19,50 @@ docker build --no-cache --force-rm -t docker_open5gs .
 ### Steps when using only docker-ce
 
 ```
-# Create EPC Network
-docker network create --subnet=172.18.0.0/16 epc_net
+cd ..
+set -a
+source .env
+
+# Create a Test Network
+docker network create --subnet=${TEST_NETWORK} test_net
 
 # MONGODB
 cd ../mongo
-docker build --no-cache --force-rm -t docker_nextepc_mongo .
-docker run -dit -v "$(pwd)":/mnt/mongo -v ../mongodb:/var/lib/mongodb --net epc_net --ip 172.18.0.10 --name mongo docker_nextepc_mongo
+docker build --no-cache --force-rm -t docker_open5gs_mongo .
+docker run -dit -v "$(pwd)":/mnt/mongo -v ../mongodb:/var/lib/mongodb --expose=27017/udp --expose=27017/tcp --net test_net --ip ${MONGO_IP} --name mongo docker_open5gs_mongo
 
 # HSS
 cd ../hss
-docker build --no-cache --force-rm -t docker_nextepc_hss .
-docker run -dit -v "$(pwd)":/mnt/hss -p 3000:3000 -e MME_IP='172.18.0.3' -e MONGO_IP='172.18.0.10' --net epc_net --ip 172.18.0.2 --name hss docker_nextepc_hss
+docker build --no-cache --force-rm -t docker_open5gs_hss .
+docker run -dit -v "$(pwd)":/mnt/hss --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp -p 3000:3000/tcp --net test_net --ip ${HSS_IP} --name hss docker_open5gs_hss
 
 # PCRF
 cd ../pcrf
-docker build --no-cache --force-rm -t docker_nextepc_pcrf .
-docker run -dit -v "$(pwd)":/mnt/pcrf -e PGW_IP='172.18.0.5' -e MONGO_IP='172.18.0.10' --net epc_net --ip 172.18.0.6 --name pcrf docker_nextepc_pcrf
+docker build --no-cache --force-rm -t docker_open5gs_pcrf .
+docker run -dit -v "$(pwd)":/mnt/pcrf --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp --net test_net --ip ${PCRF_IP} --name pcrf docker_open5gs_pcrf
 
 # SGW
 cd ../sgw
-docker build --no-cache --force-rm -t docker_nextepc_sgw .
-docker run -dit -v "$(pwd)":/mnt/sgw -p 2152:2152/udp -e CONTAINER_HOST_IP='192.168.48.104' --net epc_net --ip 172.18.0.4 --name sgw docker_nextepc_sgw
+docker build --no-cache --force-rm -t docker_open5gs_sgw .
+docker run -dit -v "$(pwd)":/mnt/sgw --env-file ../.env --expose=2123/udp -p 2152:2152/udp --net test_net --ip ${SGW_IP} --name sgw docker_open5gs_sgw
 
 # PGW
 cd ../pgw
-docker build --no-cache --force-rm -t docker_nextepc_pgw .
-docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun -e PCRF_IP='172.18.0.6' --sysctl net.ipv4.ip_forward=1 --net epc_net --ip 172.18.0.5 --name pgw docker_nextepc_pgw
+docker build --no-cache --force-rm -t docker_open5gs_pgw .
+docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun --env-file ../.env --sysctl net.ipv4.ip_forward=1 --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp --expose=2152/udp --expose=2123/udp --net test_net --ip ${PGW_IP} --name pgw docker_open5gs_pgw
 
 # MME
 cd ../mme
-docker build --no-cache --force-rm -t docker_nextepc_mme .
-docker run -dit -v "$(pwd)":/mnt/mme -p 36412:36412/sctp -e HSS_IP='172.18.0.2' -e SGW_IP='172.18.0.4' -e PGW_IP='172.18.0.5' --net epc_net --ip 172.18.0.3 --name mme docker_nextepc_mme
+docker build --no-cache --force-rm -t docker_open5gs_mme .
+docker run -dit -v "$(pwd)":/mnt/mme --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp -p 36412:36412/sctp --net test_net --ip ${MME_IP} --name mme docker_open5gs_mme
 ```
 
 ### Steps when using docker-compose
 
 ```
 cd ..
+set -a
+source .env
 docker-compose build --no-cache
 docker-compose up
 ```
@@ -78,7 +84,7 @@ Using Web UI, add a subscriber
 
 ## eNB settings
 
-If CONTAINER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
+If DOCKER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
 On the eNB, make sure to have the static route to SGW container (since internal IP of the SGW container is advertised in S1AP messages and UE wont find the core in Uplink)
 
 ```

@@ -7,8 +7,8 @@ parameter:
 
 mme:
     freeDiameter:
-      identity: mme.epc.mnc001.mcc001.3gppnetwork.org
-      realm: epc.mnc001.mcc001.3gppnetwork.org
+      identity: mme.EPC_DOMAIN
+      realm: EPC_DOMAIN
       port: 3868
       sec_port: 5868
       listen_on: MME_IP
@@ -22,7 +22,7 @@ mme:
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca.fdx
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx
       connect:
-        - identity: hss.epc.mnc001.mcc001.3gppnetwork.org
+        - identity: hss.EPC_DOMAIN
           addr: HSS_IP
           port: 3868
     s1ap:
@@ -31,14 +31,14 @@ mme:
       dev: MME_IF
     gummei: 
       plmn_id:
-        mcc: 001
-        mnc: 01
+        mcc: MCC
+        mnc: MNC
       mme_gid: 2
       mme_code: 1
     tai:
       plmn_id:
-        mcc: 001
-        mnc: 01
+        mcc: MCC
+        mnc: MNC
       tac: 1
     security:
         integrity_order : [ EIA1, EIA2, EIA0 ]

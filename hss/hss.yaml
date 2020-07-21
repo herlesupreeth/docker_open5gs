@@ -9,8 +9,8 @@ parameter:
 
 hss:
     freeDiameter:
-      identity: hss.epc.mnc001.mcc001.3gppnetwork.org
-      realm: epc.mnc001.mcc001.3gppnetwork.org
+      identity: hss.EPC_DOMAIN
+      realm: EPC_DOMAIN
       port: 3868
       sec_port: 5868
       listen_on: HSS_IP
@@ -24,6 +24,6 @@ hss:
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca.fdx
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx
       connect:
-        - identity: mme.epc.mnc001.mcc001.3gppnetwork.org
+        - identity: mme.EPC_DOMAIN
           addr: MME_IP
           port: 3868

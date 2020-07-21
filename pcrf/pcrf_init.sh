@@ -28,9 +28,13 @@
 
 export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
+[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+[ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+
 cp /mnt/pcrf/pcrf.yaml install/etc/open5gs
 sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/pcrf.yaml
-sed -i 's|NAME|'$NAME'|g' install/etc/open5gs/pcrf.yaml
-sed -i 's|REALM|'$REALM'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCRF_IP|'$IP_ADDR'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PGW_IP|'$PGW_IP'|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/pcrf.yaml

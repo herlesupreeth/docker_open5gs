@@ -6,7 +6,7 @@ services:
     container_name: mongo
     volumes:
       - ./mongo:/mnt/mongo
-      - ./mongodb:/var/lib/mongodb
+      - ./mongo/mongodb:/var/lib/mongodb
     expose:
       - "27017/udp"
       - "27017/tcp"

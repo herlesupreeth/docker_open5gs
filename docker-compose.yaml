@@ -6,7 +6,7 @@ services:
     container_name: mongo
     volumes:
       - ./mongo:/mnt/mongo
-      - ./mongo/mongodb:/var/lib/mongodb
+      - mongodbdata:/var/lib/mongodb
     expose:
       - "27017/udp"
       - "27017/tcp"
@@ -130,3 +130,5 @@ networks:
     ipam:
       config:
         - subnet: ${TEST_NETWORK}
+volumes:
+  mongodbdata:

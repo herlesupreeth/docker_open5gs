@@ -29,7 +29,8 @@ docker network create --subnet=${TEST_NETWORK} test_net
 # MONGODB
 cd mongo
 docker build --no-cache --force-rm -t docker_open5gs_mongo .
-docker run -dit -v "$(pwd)":/mnt/mongo -v "$(pwd)/mongodb":/var/lib/mongodb --expose=27017/udp --expose=27017/tcp --net test_net --ip ${MONGO_IP} --name mongo docker_open5gs_mongo
+docker volume create mongodbdata
+docker run -dit -v "$(pwd)":/mnt/mongo -v mongodbdata:/var/lib/mongodb --expose=27017/udp --expose=27017/tcp --net test_net --ip ${MONGO_IP} --name mongo docker_open5gs_mongo
 
 # HSS
 cd ../hss

@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# BSD 2-Clause License
+
+# Copyright (c) 2020, Supreeth Herle
+# All rights reserved.
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+mkdir /etc/kamailio_scscf
+cp /mnt/scscf/scscf.cfg /etc/kamailio_scscf
+cp /mnt/scscf/scscf.xml /etc/kamailio_scscf
+cp /mnt/scscf/kamailio_scscf.cfg /etc/kamailio_scscf
+cp /mnt/scscf/CxDataType_Rel6.xsd /etc/kamailio_scscf
+cp /mnt/scscf/CxDataType_Rel7.xsd /etc/kamailio_scscf
+cp /mnt/scscf/CxDataType_Rel8.xsd /etc/kamailio_scscf
+cp /mnt/scscf/dispatcher.list /etc/kamailio_scscf
+
+while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
+	sleep 5;
+done
+
+# Sleep until permissions are set
+sleep 5;
+
+# Create SCSCF database, populate tables and grant privileges
+if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='scscf'" 2>&1`" ]];
+then
+	mysql -u root -h ${MYSQL_IP} -e "create database scscf;"
+	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/standard-create.sql
+	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/presence-create.sql
+	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_usrloc_scscf-create.sql
+	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_dialog-create.sql
+	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_charging-create.sql
+	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on scscf.* to scscf@$SCSCF_IP identified by 'heslo';"
+	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON scscf.* TO 'scscf'@'%' identified by 'heslo';"
+	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+fi
+
+export IMS_SLASH_DOMAIN=`echo $IMS_DOMAIN | sed 's/\./\\\./g'`
+
+sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.cfg
+sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
+sed -i 's|IMS_SLASH_DOMAIN|'$IMS_SLASH_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
+sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_scscf/scscf.cfg
+
+sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.xml
+sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.xml

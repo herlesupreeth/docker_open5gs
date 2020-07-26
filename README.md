@@ -14,6 +14,9 @@ Clone repository and build base docker image of open5gs
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
+
+cd ../ims_base
+docker build --no-cache --force-rm -t docker_kamailio .
 ```
 
 ### Steps when using only docker-ce
@@ -56,6 +59,42 @@ docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun -
 cd ../mme
 docker build --no-cache --force-rm -t docker_open5gs_mme .
 docker run -dit -v "$(pwd)":/mnt/mme --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp -p 36412:36412/sctp --net test_net --ip ${MME_IP} --name mme docker_open5gs_mme
+
+# DNS
+cd ../dns
+docker build --no-cache --force-rm -t docker_dns .
+docker run -dit -v "$(pwd)":/mnt/dns --env-file ../.env --expose=53/udp --net test_net --ip ${DNS_IP} --name dns docker_dns
+
+# RTPENGINE
+cd ../rtpengine
+docker build --no-cache --force-rm -t docker_rtpengine .
+docker run -dit --cap-add=NET_ADMIN --privileged --env-file ../.env -v "$(pwd)":/mnt/rtpengine -e TABLE='0' -e INTERFACE=${RTPENGINE_IP}\!${RTPENGINE_PUB_IP} -e LISTEN_NG=${RTPENGINE_IP}:2223 -e PIDFILE='/run/ngcp-rtpengine-daemon.pid' -e PORT_MAX='50000' -e PORT_MIN='49000' -e NO_FALLBACK='yes' --expose=2223 -p 49000-50000:49000-50000/udp --net test_net --ip ${RTPENGINE_IP} --name rtpengine docker_rtpengine
+
+# MYSQL
+cd ../mysql
+docker build --no-cache --force-rm -t docker_mysql .
+docker volume create dbdata
+docker run -dit -v dbdata:/var/lib/mysql --expose=3306/tcp --net test_net --ip ${MYSQL_IP} --name mysql docker_mysql
+
+# FHOSS
+cd ../fhoss
+docker build --no-cache --force-rm -t docker_fhoss .
+docker run -dit -v "$(pwd)":/mnt/fhoss --env-file ../.env --dns=${DNS_IP} --expose=3868/tcp --expose=3868/udp -p 8080:8080/tcp --net test_net --ip ${FHOSS_IP} --name fhoss docker_fhoss
+
+# ICSCF
+cd ../icscf
+docker build --no-cache --force-rm -t docker_icscf .
+docker run -dit -v "$(pwd)":/mnt/icscf --env-file ../.env --dns=${DNS_IP} --expose=3869/tcp --expose=3869/udp --expose=4060/udp --expose=4060/tcp --net test_net --ip ${ICSCF_IP} --name icscf docker_icscf
+
+# SCSCF
+cd ../scscf
+docker build --no-cache --force-rm -t docker_scscf .
+docker run -dit -v "$(pwd)":/mnt/scscf --env-file ../.env --dns=${DNS_IP} --expose=3870/tcp --expose=3870/udp --expose=6060/udp --expose=6060/tcp --net test_net --ip ${SCSCF_IP} --name scscf docker_scscf
+
+# PCSCF
+cd ../pcscf
+docker build --no-cache --force-rm -t docker_pcscf .
+docker run -dit -v "$(pwd)":/mnt/pcscf --cap-add=NET_ADMIN --privileged --env-file ../.env --dns=${DNS_IP} -p 5100-5120:5100-5120/tcp -p 5100-5120:5100-5120/udp -p 6100-6120:6100-6120/tcp -p 6100-6120:6100-6120/udp -p 3871:3871/tcp -p 3871:3871/udp -p 5060:5060/tcp -p 5060:5060/udp --net test_net --ip ${PCSCF_IP} --name pcscf docker_pcscf
 ```
 
 ### Steps when using docker-compose

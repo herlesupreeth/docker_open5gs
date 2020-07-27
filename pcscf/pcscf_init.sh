@@ -29,6 +29,9 @@
 sh -c "echo 1 > /proc/sys/net/ipv4/ip_nonlocal_bind"
 sh -c "echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind"
 
+[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+[ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+
 mkdir /etc/kamailio_pcscf
 cp /mnt/pcscf/pcscf.cfg /etc/kamailio_pcscf
 cp /mnt/pcscf/pcscf.xml /etc/kamailio_pcscf

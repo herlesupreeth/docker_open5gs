@@ -149,12 +149,12 @@ services:
       - NET_ADMIN
     environment:
       - TABLE=0
-      - INTERFACE=${RTPENGINE_IP}!${RTPENGINE_PUB_IP}
+      - INTERFACE=${RTPENGINE_IP}
       - LISTEN_NG=${RTPENGINE_IP}:2223
       - PIDFILE=/run/ngcp-rtpengine-daemon.pid
       - PORT_MAX=50000
       - PORT_MIN=49000
-      - NO_FALLBACK=yes
+      - NO_FALLBACK=no
       - TOS=184
     expose:
       - "2223/udp"

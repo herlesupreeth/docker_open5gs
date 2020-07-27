@@ -68,7 +68,7 @@ docker run -dit -v "$(pwd)":/mnt/dns --env-file ../.env --expose=53/udp --net te
 # RTPENGINE
 cd ../rtpengine
 docker build --no-cache --force-rm -t docker_rtpengine .
-docker run -dit --cap-add=NET_ADMIN --privileged --env-file ../.env -v "$(pwd)":/mnt/rtpengine -e TABLE='0' -e INTERFACE=${RTPENGINE_IP}\!${RTPENGINE_PUB_IP} -e LISTEN_NG=${RTPENGINE_IP}:2223 -e PIDFILE='/run/ngcp-rtpengine-daemon.pid' -e PORT_MAX='50000' -e PORT_MIN='49000' -e NO_FALLBACK='yes' --expose=2223 -p 49000-50000:49000-50000/udp --net test_net --ip ${RTPENGINE_IP} --name rtpengine docker_rtpengine
+docker run -dit --cap-add=NET_ADMIN --privileged --env-file ../.env -v "$(pwd)":/mnt/rtpengine -e TABLE='0' -e INTERFACE=${RTPENGINE_IP} -e LISTEN_NG=${RTPENGINE_IP}:2223 -e PIDFILE='/run/ngcp-rtpengine-daemon.pid' -e PORT_MAX='50000' -e PORT_MIN='49000' -e NO_FALLBACK='yes' --expose=2223 -p 49000-50000:49000-50000/udp --net test_net --ip ${RTPENGINE_IP} --name rtpengine docker_rtpengine
 
 # MYSQL
 cd ../mysql

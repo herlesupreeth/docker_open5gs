@@ -2,7 +2,7 @@
 
 # BSD 2-Clause License
 
-# Copyright (c) 2019, Supreeth Herle
+# Copyright (c) 2020, Supreeth Herle
 # All rights reserved.
 
 # Redistribution and use in source and binary forms, with or without

@@ -27,4 +27,4 @@
 FROM docker_open5gs
 
 CMD /mnt/hss/hss_init.sh  && \
-    cd install/bin && sleep 5 && ./open5gs-hssd
+    cd install/bin && sleep 10 && ./open5gs-hssd

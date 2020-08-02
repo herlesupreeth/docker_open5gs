@@ -61,16 +61,6 @@ then
 	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 fi
 
-# if [ ! -z "$PCSCF_PUB_IP" ]
-# then
-# 	sed -i 's|#!define IPSEC_LISTEN_ADDR "PCSCF_IP"|##!define IPSEC_LISTEN_ADDR "PCSCF_IP"|g' /etc/kamailio_pcscf/pcscf.cfg
-# 	sed -i 's|##!define IPSEC_LISTEN_ADDR "PCSCF_PUB_IP"|#!define IPSEC_LISTEN_ADDR "PCSCF_PUB_IP"|g' /etc/kamailio_pcscf/pcscf.cfg
-# 	sed -i 's|listen=udp:PCSCF_IP:5060|#listen=udp:PCSCF_IP:5060|g' /etc/kamailio_pcscf/pcscf.cfg
-# 	sed -i 's|#listen=udp:PCSCF_IP:5060 advertise PCSCF_PUB_IP:5060|listen=udp:PCSCF_IP:5060 advertise PCSCF_PUB_IP:5060|g' /etc/kamailio_pcscf/pcscf.cfg
-# 	sed -i 's|#!define RX_AF_SIGNALING_IP "PCSCF_IP"|##!define RX_AF_SIGNALING_IP "PCSCF_IP"|g' /etc/kamailio_pcscf/pcscf.cfg
-# 	sed -i 's|##!define RX_AF_SIGNALING_IP "PCSCF_PUB_IP"|#!define RX_AF_SIGNALING_IP "PCSCF_PUB_IP"|g' /etc/kamailio_pcscf/pcscf.cfg
-# fi
-
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|PCSCF_PUB_IP|'$PCSCF_PUB_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.cfg
@@ -82,3 +72,6 @@ sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.xml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
+
+# Add static route to route traffic back to UE as there is not NATing
+ip r add 192.168.101.0/24 via ${PGW_IP}

@@ -145,6 +145,8 @@ services:
     image: docker_rtpengine
     container_name: rtpengine
     privileged: true
+    env_file:
+      - .env
     volumes:
       - ./rtpengine:/mnt/rtpengine
     cap_add:

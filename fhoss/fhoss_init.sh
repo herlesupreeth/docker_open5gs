@@ -47,7 +47,7 @@ done
 sleep 5;
 
 # Create FHoSS database, populate tables and grant privileges
-if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='pcscf'" 2>&1`" ]];
+if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='hss_db'" 2>&1`" ]];
 then
 	mysql -u root -h ${MYSQL_IP} -e "create database hss_db;"
 	mysql -u root -h ${MYSQL_IP} hss_db < /opt/OpenIMSCore/FHoSS/scripts/hss_db.sql

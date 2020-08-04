@@ -48,7 +48,7 @@ docker run -dit -v "$(pwd)":/mnt/pcrf --env-file ../.env --expose=3868/udp --exp
 # SGW
 cd ../sgw
 docker build --no-cache --force-rm -t docker_open5gs_sgw .
-docker run -dit -v "$(pwd)":/mnt/sgw --env-file ../.env --expose=2123/udp -p 2152:2152/udp --net test_net --ip ${SGW_IP} --name sgw docker_open5gs_sgw
+docker run -dit -v "$(pwd)":/mnt/sgw --env-file ../.env --expose=2123/udp --expose=2152/udp -p 2152:2152/udp --net test_net --ip ${SGW_IP} --name sgw docker_open5gs_sgw
 
 # PGW
 cd ../pgw
@@ -58,7 +58,7 @@ docker run -dit -v "$(pwd)":/mnt/pgw --cap-add=NET_ADMIN --device /dev/net/tun -
 # MME
 cd ../mme
 docker build --no-cache --force-rm -t docker_open5gs_mme .
-docker run -dit -v "$(pwd)":/mnt/mme --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp -p 36412:36412/sctp --net test_net --ip ${MME_IP} --name mme docker_open5gs_mme
+docker run -dit -v "$(pwd)":/mnt/mme --env-file ../.env --expose=3868/udp --expose=3868/tcp --expose=3868/sctp --expose=5868/udp --expose=5868/tcp --expose=5868/sctp --expose=36412/sctp -p 36412:36412/sctp --net test_net --ip ${MME_IP} --name mme docker_open5gs_mme
 
 # DNS
 cd ../dns
@@ -95,6 +95,11 @@ docker run -dit -v "$(pwd)":/mnt/scscf --env-file ../.env --dns=${DNS_IP} --expo
 cd ../pcscf
 docker build --no-cache --force-rm -t docker_pcscf .
 docker run -dit -v "$(pwd)":/mnt/pcscf --cap-add=NET_ADMIN --privileged --env-file ../.env --dns=${DNS_IP} -p 5100-5120:5100-5120/tcp -p 5100-5120:5100-5120/udp -p 6100-6120:6100-6120/tcp -p 6100-6120:6100-6120/udp -p 3871:3871/tcp -p 3871:3871/udp -p 5060:5060/tcp -p 5060:5060/udp --net test_net --ip ${PCSCF_IP} --name pcscf docker_pcscf
+
+# ENB
+cd ../srslte
+docker build --no-cache --force-rm -t docker_srslte .
+docker run -dit -v "$(pwd)":/mnt/srslte --device /dev/bus -v /dev/bus/usb:/dev/bus/usb:ro -v /dev/serial:/dev/serial:ro --privileged --env-file ../.env --expose=36412/sctp --expose=2152/udp --net test_net --ip ${ENB_IP} --name srsenb docker_srslte
 ```
 
 ### Steps when using docker-compose
@@ -105,6 +110,10 @@ set -a
 source .env
 docker-compose build --no-cache
 docker-compose up
+
+
+docker-compose -f srsenb.yaml build --no-cache
+docker-compose -f srsenb.yaml up
 ```
 
 

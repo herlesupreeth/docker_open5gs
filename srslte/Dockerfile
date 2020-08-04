@@ -36,7 +36,8 @@ RUN apt-get update && \
 # Install dependencies to build SoapySDR and Lime Suite
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
     apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-dev freeglut3-dev
+    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-dev freeglut3-dev \
+    python3-distutils
 
 # Install SoapySDR from Source
 RUN git clone https://github.com/pothosware/SoapySDR.git && \

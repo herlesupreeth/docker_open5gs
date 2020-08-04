@@ -1,0 +1,25 @@
+version: '3'
+services:
+  srsenb:
+    build: ./srslte
+    image: docker_srslte
+    container_name: srsenb
+    privileged: true
+    devices:
+      - "/dev/bus"
+    volumes:
+      - /dev/serial:/dev/serial:ro
+      - /dev/bus/usb:/dev/bus/usb:ro
+      - ./srslte:/mnt/srslte
+    env_file:
+      - .env
+    expose:
+      - "36412/sctp"
+      - "2152/udp"
+    networks:
+      default:
+        ipv4_address: ${ENB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

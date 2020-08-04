@@ -47,8 +47,9 @@ services:
       - ./log:/open5gs/install/var/log/open5gs
     expose:
       - "2123/udp"
-    ports:
-      - "2152:2152/udp"
+      - "2152/udp"
+    # ports:
+    #   - "2152:2152/udp"
     networks:
       default:
         ipv4_address: ${SGW_IP}
@@ -99,8 +100,9 @@ services:
       - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
-    ports:
-      - "36412:36412/sctp"
+      - "36412/sctp"
+    # ports:
+    #   - "36412:36412/sctp"
     networks:
       default:
         ipv4_address: ${MME_IP}
@@ -158,8 +160,9 @@ services:
       - TOS=184
     expose:
       - "2223/udp"
-    ports:
-      - "49000-50000:49000-50000/udp"
+      - "49000-50000/udp"
+    # ports:
+    #   - "49000-50000:49000-50000/udp"
     networks:
       default:
         ipv4_address: ${RTPENGINE_IP}
@@ -254,15 +257,24 @@ services:
       - rtpengine
       - icscf
       - scscf
-    ports:
-      - "3871:3871/udp"
-      - "3871:3871/tcp"
-      - "5060:5060/tcp"
-      - "5060:5060/udp"
-      - "5100-5120:5100-5120/tcp"
-      - "5100-5120:5100-5120/udp"
-      - "6100-6100:6100-6100/tcp"
-      - "6100-6120:6100-6100/udp"
+    expose:
+      - "3871/udp"
+      - "3871/tcp"
+      - "5060/tcp"
+      - "5060/udp"
+      - "5100-5120/tcp"
+      - "5100-5120/udp"
+      - "6100-6100/tcp"
+      - "6100-6120/udp"
+    # ports:
+    #   - "3871:3871/udp"
+    #   - "3871:3871/tcp"
+    #   - "5060:5060/tcp"
+    #   - "5060:5060/udp"
+    #   - "5100-5120:5100-5120/tcp"
+    #   - "5100-5120:5100-5120/udp"
+    #   - "6100-6100:6100-6100/tcp"
+    #   - "6100-6120:6100-6100/udp"
     networks:
       default:
         ipv4_address: ${PCSCF_IP}

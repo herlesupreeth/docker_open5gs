@@ -37,7 +37,7 @@ RUN apt-get update && \
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
     apt update && \
     apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-dev freeglut3-dev \
-    python3-distutils gnuplot
+    python3-distutils gnuplot libfltk1.3-dev liboctave-dev
 
 # Install SoapySDR from Source
 RUN git clone https://github.com/pothosware/SoapySDR.git && \

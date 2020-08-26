@@ -32,7 +32,7 @@ RUN apt-get update && \
                     build-essential flex bison git libsctp-dev libgnutls28-dev \
                     libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev \
                     libyaml-dev meson vim ifupdown mongodb curl gnupg gdb iptables net-tools \
-                    iputils-ping
+                    iputils-ping libmicrohttpd-dev libcurl4-gnutls-dev
 RUN pip3 install click
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs && \
     apt-get autoremove -y && apt-get clean

@@ -49,10 +49,14 @@ RUN git clone https://github.com/pothosware/SoapySDR.git && \
 # Install LimeSuite
 RUN git clone https://github.com/myriadrf/LimeSuite.git && \
     cd LimeSuite && \
-    git checkout tags/v20.07.1 -b v20.07.1 && \
+    git checkout tags/v20.07.2 -b v20.07.2 && \
     mkdir builddir && cd builddir && cmake .. && \
     make && make install && ldconfig && \
     cd ../udev-rules && sh ./install.sh
+
+# UHD drivers for USRP
+RUN add-apt-repository ppa:ettusresearch/uhd && \
+    apt update && apt -y install libuhd-dev libuhd003 uhd-host
 
 # Get srsGUI, compile and install
 RUN git clone https://github.com/srsLTE/srsGUI && \

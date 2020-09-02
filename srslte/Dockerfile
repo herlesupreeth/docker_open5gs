@@ -26,6 +26,8 @@
 
 FROM ubuntu:bionic
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev git \
@@ -56,7 +58,8 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \
-    apt update && apt -y install libuhd-dev libuhd003 uhd-host
+    apt update && apt -y install libuhd-dev libuhd003 uhd-host && \
+    uhd_images_downloader
 
 # Get srsGUI, compile and install
 RUN git clone https://github.com/srsLTE/srsGUI && \

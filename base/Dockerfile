@@ -26,6 +26,8 @@
 
 FROM ubuntu:bionic
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install python3-pip python3-setuptools python3-wheel ninja-build \

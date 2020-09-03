@@ -44,8 +44,10 @@ fi
 [ -z "$TOS" ] && TOS="184"
 [ -z "$PIDFILE" ] && PIDFILE="/run/ngcp-rtpengine-daemon.pid"
 
+LISTEN_CLI="$(awk 'END{print $1}' /etc/hosts):9901"
+
 OPTIONS=""
-OPTIONS="$OPTIONS --interface=$INTERFACE --listen-ng=$LISTEN_NG --pidfile=$PIDFILE --port-min=$PORT_MIN --port-max=$PORT_MAX "
+OPTIONS="$OPTIONS --interface=$INTERFACE --listen-ng=$LISTEN_NG --listen-cli=$LISTEN_CLI --pidfile=$PIDFILE --port-min=$PORT_MIN --port-max=$PORT_MAX "
 OPTIONS="$OPTIONS --table=$TABLE  --tos=$TOS --foreground"
 
 if test "$NO_FALLBACK" = "yes" ; then

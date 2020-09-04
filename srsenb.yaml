@@ -11,6 +11,8 @@ services:
       - /dev/serial:/dev/serial:ro
       - /dev/bus/usb:/dev/bus/usb:ro
       - ./srslte:/mnt/srslte
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     expose:

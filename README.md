@@ -1,6 +1,17 @@
 # docker_open5gs
 Docker files to build and run open5gs in a docker
 
+## Tested Setup
+
+Docker host machine
+
+- Ubuntu 18.04 and 20.04
+
+SDRs tested with srsLTE eNB
+
+- Ettus USRP B210
+- LimeSDR Mini v1.3
+
 ## Build and Execution Instructions
 
 * Mandatory requirements:
@@ -18,6 +29,48 @@ docker build --no-cache --force-rm -t docker_open5gs .
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .
 ```
+
+### Build and Run using docker-compose
+
+```
+cd ..
+set -a
+source .env
+docker-compose build --no-cache
+docker-compose up
+
+
+docker-compose -f srsenb.yaml build --no-cache
+docker-compose -f srsenb.yaml up
+```
+
+## Configuration
+
+The configuration files for each of the Core Network component can be found under their respective folder. Edit the .yaml files of the components before deploying each of the container
+
+## Register a UE information
+
+Open (http://<DOCKER_HOST_IP>:3000) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
+```
+Username : admin
+Password : 1423
+```
+
+Using Web UI, add a subscriber
+
+## eNB settings
+
+If DOCKER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
+On the eNB, make sure to have the static route to SGW container (since internal IP of the SGW container is advertised in S1AP messages and UE wont find the core in Uplink)
+
+```
+ip r add <SGW_CONTAINER_IP> via <DOCKER_HOST_IP>
+```
+
+## Not supported
+- IPv6 usage in Docker
+
+## Appendix
 
 ### Steps when using only docker-ce
 
@@ -101,44 +154,3 @@ cd ../srslte
 docker build --no-cache --force-rm -t docker_srslte .
 docker run -dit -v "$(pwd)":/mnt/srslte -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro --device /dev/bus -v /dev/bus/usb:/dev/bus/usb:ro -v /dev/serial:/dev/serial:ro --privileged --env-file ../.env --expose=36412/sctp --expose=2152/udp --net test_net --ip ${ENB_IP} --name srsenb docker_srslte
 ```
-
-### Steps when using docker-compose
-
-```
-cd ..
-set -a
-source .env
-docker-compose build --no-cache
-docker-compose up
-
-
-docker-compose -f srsenb.yaml build --no-cache
-docker-compose -f srsenb.yaml up
-```
-
-
-## Configuration
-
-The configuration files for each of the Core Network component can be found under their respective folder. Edit the .yaml files of the components before deploying each of the container
-
-## Register a UE information
-
-Open (http://<DOCKER_HOST_IP>:3000) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
-```
-Username : admin
-Password : 1423
-```
-
-Using Web UI, add a subscriber
-
-## eNB settings
-
-If DOCKER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
-On the eNB, make sure to have the static route to SGW container (since internal IP of the SGW container is advertised in S1AP messages and UE wont find the core in Uplink)
-
-```
-ip r add <SGW_CONTAINER_IP> via <DOCKER_HOST_IP>
-```
-
-## Not supported
-- IPv6 usage in Docker

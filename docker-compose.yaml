@@ -4,6 +4,8 @@ services:
     build: ./mongo
     image: docker_open5gs_mongo
     container_name: mongo
+    env_file:
+      - .env
     volumes:
       - ./mongo:/mnt/mongo
       - mongodbdata:/var/lib/mongodb
@@ -188,6 +190,8 @@ services:
     build: ./mysql
     image: docker_mysql
     container_name: mysql
+    env_file:
+      - .env
     volumes:
       - dbdata:/var/lib/mysql
       - /etc/timezone:/etc/timezone:ro

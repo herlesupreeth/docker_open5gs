@@ -54,6 +54,9 @@ if test "$NO_FALLBACK" = "yes" ; then
 	OPTIONS="$OPTIONS --no-fallback"
 fi
 
+# Sync docker time
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 set +e
 if [ -e /proc/rtpengine/control ]; then
 	echo "del $TABLE" > /proc/rtpengine/control 2>/dev/null

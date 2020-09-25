@@ -40,3 +40,6 @@ sed -i 's|MNC|'$MNC'|g' /etc/srslte/enb.conf
 sed -i 's|MCC|'$MCC'|g' /etc/srslte/enb.conf
 sed -i 's|MME_IP|'$MME_IP'|g' /etc/srslte/enb.conf
 sed -i 's|ENB_IP|'$ENB_IP'|g' /etc/srslte/enb.conf
+
+# Sync docker time
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

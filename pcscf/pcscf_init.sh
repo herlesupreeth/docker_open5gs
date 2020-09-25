@@ -73,5 +73,8 @@ sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
 
+# Sync docker time
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Add static route to route traffic back to UE as there is not NATing
 ip r add 192.168.101.0/24 via ${PGW_IP}

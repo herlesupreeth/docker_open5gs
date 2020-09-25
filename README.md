@@ -86,7 +86,7 @@ docker network create --subnet=${TEST_NETWORK} test_net
 cd mongo
 docker build --no-cache --force-rm -t docker_open5gs_mongo .
 docker volume create mongodbdata
-docker run -dit -v "$(pwd)":/mnt/mongo -v mongodbdata:/var/lib/mongodb -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro --expose=27017/udp --expose=27017/tcp --net test_net --ip ${MONGO_IP} --name mongo docker_open5gs_mongo
+docker run -dit -v "$(pwd)":/mnt/mongo -v mongodbdata:/var/lib/mongodb -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro --env-file ../.env --expose=27017/udp --expose=27017/tcp --net test_net --ip ${MONGO_IP} --name mongo docker_open5gs_mongo
 
 # HSS
 cd ../hss
@@ -127,7 +127,7 @@ docker run -dit --cap-add=NET_ADMIN --privileged --env-file ../.env -v "$(pwd)":
 cd ../mysql
 docker build --no-cache --force-rm -t docker_mysql .
 docker volume create dbdata
-docker run -dit -v dbdata:/var/lib/mysql -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro --expose=3306/tcp --net test_net --ip ${MYSQL_IP} --name mysql docker_mysql
+docker run -dit -v dbdata:/var/lib/mysql -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro --env-file ../.env --expose=3306/tcp --net test_net --ip ${MYSQL_IP} --name mysql docker_mysql
 
 # FHOSS
 cd ../fhoss

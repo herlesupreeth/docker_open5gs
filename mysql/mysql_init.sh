@@ -38,7 +38,7 @@ while true; do
 done
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Grant privileges and set max connections
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' identified by 'ims' WITH GRANT OPTION;"

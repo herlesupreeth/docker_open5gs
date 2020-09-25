@@ -40,4 +40,4 @@ sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/hss.yaml
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

@@ -55,7 +55,7 @@ if test "$NO_FALLBACK" = "yes" ; then
 fi
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 set +e
 if [ -e /proc/rtpengine/control ]; then

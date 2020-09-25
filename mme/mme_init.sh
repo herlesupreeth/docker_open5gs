@@ -42,4 +42,4 @@ sed -i 's|PGW_IP|'$PGW_IP'|g' install/etc/open5gs/mme.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/mme.yaml
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

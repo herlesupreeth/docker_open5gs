@@ -41,4 +41,4 @@ sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/pcrf.yaml
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

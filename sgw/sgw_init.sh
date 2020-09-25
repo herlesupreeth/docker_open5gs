@@ -33,4 +33,4 @@ sed -i 's|SGW_IF|'$IF_NAME'|g' install/etc/open5gs/sgw.yaml
 sed -i 's|DOCKER_HOST_IP|'$DOCKER_HOST_IP'|g' install/etc/open5gs/sgw.yaml
 
 # Sync docker time
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

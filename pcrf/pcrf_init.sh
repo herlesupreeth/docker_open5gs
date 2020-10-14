@@ -35,7 +35,7 @@ export DB_URI="mongodb://${MONGO_IP}/open5gs"
 cp /mnt/pcrf/pcrf.yaml install/etc/open5gs
 sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCRF_IP|'$IP_ADDR'|g' install/etc/open5gs/pcrf.yaml
-sed -i 's|PGW_IP|'$PGW_IP'|g' install/etc/open5gs/pcrf.yaml
+sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' install/etc/open5gs/pcrf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/pcrf.yaml

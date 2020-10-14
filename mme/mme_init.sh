@@ -37,8 +37,8 @@ sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IP|'$IP_ADDR'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IF|'$IF_NAME'|g' install/etc/open5gs/mme.yaml
 sed -i 's|HSS_IP|'$HSS_IP'|g' install/etc/open5gs/mme.yaml
-sed -i 's|SGW_IP|'$SGW_IP'|g' install/etc/open5gs/mme.yaml
-sed -i 's|PGW_IP|'$PGW_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|SGWC_IP|'$SGWC_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/mme.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/mme.yaml
 
 # Sync docker time

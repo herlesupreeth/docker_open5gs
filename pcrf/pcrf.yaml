@@ -24,8 +24,8 @@ pcrf:
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca.fdx
         - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx
       connect:
-        - identity: pgw.EPC_DOMAIN
-          addr: PGW_IP
+        - identity: smf.EPC_DOMAIN
+          addr: SMF_IP
           port: 3868
         - identity: pcscf.IMS_DOMAIN
           addr: PCSCF_IP

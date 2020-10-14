@@ -41,15 +41,18 @@ mme:
         mnc: MNC
       tac: 1
     security:
-        integrity_order : [ EIA1, EIA2, EIA0 ]
+        integrity_order : [ EIA2, EIA1, EIA0 ]
         ciphering_order : [ EEA0, EEA1, EEA2 ]
     network_name:
         full: Open5GS
+    mme_name: open5gs-mme0
 
-sgw:
+sgwc:
     gtpc:
-      addr: SGW_IP
+      addr: SGWC_IP
 
-pgw:
+smf:
     gtpc:
-      addr: PGW_IP
+      - addr:
+        - SMF_IP
+        - ::1

@@ -1,0 +1,20 @@
+db_uri: mongodb://MONGO_IP/open5gs
+
+logger:
+    file: /open5gs/install/var/log/open5gs/udr.log
+
+parameter:
+    no_ipv6: true
+    prefer_ipv4: true
+
+udr:
+    sbi:
+      - addr: UDR_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+          - ::1
+        port: 7777

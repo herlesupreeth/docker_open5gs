@@ -1,0 +1,29 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/upf.log
+
+parameter:
+    no_ipv6: true
+    prefer_ipv4: true
+
+upf:
+    pfcp:
+      - addr: UPF_IP
+    gtpu:
+      - addr: UPF_IP
+    pdn:
+      - addr: 192.168.100.1/24
+        dev: ogstun
+        apn: internet
+      - addr: fd84:6aea:c36e:2b69::/64
+        dev: ogstun
+        apn: internet
+      - addr: 192.168.101.1/24
+        apn: ims
+        dev: ogstun2
+      - addr: fd1f:76f3:da9b:0101::/64
+        apn: ims
+        dev: ogstun2
+
+smf:
+    pfcp:
+      - addr: SMF_IP

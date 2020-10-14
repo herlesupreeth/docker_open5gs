@@ -31,12 +31,12 @@ ENV DEB_BUILD_PROFILES="pkg.ngcp-rtpengine.nobcg729"
 
 # Install updates and dependencies
 RUN apt-get update && \
-	apt-get -y install git vim tmux dpkg-dev debhelper default-libmysqlclient-dev gperf iptables-dev libavcodec-dev libavfilter-dev libavformat-dev \
+	apt-get -y install git vim tmux dpkg-dev debhelper=12.1.1ubuntu1~ubuntu18.04.1 default-libmysqlclient-dev gperf iptables-dev libavcodec-dev libavfilter-dev libavformat-dev \
 					libavutil-dev libbencode-perl libcrypt-openssl-rsa-perl libcrypt-rijndael-perl libdigest-crc-perl libdigest-hmac-perl \
 					libevent-dev libhiredis-dev libio-multiplex-perl libio-socket-inet6-perl libiptc-dev libjson-glib-dev libnet-interface-perl \
 					libpcap0.8-dev libpcre3-dev libsocket6-perl libspandsp-dev libssl-dev libswresample-dev libsystemd-dev libxmlrpc-core-c3-dev \
 					markdown dkms module-assistant keyutils libnfsidmap2 nfs-common rpcbind libglib2.0-dev zlib1g-dev libavcodec-extra \
-					libcurl4-openssl-dev netcat-openbsd netcat iptables iproute2 net-tools iputils-ping
+					libcurl4-openssl-dev netcat-openbsd netcat iptables iproute2 net-tools iputils-ping libconfig-tiny-perl
 
 # Fetch RTPEngine code (tag mr7.4.1), build and install
 RUN git clone https://github.com/sipwise/rtpengine && \

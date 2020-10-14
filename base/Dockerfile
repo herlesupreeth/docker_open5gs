@@ -27,6 +27,7 @@
 FROM ubuntu:bionic
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 # Install updates and dependencies
 RUN apt-get update && \
@@ -41,7 +42,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout tags/v1.3.0 && meson build --prefix=`pwd`/install && \
+    git checkout tags/v2.0.18 && meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install
 
 # Set the working directory to open5gs

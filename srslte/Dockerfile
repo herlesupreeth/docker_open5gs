@@ -51,7 +51,7 @@ RUN git clone https://github.com/pothosware/SoapySDR.git && \
 # Install LimeSuite
 RUN git clone https://github.com/myriadrf/LimeSuite.git && \
     cd LimeSuite && \
-    git checkout tags/v20.07.2 -b v20.07.2 && \
+    git checkout tags/v20.10.0 -b v20.10.0 && \
     mkdir builddir && cd builddir && cmake .. && \
     make && make install && ldconfig && \
     cd ../udev-rules && sh ./install.sh

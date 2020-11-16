@@ -1,0 +1,17 @@
+key: 'UE1_KI'
+op: 'UE1_OP'
+amf: 'UE1_AMF'
+imei: 'UE1_IMEI'
+supi: 'imsi-UE1_IMSI'
+plmn:
+  mcc: MCC
+  mnc: MNC
+
+smsOverNasSupported: true
+dnn: 'internet'
+
+requestedNssai:
+  - sst:
+      value: 1
+    sd:
+      hex: '010203'

@@ -1,0 +1,40 @@
+gnbId: 1
+tac: 1
+nci: '000000000000000000000000000000010000'
+
+host: GNB_UE_IP
+gtpPort: 2152
+tunPort: 49972
+
+gnbPlmn:
+  mcc: MCC
+  mnc: MNC
+
+amfConfigs:
+  - guami:
+      mcc: MCC
+      mnc: MNC
+      amfRegionId:
+        hex: '2a'
+      amfSetId:
+        hex: '5580'
+      amfPointer:
+        hex: 'a8'
+    host: AMF_IP
+    port: 38412
+
+supportedTAs:
+  - tac:
+      hex: '000001'
+    broadcastPlmns:
+      - plmn:
+          mcc: MCC
+          mnc: MNC
+        taiSliceSupportNssais:
+          - sst:
+              value: 1
+            sd:
+              value:
+                hex: '010203'
+
+ignoreStreamIds: true

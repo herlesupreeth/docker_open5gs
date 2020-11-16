@@ -1,0 +1,25 @@
+version: '3'
+services:
+  srsenb:
+    build: ./ueransim
+    image: docker_ueransim
+    container_name: ueransim
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./ueransim:/mnt/ueransim
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    expose:
+      - "49972/udp"
+      - "38412/sctp"
+      - "2152/udp"
+    networks:
+      default:
+        ipv4_address: ${GNB_UE_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

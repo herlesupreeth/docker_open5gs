@@ -4,6 +4,8 @@ services:
     build: ./srslte
     image: docker_srslte
     container_name: srsenb
+    stdin_open: true
+    tty: true
     privileged: true
     devices:
       - "/dev/bus"

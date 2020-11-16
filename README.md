@@ -41,7 +41,11 @@ docker-compose up
 
 
 docker-compose -f srsenb.yaml build --no-cache
-docker-compose -f srsenb.yaml up
+docker-compose -f srsenb.yaml up -d && docker attach srsenb
+
+
+docker-compose -f ueransim.yaml build --no-cache
+docker-compose -f ueransim.yaml up -d && docker attach ueransim
 ```
 
 ## Configuration

@@ -12,6 +12,8 @@ SDRs tested with srsLTE eNB
 - Ettus USRP B210
 - LimeSDR Mini v1.3
 
+UERANSIM (gNB + UE) simulator
+
 ## Build and Execution Instructions
 
 * Mandatory requirements:
@@ -62,7 +64,7 @@ Password : 1423
 
 Using Web UI, add a subscriber
 
-## eNB settings
+## srsLTE eNB settings
 
 If DOCKER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
 On the eNB, make sure to have the static route to SGWU container (since internal IP of the SGWU container is advertised in S1AP messages and UE wont find the core in Uplink)

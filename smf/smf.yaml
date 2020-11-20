@@ -54,6 +54,7 @@ smf:
       - 2001:4860:4860::8844
     p-cscf:
       - PCSCF_IP
+    mtu: 1300
 
 nrf:
     sbi:

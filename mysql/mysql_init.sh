@@ -49,4 +49,6 @@ mysql -u root -e "FLUSH PRIVILEGES;"
 mysql -u root -e "SET GLOBAL max_connections=200;"
 pkill -9 mysqld
 
+sleep 5
+
 mysqld_safe

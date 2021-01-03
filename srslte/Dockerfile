@@ -46,14 +46,14 @@ RUN git clone https://github.com/pothosware/SoapySDR.git && \
     cd SoapySDR && \
     git checkout tags/soapy-sdr-0.7.2 -b soapy-sdr-0.7.2 && \
     mkdir build && cd build && cmake .. && \
-    make && make install && ldconfig
+    make -j`nproc` && make install && ldconfig
 
 # Install LimeSuite
 RUN git clone https://github.com/myriadrf/LimeSuite.git && \
     cd LimeSuite && \
     git checkout tags/v20.10.0 -b v20.10.0 && \
     mkdir builddir && cd builddir && cmake .. && \
-    make && make install && ldconfig && \
+    make -j`nproc` && make install && ldconfig && \
     cd ../udev-rules && sh ./install.sh
 
 # UHD drivers for USRP
@@ -65,14 +65,14 @@ RUN add-apt-repository ppa:ettusresearch/uhd && \
 RUN git clone https://github.com/srsLTE/srsGUI && \
     cd srsGUI/ && \
     mkdir build && cd build && \
-    cmake ../ && make && make install && ldconfig
+    cmake ../ && make -j`nproc` && make install && ldconfig
 
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsLTE/srsLTE.git && \
     cd srsLTE && \
     git checkout tags/release_19_12 && \
     mkdir build && cd build && \
-    cmake ../ && make && make install && \
+    cmake ../ && make -j`nproc` && make install && \
     ldconfig && srslte_install_configs.sh service
 
 CMD /mnt/srslte/enb_init.sh && \

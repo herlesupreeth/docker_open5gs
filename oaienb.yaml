@@ -1,0 +1,33 @@
+version: '3'
+services:
+  oaienb:
+    build: ./oai
+    image: docker_oai
+    container_name: oaienb
+    stdin_open: true
+    tty: true
+    privileged: true
+    sysctls:
+      - net.ipv4.ip_forward=1
+    devices:
+      - "/dev/bus"
+      - "/dev/net/tun"
+    volumes:
+      - /dev/serial:/dev/serial:ro
+      - /dev/bus/usb:/dev/bus/usb:ro
+      - ./oai:/mnt/oai
+      - ./log:/openairinterface5g/cmake_targets/log/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    expose:
+      - "36412/sctp"
+      - "2152/udp"
+    networks:
+      default:
+        ipv4_address: ${OAI_ENB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

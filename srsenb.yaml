@@ -22,7 +22,7 @@ services:
       - "2152/udp"
     networks:
       default:
-        ipv4_address: ${ENB_IP}
+        ipv4_address: ${SRS_ENB_IP}
 networks:
   default:
     external:

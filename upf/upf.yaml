@@ -10,6 +10,7 @@ upf:
       - addr: UPF_IP
     gtpu:
       - addr: UPF_IP
+        advertise_addr: UPF_ADVERTISE_IP
     pdn:
       - addr: 192.168.100.1/24
         dev: ogstun

@@ -17,6 +17,25 @@ services:
     networks:
       default:
         ipv4_address: ${MONGO_IP}
+  webui:
+    build: ./webui
+    image: docker_open5gs_webui
+    container_name: webui
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    volumes:
+      - ./webui:/mnt/webui
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${WEBUI_IP}
   nrf:
     build: ./nrf
     image: docker_open5gs_nrf
@@ -108,8 +127,6 @@ services:
       - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
-    ports:
-      - "3000:3000/tcp"
     networks:
       default:
         ipv4_address: ${HSS_IP}

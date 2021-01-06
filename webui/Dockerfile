@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -26,17 +24,6 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-export DB_URI="mongodb://${MONGO_IP}/open5gs"
+FROM docker_open5gs
 
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
-
-[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-
-cp /mnt/hss/hss.yaml install/etc/open5gs
-sed -i 's|HSS_IP|'$IP_ADDR'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/hss.yaml
-
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+CMD sleep 10 && /mnt/webui/webui_init.sh

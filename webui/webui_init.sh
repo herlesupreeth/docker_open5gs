@@ -28,15 +28,7 @@
 
 export DB_URI="mongodb://${MONGO_IP}/open5gs"
 
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
-
-[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-
-cp /mnt/hss/hss.yaml install/etc/open5gs
-sed -i 's|HSS_IP|'$IP_ADDR'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/hss.yaml
-sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/hss.yaml
+cd webui && npm run dev
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

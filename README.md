@@ -66,11 +66,12 @@ Using Web UI, add a subscriber
 
 ## srsLTE eNB settings
 
-If DOCKER_HOST_IP is properly set to the host running the SGW container, then the following static route is not required.
+If SGWU_ADVERTISE_IP is properly set to the host running the SGWU container in NSA deployment, then the following static route is not required.
 On the eNB, make sure to have the static route to SGWU container (since internal IP of the SGWU container is advertised in S1AP messages and UE wont find the core in Uplink)
 
 ```
-ip r add <SGWU_CONTAINER_IP> via <DOCKER_HOST_IP>
+# NSA - 4G5G Hybrid deployment
+ip r add <SGWU_CONTAINER_IP> via <SGWU_ADVERTISE_IP>
 ```
 
 ## Not supported

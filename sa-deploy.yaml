@@ -1,0 +1,195 @@
+version: '3'
+services:
+  mongo:
+    build: ./mongo
+    image: docker_open5gs_mongo
+    container_name: mongo
+    env_file:
+      - .env
+    volumes:
+      - ./mongo:/mnt/mongo
+      - mongodbdata:/var/lib/mongodb
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "27017/udp"
+      - "27017/tcp"
+    networks:
+      default:
+        ipv4_address: ${MONGO_IP}
+  webui:
+    build: ./webui
+    image: docker_open5gs_webui
+    container_name: webui
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    volumes:
+      - ./webui:/mnt/webui
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${WEBUI_IP}
+  nrf:
+    build: ./nrf
+    image: docker_open5gs_nrf
+    container_name: nrf
+    env_file:
+      - .env
+    volumes:
+      - ./nrf:/mnt/nrf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${NRF_IP}
+  ausf:
+    build: ./ausf
+    image: docker_open5gs_ausf
+    depends_on:
+      - nrf
+    container_name: ausf
+    env_file:
+      - .env
+    volumes:
+      - ./ausf:/mnt/ausf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${AUSF_IP}
+  udr:
+    build: ./udr
+    image: docker_open5gs_udr
+    depends_on:
+      - nrf
+      - mongo
+    container_name: udr
+    env_file:
+      - .env
+    volumes:
+      - ./udr:/mnt/udr
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${UDR_IP}
+  udm:
+    build: ./udm
+    image: docker_open5gs_udm
+    depends_on:
+      - nrf
+    container_name: udm
+    env_file:
+      - .env
+    volumes:
+      - ./udm:/mnt/udm
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${UDM_IP}
+  smf:
+    build: ./smf
+    image: docker_open5gs_smf
+    depends_on:
+      - nrf
+    container_name: smf
+    env_file:
+      - .env
+    volumes:
+      - ./smf:/mnt/smf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "8805/udp"
+      - "2123/udp"
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMF_IP}
+  upf:
+    build: ./upf
+    image: docker_open5gs_upf
+    depends_on:
+      - nrf
+      - smf
+    container_name: upf
+    env_file:
+      - .env
+    volumes:
+      - ./upf:/mnt/upf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "2152/udp"
+      - "8805/udp"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
+    sysctls:
+      - net.ipv4.ip_forward=1
+      #- net.ipv6.conf.all.disable_ipv6=0
+    networks:
+      default:
+        ipv4_address: ${UPF_IP}
+  amf:
+    build: ./amf
+    image: docker_open5gs_amf
+    depends_on:
+      - smf
+      - upf
+      - nrf
+      - ausf
+      - udm
+      - udr
+    container_name: amf
+    env_file:
+      - .env
+    volumes:
+      - ./amf:/mnt/amf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "38412/sctp"
+      - "7777/tcp"
+    # ports:
+    #   - "38412:38412/sctp"
+    networks:
+      default:
+        ipv4_address: ${AMF_IP}
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${TEST_NETWORK}
+volumes:
+  mongodbdata: {}

@@ -28,7 +28,8 @@ FROM ubuntu:bionic
 
 # Install updates and dependencies
 RUN apt-get update && \
-    apt-get -y install make g++ openjdk-11-jdk maven libsctp-dev lksctp-tools git vim
+    apt-get -y install make g++ openjdk-11-jdk maven libsctp-dev lksctp-tools git vim \
+                        iptables net-tools ifupdown iputils-ping
 
 ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 ENV PATH="$PATH:$JAVA_HOME/bin"
@@ -37,12 +38,12 @@ ENV LANG=C.UTF-8
 
 # Clone and build UERANSIM
 RUN git clone https://github.com/herlesupreeth/UERANSIM && \
-    cd UERANSIM && \
-    chmod +x build.sh run.sh && \
-    ./build.sh
+    cd UERANSIM && git checkout tags/v2.2.1 && \
+    ./nr-build --allow-root
 
 # Set the working directory to UERANSIM
 WORKDIR UERANSIM
 
 CMD /mnt/ueransim/ueransim_init.sh && \
-    /UERANSIM/run.sh
+    ./nr-agent & \
+    bash

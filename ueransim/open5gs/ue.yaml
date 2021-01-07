@@ -1,17 +1,29 @@
-key: 'UE1_KI'
-op: 'UE1_OP'
-amf: 'UE1_AMF'
-imei: 'UE1_IMEI'
+# IMSI number of the UE. IMSI = [MCC|MNC|MSISDN] (In total 15 or 16 digits)
 supi: 'imsi-UE1_IMSI'
+
+# MCC and MNC values of the UE.
 plmn:
   mcc: MCC
   mnc: MNC
 
-smsOverNasSupported: true
+# Permanent subscription key.
+key: 'UE1_KI'
+
+# Operator code (OP) of the UE. Please note that 'OP' is different from 'OPC'.
+op: 'UE1_OP'
+
+# Authentication Management Field (AMF) value
+amf: 'UE1_AMF'
+
+# IMEI number of the device. This value is generally not used.
+imei: 'UE1_IMEI'
+
+# Domain Network Name (DNN)
 dnn: 'internet'
 
+# List of NSSAIs for the UE
 requestedNssai:
   - sst:
-      value: 1
+      hex: '01'
     sd:
       hex: '010203'

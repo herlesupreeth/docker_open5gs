@@ -35,14 +35,14 @@ RUN apt-get update && \
                     build-essential flex bison git libsctp-dev libgnutls28-dev \
                     libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev \
                     libyaml-dev meson vim ifupdown mongodb curl gnupg gdb iptables net-tools \
-                    iputils-ping libmicrohttpd-dev libcurl4-gnutls-dev
+                    iputils-ping libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev
 RUN pip3 install click
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs && \
     apt-get autoremove -y && apt-get clean
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout tags/v2.0.20 && meson build --prefix=`pwd`/install && \
+    git checkout tags/v2.1.1 && meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install
 
 # Set the working directory to open5gs

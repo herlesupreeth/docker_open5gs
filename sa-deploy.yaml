@@ -170,6 +170,7 @@ services:
       - ausf
       - udm
       - udr
+      - pcf
     container_name: amf
     env_file:
       - .env
@@ -186,6 +187,25 @@ services:
     networks:
       default:
         ipv4_address: ${AMF_IP}
+  pcf:
+    build: ./pcf
+    image: docker_open5gs_pcf
+    depends_on:
+      - nrf
+      - mongo
+    container_name: pcf
+    env_file:
+      - .env
+    volumes:
+      - ./pcf:/mnt/pcf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${PCF_IP}
 networks:
   default:
     ipam:

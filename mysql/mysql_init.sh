@@ -26,12 +26,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-apt-get update
-apt-get install --reinstall ca-certificates
-apt-get install -y mysql-server
 sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
-mkdir /var/run/mysqld
-chown -R mysql:mysql /var/run/mysqld
+cat > ~/.my.cnf <<EOF
+[mysql]
+user=root
+password=ims
+EOF
 
 echo 'Waiting for MySQL to start.'
 /etc/init.d/mysql restart

@@ -150,6 +150,8 @@ services:
     expose:
       - "2152/udp"
       - "8805/udp"
+    # ports:
+    #   - "2152:2152/udp"
     cap_add:
       - NET_ADMIN
     devices:

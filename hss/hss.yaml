@@ -6,22 +6,4 @@ logger:
 parameter:
 
 hss:
-    freeDiameter:
-      identity: hss.EPC_DOMAIN
-      realm: EPC_DOMAIN
-      port: 3868
-      sec_port: 5868
-      listen_on: HSS_IP
-      load_extension:
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dbg_msg_dumps.fdx
-          conf: 0x8888
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_rfc5777.fdx
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_mip6i.fdx
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_nasreq.fdx
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_nas_mipv6.fdx
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca.fdx
-        - module: /open5gs/install/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx
-      connect:
-        - identity: mme.EPC_DOMAIN
-          addr: MME_IP
-          port: 3868
+    freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf

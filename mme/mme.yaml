@@ -2,8 +2,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/mme.log
 
 parameter:
-    no_ipv6: true
-    prefer_ipv4: true
 
 mme:
     freeDiameter:
@@ -55,4 +53,3 @@ smf:
     gtpc:
       - addr:
         - SMF_IP
-        - ::1

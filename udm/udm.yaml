@@ -2,8 +2,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/udm.log
 
 parameter:
-    no_ipv6: true
-    prefer_ipv4: true
 
 udm:
     sbi:
@@ -14,5 +12,4 @@ nrf:
     sbi:
       - addr:
           - NRF_IP
-          - ::1
         port: 7777

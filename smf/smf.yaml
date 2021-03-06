@@ -2,8 +2,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/smf.log
 
 parameter:
-    no_ipv6: true
-    prefer_ipv4: true
 
 smf:
     freeDiameter:
@@ -30,10 +28,8 @@ smf:
         port: 7777
     gtpc:
       - addr: SMF_IP
-      - addr: ::1
     pfcp:
       - addr: SMF_IP
-      - addr: ::1
     pdn:
       - addr: 192.168.100.1/24
         apn: internet
@@ -60,7 +56,6 @@ nrf:
     sbi:
       - addr:
           - NRF_IP
-          - ::1
         port: 7777
 
 upf:

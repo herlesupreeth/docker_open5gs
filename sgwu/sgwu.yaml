@@ -2,7 +2,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/sgwu.log
 
 parameter:
-    no_ipv6: true
 
 sgwu:
     gtpu:

@@ -2,8 +2,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/upf.log
 
 parameter:
-    no_ipv6: true
-    prefer_ipv4: true
 
 upf:
     pfcp:

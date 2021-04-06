@@ -8,7 +8,7 @@ services:
       - .env
     volumes:
       - ./mongo:/mnt/mongo
-      - mongodbdata:/var/lib/mongodb
+      - mongodbdata_cx:/var/lib/mongodb
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
@@ -335,4 +335,4 @@ networks:
       config:
         - subnet: ${TEST_NETWORK}
 volumes:
-  mongodbdata: {}
+  mongodbdata_cx: {}

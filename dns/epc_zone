@@ -11,3 +11,5 @@ $TTL 1W
 epcns                   1D IN A         DNS_IP
 
 pcrf                    1D IN A         PCRF_IP
+
+hss                     1D IN A         HSS_IP

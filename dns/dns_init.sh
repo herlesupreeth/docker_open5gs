@@ -36,13 +36,13 @@ cp /mnt/dns/named.conf /etc/bind
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/bind/epc_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/epc_zone
 [ -z "$PCRF_PUB_IP" ] && sed -i 's|PCRF_IP|'$PCRF_IP'|g' /etc/bind/epc_zone || sed -i 's|PCRF_IP|'$PCRF_PUB_IP'|g' /etc/bind/epc_zone
+[ -z "$HSS_PUB_IP" ] && sed -i 's|HSS_IP|'$HSS_IP'|g' /etc/bind/epc_zone || sed -i 's|HSS_IP|'$HSS_PUB_IP'|g' /etc/bind/epc_zone
 
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/ims_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/ims_zone
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/bind/ims_zone
 sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/bind/ims_zone
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/bind/ims_zone
-sed -i 's|FHOSS_IP|'$FHOSS_IP'|g' /etc/bind/ims_zone
 
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/bind/named.conf
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/named.conf

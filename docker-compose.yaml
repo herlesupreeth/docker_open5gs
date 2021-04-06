@@ -8,7 +8,7 @@ services:
       - .env
     volumes:
       - ./mongo:/mnt/mongo
-      - mongodbdata:/var/lib/mongodb
+      - mongodbdata_cx:/var/lib/mongodb
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
@@ -389,28 +389,6 @@ services:
     networks:
       default:
         ipv4_address: ${MYSQL_IP}
-  fhoss:
-    build: ./fhoss
-    image: docker_fhoss
-    container_name: fhoss
-    dns: ${DNS_IP}
-    volumes:
-      - ./fhoss:/mnt/fhoss
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    depends_on:
-      - dns
-      - mysql
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-    ports:
-      - "8080:8080/tcp"
-    networks:
-      default:
-        ipv4_address: ${FHOSS_IP}
   icscf:
     build: ./icscf
     image: docker_icscf
@@ -425,7 +403,6 @@ services:
     depends_on:
       - dns
       - mysql
-      - fhoss
     expose:
       - "3869/udp"
       - "3869/tcp"
@@ -448,7 +425,6 @@ services:
     depends_on:
       - dns
       - mysql
-      - fhoss
     expose:
       - "3870/udp"
       - "3870/tcp"
@@ -504,5 +480,5 @@ networks:
       config:
         - subnet: ${TEST_NETWORK}
 volumes:
-  mongodbdata: {}
+  mongodbdata_cx: {}
   dbdata: {}

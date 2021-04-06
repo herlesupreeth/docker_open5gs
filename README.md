@@ -26,7 +26,7 @@ Clone repository and build base docker image of open5gs
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
-docker build --no-cache --force-rm -t docker_open5gs .
+docker build --no-cache --force-rm -t docker_open5gs_cx .
 
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .

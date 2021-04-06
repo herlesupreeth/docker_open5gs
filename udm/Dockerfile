@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM docker_open5gs
+FROM docker_open5gs_cx
 
 CMD /mnt/udm/udm_init.sh  && \
     cd install/bin && ./open5gs-udmd

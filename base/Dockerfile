@@ -40,9 +40,11 @@ RUN pip3 install click
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs && \
     apt-get autoremove -y && apt-get clean
 
+RUN echo "Test"
+
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout main && meson build --prefix=`pwd`/install && \
+    git checkout cx && meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install
 
 # Set the working directory to open5gs

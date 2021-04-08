@@ -41,18 +41,65 @@ source .env
 docker-compose build --no-cache
 docker-compose up
 
-
+# srsLTE eNB
 docker-compose -f srsenb.yaml build --no-cache
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
 
+# UERANSIM gNB
+docker-compose -f nr-gnb.yaml build --no-cache
+docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb
 
-docker-compose -f ueransim.yaml build --no-cache
-docker-compose -f ueransim.yaml up -d && docker attach ueransim
+# UERANSIM NR-UE
+docker-compose -f nr-ue.yaml build --no-cache
+docker-compose -f nr-ue.yaml up -d && docker attach nr_ue
 ```
 
 ## Configuration
 
-The configuration files for each of the Core Network component can be found under their respective folder. Edit the .yaml files of the components before deploying each of the container
+For the quick run (eNB/gNB, CN in same docker network), edit only the following parameters in .env as per your setup
+
+```
+MCC
+MNC
+TEST_NETWORK --> Change this only if it clashes with the internal network at your home/office
+DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
+SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB/gNB is not running the same docker network/host
+UPF_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB/gNB is not running the same docker network/host
+```
+
+If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
+
+Under mme section in docker compose file (docker-compose.yaml, nsa-deploy.yaml), uncomment the following part
+```
+...
+    # ports:
+    #   - "36412:36412/sctp"
+...
+```
+
+Under amf section in docker compose file (docker-compose.yaml, nsa-deploy.yaml, sa-deploy.yaml), uncomment the following part
+```
+...
+    # ports:
+    #   - "38412:38412/sctp"
+...
+```
+
+If deploying in SA mode only (sa-deploy.yaml), then uncomment the following part under upf section
+```
+...
+    # ports:
+    #   - "2152:2152/udp"
+...
+```
+
+If deploying in NSA mode only (nsa-deploy.yaml, docker-compose.yaml), then uncomment the following part under sgwu section
+```
+...
+    # ports:
+    #   - "2152:2152/udp"
+...
+```
 
 ## Register a UE information
 

@@ -10,20 +10,22 @@ smf:
         port: 7777
     gtpc:
       - addr: SMF_IP
+    gtpu:
+      - addr: SMF_IP
     pfcp:
       - addr: SMF_IP
-    pdn:
+    subnet:
       - addr: 192.168.100.1/24
-        apn: internet
+        dnn: internet
         dev: ogstun
       - addr: fd84:6aea:c36e:2b69::/64
         dev: ogstun
-        apn: internet
+        dnn: internet
       - addr: 192.168.101.1/24
-        apn: ims
+        dnn: ims
         dev: ogstun2
       - addr: fd1f:76f3:da9b:0101::/64
-        apn: ims
+        dnn: ims
         dev: ogstun2
     dns:
       - 8.8.8.8

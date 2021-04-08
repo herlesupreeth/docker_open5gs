@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -26,26 +24,32 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
+FROM ubuntu:bionic
 
-cp /mnt/ueransim/open5gs-gnb.yaml /UERANSIM/config/open5gs-gnb.yaml
-cp /mnt/ueransim/open5gs-ue.yaml /UERANSIM/config/open5gs-ue.yaml
+# Install updates and dependencies
+RUN apt-get update && \
+    apt-get -y install make g++ libsctp-dev lksctp-tools git vim iproute2 \
+                        iptables net-tools ifupdown iputils-ping wget libssl-dev
+RUN version=3.20 && \
+    build=0 && \
+    mkdir ~/temp && \
+    cd ~/temp && \
+    wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz && \
+    tar -xzvf cmake-$version.$build.tar.gz && \
+    cd cmake-$version.$build/ && \
+    ./bootstrap && \
+    make -j`nproc` && \
+    make install && ldconfig && \
+    cmake --version
 
-sed -i 's|MNC|'$MNC'|g' /UERANSIM/config/open5gs-gnb.yaml
-sed -i 's|MCC|'$MCC'|g' /UERANSIM/config/open5gs-gnb.yaml
-sed -i 's|MNC|'$MNC'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|MCC|'$MCC'|g' /UERANSIM/config/open5gs-ue.yaml
+# Clone and build UERANSIM
+RUN git clone https://github.com/aligungr/UERANSIM && \
+    cd UERANSIM && \
+    make
 
-sed -i 's|UE1_KI|'$UE1_KI'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|UE1_OP|'$UE1_OP'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|UE1_AMF|'$UE1_AMF'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|UE1_IMEISV|'$UE1_IMEISV'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|UE1_IMEI|'$UE1_IMEI'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|UE1_IMSI|'$UE1_IMSI'|g' /UERANSIM/config/open5gs-ue.yaml
-sed -i 's|NR_GNB_IP|'$NR_GNB_IP'|g' /UERANSIM/config/open5gs-ue.yaml
+# Set the working directory to UERANSIM
+WORKDIR UERANSIM/build
 
-sed -i 's|NR_GNB_IP|'$NR_GNB_IP'|g' /UERANSIM/config/open5gs-gnb.yaml
-sed -i 's|AMF_IP|'$AMF_IP'|g' /UERANSIM/config/open5gs-gnb.yaml
-
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+CMD /mnt/ueransim/ueransim_init.sh && \
+    ./nr-ue -c ../config/open5gs-ue.yaml & \
+    bash

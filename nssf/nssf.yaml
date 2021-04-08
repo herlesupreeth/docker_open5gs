@@ -1,0 +1,20 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/nssf.log
+
+parameter:
+
+nssf:
+    sbi:
+      - addr: NSSF_IP
+        port: 7777
+    nsi:
+      - addr: NRF_IP
+        port: 7777
+        s_nssai:
+          sst: 1
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

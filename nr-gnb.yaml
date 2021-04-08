@@ -1,9 +1,11 @@
 version: '3'
 services:
-  ueransim:
-    build: ./ueransim
-    image: docker_ueransim
-    container_name: ueransim
+  nr_gnb:
+    build:
+      context: ./ueransim
+      dockerfile: Dockerfile_nr_gnb
+    image: docker_nr_gnb
+    container_name: nr_gnb
     stdin_open: true
     tty: true
     volumes:
@@ -15,13 +17,14 @@ services:
     expose:
       - "38412/sctp"
       - "2152/udp"
+      - "4997/udp"
     cap_add:
       - NET_ADMIN
     devices:
       - "/dev/net/tun"
     networks:
       default:
-        ipv4_address: ${GNB_UE_IP}
+        ipv4_address: ${NR_GNB_IP}
 networks:
   default:
     external:

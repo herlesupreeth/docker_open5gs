@@ -208,6 +208,25 @@ services:
     networks:
       default:
         ipv4_address: ${PCF_IP}
+  nssf:
+    build: ./nssf
+    image: docker_open5gs_nssf
+    depends_on:
+      - nrf
+      - mongo
+    container_name: nssf
+    env_file:
+      - .env
+    volumes:
+      - ./nssf:/mnt/nssf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${NSSF_IP}
 networks:
   default:
     ipam:

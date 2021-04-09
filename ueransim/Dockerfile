@@ -37,7 +37,7 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Clone and build UERANSIM
-RUN git clone https://github.com/herlesupreeth/UERANSIM && \
+RUN git clone https://github.com/aligungr/UERANSIM && \
     cd UERANSIM && git checkout tags/v2.2.1 && \
     ./nr-build --allow-root
 

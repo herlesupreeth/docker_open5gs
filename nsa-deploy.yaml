@@ -172,7 +172,6 @@ services:
     build: ./sgwc
     image: docker_open5gs_sgwc
     depends_on:
-      - nrf
       - smf
       - upf
     container_name: sgwc
@@ -193,7 +192,6 @@ services:
     build: ./sgwu
     image: docker_open5gs_sgwu
     depends_on:
-      - nrf
       - smf
       - upf
     container_name: sgwu

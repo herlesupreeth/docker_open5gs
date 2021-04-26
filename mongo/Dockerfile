@@ -24,6 +24,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM docker_open5gs
+FROM ubuntu:bionic
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends mongodb && \
+    apt-get autoremove -y && apt-get autoclean
 
 CMD /mnt/mongo/mongo_init.sh

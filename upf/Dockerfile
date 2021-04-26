@@ -26,5 +26,17 @@
 
 FROM docker_open5gs_cx
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3-setuptools \
+        python3-wheel \
+        python3-pip \
+        iptables && \
+    apt-get autoremove -y && apt-get autoclean
+
+RUN pip3 install click
+
 CMD /mnt/upf/upf_init.sh  && \
     cd install/bin && ./open5gs-upfd

@@ -26,4 +26,13 @@
 
 FROM docker_open5gs
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    apt-get autoremove -y && apt-get autoclean
+
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs && \
+    apt-get remove -y curl && apt-get autoremove -y && apt-get autoclean
+
 CMD sleep 10 && /mnt/webui/webui_init.sh

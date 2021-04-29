@@ -68,8 +68,8 @@ RUN git clone https://github.com/srsLTE/srsGUI && \
     cmake ../ && make -j`nproc` && make install && ldconfig
 
 # Get srsLTE, compile and install
-RUN git clone https://github.com/srsLTE/srsLTE.git && \
-    cd srsLTE && \
+RUN git clone https://github.com/srsran/srsRAN.git && \
+    cd srsRAN && \
     git checkout tags/release_19_12 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \

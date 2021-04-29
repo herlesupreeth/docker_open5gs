@@ -25,8 +25,9 @@ Clone repository and build base docker image of open5gs
 
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
+cd docker_open5gs
 git checkout cx_test
-cd docker_open5gs/base
+cd base
 docker build --no-cache --force-rm -t docker_open5gs_cx .
 
 cd ../ims_base

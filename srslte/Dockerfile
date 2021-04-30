@@ -62,7 +62,7 @@ RUN add-apt-repository ppa:ettusresearch/uhd && \
     uhd_images_downloader
 
 # Get srsGUI, compile and install
-RUN git clone https://github.com/srsLTE/srsGUI && \
+RUN git clone https://github.com/srsran/srsGUI && \
     cd srsGUI/ && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && ldconfig
@@ -70,10 +70,12 @@ RUN git clone https://github.com/srsLTE/srsGUI && \
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN.git && \
     cd srsRAN && \
-    git checkout tags/release_19_12 && \
+    git checkout master && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
-    ldconfig && srslte_install_configs.sh service
+    ldconfig
+
+RUN cd srsRAN/build && srsran_install_configs.sh service
 
 CMD /mnt/srslte/enb_init.sh && \
     /usr/local/bin/srsenb

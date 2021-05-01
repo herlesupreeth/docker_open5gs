@@ -50,11 +50,25 @@ then
 	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON icscf.* TO 'icscf'@'%' identified by 'heslo';"
 	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON icscf.* TO 'provisioning'@'%' identified by 'provi';"
 	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+fi
 
-	# Add serving SCSCF entry to ICSCF
-	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO nds_trusted_domains VALUES (1,'$IMS_DOMAIN');"
-	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO s_cscf VALUES (1,'First and only S-CSCF','sip:scscf.$IMS_DOMAIN:6060');"
-	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO s_cscf_capabilities VALUES (1,1,0),(2,1,1);"
+DOMAIN_PRESENT=`mysql -u root -h ${MYSQL_IP} icscf -s -N -e "SELECT count(*) FROM nds_trusted_domains WHERE trusted_domain='$IMS_DOMAIN';"`
+if [ $DOMAIN_PRESENT == 0 ]
+then
+	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO nds_trusted_domains (trusted_domain) VALUES ('$IMS_DOMAIN');"
+fi
+
+URI_PRESENT=`mysql -u root -h ${MYSQL_IP} icscf -s -N -e "SELECT count(*) FROM s_cscf WHERE s_cscf_uri='sip:scscf.$IMS_DOMAIN:6060';"`
+if [ $URI_PRESENT == 0 ]
+then
+	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO s_cscf (name, s_cscf_uri) VALUES ('First and only S-CSCF', 'sip:scscf.$IMS_DOMAIN:6060');"
+fi
+
+SCSCF_ID=`mysql -u root -h ${MYSQL_IP} icscf -s -N -e "SELECT id FROM s_cscf WHERE s_cscf_uri='sip:scscf.$IMS_DOMAIN:6060' LIMIT 1;"`
+CAP_PRESENT=`mysql -u root -h ${MYSQL_IP} icscf -s -N -e "SELECT count(*) FROM s_cscf_capabilities WHERE id_s_cscf='$SCSCF_ID';"`
+if [ $CAP_PRESENT == 0 ]
+then
+	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO s_cscf_capabilities (id_s_cscf, capability) VALUES ('$SCSCF_ID', 0),('$SCSCF_ID', 1);"
 fi
 
 sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/kamailio_icscf/icscf.cfg

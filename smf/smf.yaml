@@ -18,13 +18,13 @@ smf:
       - addr: 192.168.100.1/24
         dnn: internet
         dev: ogstun
-      - addr: fd84:6aea:c36e:2b69::1/64
+      - addr: fd84:6aea:c36e:2b69::1/48
         dev: ogstun
         dnn: internet
       - addr: 192.168.101.1/24
         dnn: ims
         dev: ogstun2
-      - addr: fd1f:76f3:da9b:0101::1/64
+      - addr: fd1f:76f3:da9b:0101::1/48
         dnn: ims
         dev: ogstun2
     dns:
@@ -34,7 +34,7 @@ smf:
       - 2001:4860:4860::8844
     p-cscf:
       - PCSCF_IP
-    mtu: 1300
+    mtu: 1400
 
 nrf:
     sbi:

@@ -31,7 +31,7 @@ import ipaddress
 """
 Usage in command line:
 e.g:
-$ python3 tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range fd84:6aea:c36e:2b69::/64
+$ python3 tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range fd84:6aea:c36e:2b69::/48
 """
 
 def validate_ip_net(ctx, param, value):
@@ -52,7 +52,7 @@ def validate_ip_net(ctx, param, value):
 @click.option('--ipv6_range',
 			required=True,
 			callback=validate_ip_net,
-			help='UE IPv6 Address range in CIDR format e.g. fd84:6aea:c36e:2b69::/64')
+			help='UE IPv6 Address range in CIDR format e.g. fd84:6aea:c36e:2b69::/48')
 @click.option('--nat_rule',
 			default='yes',
 			help='Option specifying whether to add NATing iptables rule or not')

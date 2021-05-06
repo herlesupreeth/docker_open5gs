@@ -13,13 +13,13 @@ upf:
       - addr: 192.168.100.1/24
         dev: ogstun
         dnn: internet
-      - addr: fd84:6aea:c36e:2b69::1/64
+      - addr: fd84:6aea:c36e:2b69::1/48
         dev: ogstun
         dnn: internet
       - addr: 192.168.101.1/24
         dnn: ims
         dev: ogstun2
-      - addr: fd1f:76f3:da9b:0101::1/64
+      - addr: fd1f:76f3:da9b:0101::1/48
         dnn: ims
         dev: ogstun2
 

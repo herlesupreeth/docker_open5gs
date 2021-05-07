@@ -82,6 +82,7 @@ RUN apt-get update && \
         libmongoc-dev \
         libsctp-dev \
         libcurl4-gnutls-dev \
+        netbase \
         ifupdown \
         net-tools \
         iputils-ping && \

@@ -67,6 +67,8 @@ RUN git clone https://github.com/srsran/srsGUI && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && ldconfig
 
+#RUN apt-get update && apt-get install -y gdb libdw-dev
+
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN.git && \
     cd srsRAN && \
@@ -78,4 +80,6 @@ RUN git clone https://github.com/srsran/srsRAN.git && \
 RUN cd srsRAN/build && srsran_install_configs.sh service
 
 CMD /mnt/srslte/enb_init.sh && \
-    /usr/local/bin/srsenb
+    cd /mnt/srslte && /usr/local/bin/srsenb
+
+#gdb /usr/local/bin/srsenb

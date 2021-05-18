@@ -21,7 +21,7 @@ UERANSIM (gNB + UE) simulator
 	* [docker-compose](https://docs.docker.com/compose)
 
 
-Clone repository and build base docker image of open5gs
+Clone repository and build base docker image of open5gs, kamailio, ueransim
 
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
@@ -32,6 +32,9 @@ docker build --no-cache --force-rm -t docker_open5gs_cx .
 
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .
+
+cd ../ueransim
+docker build --no-cache --force-rm -t docker_ueransim .
 ```
 
 ### Build and Run using docker-compose

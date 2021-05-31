@@ -1,0 +1,17 @@
+db_uri: mongodb://MONGO_IP/open5gs
+
+logger:
+    file: /open5gs/install/var/log/open5gs/bsf.log
+
+parameter:
+
+bsf:
+    sbi:
+      - addr: BSF_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

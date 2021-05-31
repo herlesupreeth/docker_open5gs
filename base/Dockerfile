@@ -55,7 +55,8 @@ RUN apt-get update && \
         ca-certificates \
         libmicrohttpd-dev \
         libcurl4-gnutls-dev \
-        libnghttp2-dev
+        libnghttp2-dev \
+        libtins-dev
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 
@@ -82,6 +83,7 @@ RUN apt-get update && \
         libmongoc-dev \
         libsctp-dev \
         libcurl4-gnutls-dev \
+        libtins-dev \
         netbase \
         ifupdown \
         net-tools \

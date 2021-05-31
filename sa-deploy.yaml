@@ -173,6 +173,7 @@ services:
       - udm
       - udr
       - pcf
+      - bsf
     container_name: amf
     env_file:
       - .env
@@ -208,6 +209,25 @@ services:
     networks:
       default:
         ipv4_address: ${PCF_IP}
+  bsf:
+    build: ./bsf
+    image: docker_open5gs_bsf
+    depends_on:
+      - nrf
+      - mongo
+    container_name: bsf
+    env_file:
+      - .env
+    volumes:
+      - ./bsf:/mnt/bsf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${BSF_IP}
   nssf:
     build: ./nssf
     image: docker_open5gs_nssf

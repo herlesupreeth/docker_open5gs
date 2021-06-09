@@ -38,12 +38,13 @@ RUN apt-get update && \
 
 # Fetch Kamailio code (branch 5.3)
 RUN mkdir -p /usr/local/src/ && cd /usr/local/src/ && \
-	git clone https://github.com/herlesupreeth/kamailio
+	git clone https://github.com/herlesupreeth/kamailio && \
+	cd kamailio && git checkout 5.3
 
 # Build and Install Kamailio
 RUN cd /usr/local/src/kamailio && make cfg
 COPY modules.lst /usr/local/src/kamailio/src
 RUN cd /usr/local/src/kamailio && \
-	make Q=0 all | tee make_all.txt && \
+	make -j`nproc` Q=0 all | tee make_all.txt && \
 	make install | tee make_install.txt && \
 	ldconfig

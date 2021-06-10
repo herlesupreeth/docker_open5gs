@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM docker_open5gs_cx
+FROM docker_open5gs
 
 CMD /mnt/hss/hss_init.sh  && \
     cd install/bin && sleep 10 && ./open5gs-hssd

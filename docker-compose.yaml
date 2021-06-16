@@ -449,7 +449,6 @@ services:
       default:
         ipv4_address: ${FHOSS_IP}
   icscf:
-    build: ./icscf
     image: docker_kamailio
     container_name: icscf
     dns: ${DNS_IP}
@@ -474,7 +473,6 @@ services:
       default:
         ipv4_address: ${ICSCF_IP}
   scscf:
-    build: ./scscf
     image: docker_kamailio
     container_name: scscf
     dns: ${DNS_IP}
@@ -499,7 +497,6 @@ services:
       default:
         ipv4_address: ${SCSCF_IP}
   pcscf:
-    build: ./pcscf
     image: docker_kamailio
     container_name: pcscf
     dns: ${DNS_IP}

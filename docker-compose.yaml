@@ -450,7 +450,7 @@ services:
         ipv4_address: ${FHOSS_IP}
   icscf:
     build: ./icscf
-    image: docker_icscf
+    image: docker_kamailio
     container_name: icscf
     dns: ${DNS_IP}
     volumes:
@@ -459,6 +459,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=icscf-1
     depends_on:
       - dns
       - mysql
@@ -473,7 +475,7 @@ services:
         ipv4_address: ${ICSCF_IP}
   scscf:
     build: ./scscf
-    image: docker_scscf
+    image: docker_kamailio
     container_name: scscf
     dns: ${DNS_IP}
     volumes:
@@ -482,6 +484,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=scscf-1
     depends_on:
       - dns
       - mysql
@@ -496,7 +500,7 @@ services:
         ipv4_address: ${SCSCF_IP}
   pcscf:
     build: ./pcscf
-    image: docker_pcscf
+    image: docker_kamailio
     container_name: pcscf
     dns: ${DNS_IP}
     privileged: true
@@ -508,6 +512,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=pcscf-1
     depends_on:
       - dns
       - mysql

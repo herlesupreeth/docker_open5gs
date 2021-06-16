@@ -48,3 +48,6 @@ RUN cd /usr/local/src/kamailio && \
 	make -j`nproc` Q=0 all | tee make_all.txt && \
 	make install | tee make_install.txt && \
 	ldconfig
+
+COPY kamailio_init.sh /
+CMD /kamailio_init.sh

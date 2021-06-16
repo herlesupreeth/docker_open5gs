@@ -51,11 +51,9 @@ docker-compose -f srsenb.yaml build --no-cache
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
 
 # UERANSIM gNB
-docker-compose -f nr-gnb.yaml build --no-cache
 docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb
 
 # UERANSIM NR-UE
-docker-compose -f nr-ue.yaml build --no-cache
 docker-compose -f nr-ue.yaml up -d && docker attach nr_ue
 ```
 

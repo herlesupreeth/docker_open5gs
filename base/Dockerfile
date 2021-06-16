@@ -76,6 +76,7 @@ ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        curl \
         ca-certificates \
         libssl-dev \
         libyaml-dev \
@@ -87,8 +88,17 @@ RUN apt-get update && \
         netbase \
         ifupdown \
         net-tools \
-        iputils-ping && \
+        iputils-ping \
+        python3-setuptools \
+        python3-wheel \
+        python3-pip \
+        iptables && \
     apt-get autoremove -y && apt-get autoclean
+
+RUN pip3 install click
+
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs && \
+    apt-get remove -y curl && apt-get autoremove -y && apt-get autoclean
 
 RUN update-ca-certificates
 
@@ -99,3 +109,6 @@ COPY --from=builder /open5gs/webui /open5gs/webui
 
 # Set the working directory to open5gs
 WORKDIR open5gs
+
+COPY open5gs_init.sh /
+CMD /open5gs_init.sh

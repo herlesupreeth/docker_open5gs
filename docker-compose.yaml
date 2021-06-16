@@ -2,7 +2,7 @@ version: '3'
 services:
   mongo:
     build: ./mongo
-    image: docker_open5gs_mongo
+    image: docker_mongo
     container_name: mongo
     env_file:
       - .env
@@ -18,13 +18,14 @@ services:
       default:
         ipv4_address: ${MONGO_IP}
   webui:
-    build: ./webui
-    image: docker_open5gs_webui
+    image: docker_open5gs
     container_name: webui
     depends_on:
       - mongo
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=webui
     volumes:
       - ./webui:/mnt/webui
       - /etc/timezone:/etc/timezone:ro
@@ -37,11 +38,12 @@ services:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
-    build: ./nrf
-    image: docker_open5gs_nrf
+    image: docker_open5gs
     container_name: nrf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=nrf-1
     volumes:
       - ./nrf:/mnt/nrf
       - ./log:/open5gs/install/var/log/open5gs
@@ -53,13 +55,14 @@ services:
       default:
         ipv4_address: ${NRF_IP}
   ausf:
-    build: ./ausf
-    image: docker_open5gs_ausf
+    image: docker_open5gs
     depends_on:
       - nrf
     container_name: ausf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=ausf-1
     volumes:
       - ./ausf:/mnt/ausf
       - ./log:/open5gs/install/var/log/open5gs
@@ -71,14 +74,15 @@ services:
       default:
         ipv4_address: ${AUSF_IP}
   udr:
-    build: ./udr
-    image: docker_open5gs_udr
+    image: docker_open5gs
     depends_on:
       - nrf
       - mongo
     container_name: udr
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=udr-1
     volumes:
       - ./udr:/mnt/udr
       - ./log:/open5gs/install/var/log/open5gs
@@ -90,13 +94,14 @@ services:
       default:
         ipv4_address: ${UDR_IP}
   udm:
-    build: ./udm
-    image: docker_open5gs_udm
+    image: docker_open5gs
     depends_on:
       - nrf
     container_name: udm
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=udm-1
     volumes:
       - ./udm:/mnt/udm
       - ./log:/open5gs/install/var/log/open5gs
@@ -108,14 +113,15 @@ services:
       default:
         ipv4_address: ${UDM_IP}
   pcf:
-    build: ./pcf
-    image: docker_open5gs_pcf
+    image: docker_open5gs
     depends_on:
       - nrf
       - mongo
     container_name: pcf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=pcf-1
     volumes:
       - ./pcf:/mnt/pcf
       - ./log:/open5gs/install/var/log/open5gs
@@ -127,14 +133,15 @@ services:
       default:
         ipv4_address: ${PCF_IP}
   bsf:
-    build: ./bsf
-    image: docker_open5gs_bsf
+    image: docker_open5gs
     depends_on:
       - nrf
       - mongo
     container_name: bsf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=bsf-1
     volumes:
       - ./bsf:/mnt/bsf
       - ./log:/open5gs/install/var/log/open5gs
@@ -146,14 +153,15 @@ services:
       default:
         ipv4_address: ${BSF_IP}
   nssf:
-    build: ./nssf
-    image: docker_open5gs_nssf
+    image: docker_open5gs
     depends_on:
       - nrf
       - mongo
     container_name: nssf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=nssf-1
     volumes:
       - ./nssf:/mnt/nssf
       - ./log:/open5gs/install/var/log/open5gs
@@ -165,11 +173,12 @@ services:
       default:
         ipv4_address: ${NSSF_IP}
   hss:
-    build: ./hss
-    image: docker_open5gs_hss
+    image: docker_open5gs
     container_name: hss
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=hss-1
     volumes:
       - ./hss:/mnt/hss
       - ./log:/open5gs/install/var/log/open5gs
@@ -188,14 +197,15 @@ services:
       default:
         ipv4_address: ${HSS_IP}
   sgwc:
-    build: ./sgwc
-    image: docker_open5gs_sgwc
+    image: docker_open5gs
     depends_on:
       - smf
       - upf
     container_name: sgwc
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=sgwc-1
     volumes:
       - ./sgwc:/mnt/sgwc
       - ./log:/open5gs/install/var/log/open5gs
@@ -208,14 +218,15 @@ services:
       default:
         ipv4_address: ${SGWC_IP}
   sgwu:
-    build: ./sgwu
-    image: docker_open5gs_sgwu
+    image: docker_open5gs
     depends_on:
       - smf
       - upf
     container_name: sgwu
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=sgwu-1
     volumes:
       - ./sgwu:/mnt/sgwu
       - ./log:/open5gs/install/var/log/open5gs
@@ -230,13 +241,14 @@ services:
       default:
         ipv4_address: ${SGWU_IP}
   smf:
-    build: ./smf
-    image: docker_open5gs_smf
+    image: docker_open5gs
     depends_on:
       - nrf
     container_name: smf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=smf-1
     volumes:
       - ./smf:/mnt/smf
       - ./log:/open5gs/install/var/log/open5gs
@@ -256,14 +268,15 @@ services:
       default:
         ipv4_address: ${SMF_IP}
   upf:
-    build: ./upf
-    image: docker_open5gs_upf
+    image: docker_open5gs
     depends_on:
       - nrf
       - smf
     container_name: upf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=upf-1
     volumes:
       - ./upf:/mnt/upf
       - ./log:/open5gs/install/var/log/open5gs
@@ -285,8 +298,7 @@ services:
       default:
         ipv4_address: ${UPF_IP}
   amf:
-    build: ./amf
-    image: docker_open5gs_amf
+    image: docker_open5gs
     depends_on:
       - smf
       - upf
@@ -299,6 +311,8 @@ services:
     container_name: amf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=amf-1
     volumes:
       - ./amf:/mnt/amf
       - ./log:/open5gs/install/var/log/open5gs
@@ -313,8 +327,7 @@ services:
       default:
         ipv4_address: ${AMF_IP}
   mme:
-    build: ./mme
-    image: docker_open5gs_mme
+    image: docker_open5gs
     depends_on:
       - hss
       - sgwc
@@ -324,6 +337,8 @@ services:
     container_name: mme
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=mme-1
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
@@ -344,11 +359,12 @@ services:
       default:
         ipv4_address: ${MME_IP}
   pcrf:
-    build: ./pcrf
-    image: docker_open5gs_pcrf
+    image: docker_open5gs
     container_name: pcrf
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=pcrf-1
     depends_on:
       - mongo
     volumes:

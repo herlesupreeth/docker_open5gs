@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -24,8 +26,14 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM docker_ueransim
+export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
-CMD /mnt/ueransim/ueransim_init.sh && \
-    ./nr-ue -c ../config/open5gs-ue.yaml & \
-    bash
+cp /mnt/ueransim/open5gs-gnb.yaml /UERANSIM/config/open5gs-gnb.yaml
+
+sed -i 's|MNC|'$MNC'|g' /UERANSIM/config/open5gs-gnb.yaml
+sed -i 's|MCC|'$MCC'|g' /UERANSIM/config/open5gs-gnb.yaml
+sed -i 's|NR_GNB_IP|'$NR_GNB_IP'|g' /UERANSIM/config/open5gs-gnb.yaml
+sed -i 's|AMF_IP|'$AMF_IP'|g' /UERANSIM/config/open5gs-gnb.yaml
+
+# Sync docker time
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

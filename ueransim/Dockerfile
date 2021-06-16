@@ -84,3 +84,6 @@ COPY --from=builder /UERANSIM/config /UERANSIM/config
 
 # Set the working directory to UERANSIM
 WORKDIR UERANSIM/build
+
+COPY ueransim_image_init.sh /
+CMD /ueransim_image_init.sh

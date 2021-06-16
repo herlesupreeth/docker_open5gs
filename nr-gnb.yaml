@@ -1,10 +1,7 @@
 version: '3'
 services:
   nr_gnb:
-    build:
-      context: ./ueransim
-      dockerfile: Dockerfile_nr_gnb
-    image: docker_nr_gnb
+    image: docker_ueransim
     container_name: nr_gnb
     stdin_open: true
     tty: true
@@ -14,6 +11,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=ueransim-gnb-1
     expose:
       - "38412/sctp"
       - "2152/udp"

@@ -29,12 +29,16 @@
 [ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
 cp /mnt/fhoss/configurator.sh /opt/OpenIMSCore/FHoSS/deploy
+cp /mnt/fhoss/DiameterPeerHSS.xml /opt/OpenIMSCore/FHoSS/deploy
+cp /mnt/fhoss/hibernate.properties /opt/OpenIMSCore/FHoSS/deploy
 cp /mnt/fhoss/configurator.sh /opt/OpenIMSCore/FHoSS/scripts
 cp /mnt/fhoss/configurator.sh /opt/OpenIMSCore/FHoSS/config
 
 cd /opt/OpenIMSCore/FHoSS/deploy && ./configurator.sh ${IMS_DOMAIN} ${FHOSS_IP}
 sed -i 's|open-ims.org|'$IMS_DOMAIN'|g' /opt/OpenIMSCore/FHoSS/deploy/webapps/hss.web.console/WEB-INF/web.xml
-sed -i 's|'$FHOSS_IP'|'$MYSQL_IP'|g' /opt/OpenIMSCore/FHoSS/deploy/hibernate.properties
+sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /opt/OpenIMSCore/FHoSS/deploy/hibernate.properties
+sed -i 's|FHOSS_IP|'$FHOSS_IP'|g' /opt/OpenIMSCore/FHoSS/deploy/DiameterPeerHSS.xml
+sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /opt/OpenIMSCore/FHoSS/deploy/DiameterPeerHSS.xml
 cd /opt/OpenIMSCore/FHoSS/scripts && ./configurator.sh ${IMS_DOMAIN} ${FHOSS_IP}
 cd /opt/OpenIMSCore/FHoSS/config && ./configurator.sh ${IMS_DOMAIN} ${FHOSS_IP}
 sed -i 's|open-ims.org|'$IMS_DOMAIN'|g' /opt/OpenIMSCore/FHoSS/src-web/WEB-INF/web.xml

@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:bionic as builder
+FROM ubuntu:focal as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
@@ -56,7 +56,8 @@ RUN apt-get update && \
         libmicrohttpd-dev \
         libcurl4-gnutls-dev \
         libnghttp2-dev \
-        libtins-dev
+        libtins-dev \
+        libidn11-dev
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 
@@ -69,7 +70,7 @@ RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
 RUN cd open5gs/webui && npm ci --no-optional
 
 # Build final image
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
@@ -85,6 +86,7 @@ RUN apt-get update && \
         libsctp-dev \
         libcurl4-gnutls-dev \
         libtins-dev \
+        libidn11-dev \
         netbase \
         ifupdown \
         net-tools \

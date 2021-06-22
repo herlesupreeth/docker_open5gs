@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:bionic as builder
+FROM ubuntu:focal as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -63,7 +63,7 @@ RUN git clone https://github.com/aligungr/UERANSIM && \
     make -j`nproc`
 
 # Build final image
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 

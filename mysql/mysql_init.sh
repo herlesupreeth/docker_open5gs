@@ -33,6 +33,8 @@ user=root
 password=ims
 EOF
 
+usermod -d /var/lib/mysql/ mysql
+
 echo 'Waiting for MySQL to start.'
 /etc/init.d/mysql restart
 while true; do
@@ -43,12 +45,16 @@ done
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Grant privileges and set max connections
-mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' identified by 'ims' WITH GRANT OPTION;"
-mysql -u root -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY ''"
-mysql -u root -e "FLUSH PRIVILEGES;"
-mysql -u root -e "SET GLOBAL max_connections=200;"
+ROOT_USER_EXISTS=`mysql -u root -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'root' AND Host = '%')"`
+if [[ "$ROOT_USER_EXISTS" == 0 ]]
+then
+	mysql -u root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'ims'";
+	mysql -u root -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION";
+	mysql -u root -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY ''"
+	mysql -u root -e "FLUSH PRIVILEGES;"
+	mysql -u root -e "SET GLOBAL max_connections=200;"
+fi
+
 pkill -9 mysqld
-
 sleep 5
-
 mysqld_safe

@@ -48,17 +48,23 @@ while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
 done
 
 # Sleep until permissions are set
-sleep 5;
+sleep 10;
 
 # Create FHoSS database, populate tables and grant privileges
 if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='hss_db'" 2>&1`" ]];
 then
 	mysql -u root -h ${MYSQL_IP} -e "create database hss_db;"
 	mysql -u root -h ${MYSQL_IP} hss_db < /opt/OpenIMSCore/FHoSS/scripts/hss_db.sql
+	FHOSS_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'hss' AND Host = '%')"`
+	if [[ "$FHOSS_USER_EXISTS" == 0 ]]
+	then
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'hss'@'%' IDENTIFIED WITH mysql_native_password BY 'hss'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'hss'@'$FHOSS_IP' IDENTIFIED WITH mysql_native_password BY 'hss'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON hss_db.* TO 'hss'@'%'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON hss_db.* TO 'hss'@'$FHOSS_IP'";
+		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+	fi
 	mysql -u root -h ${MYSQL_IP} hss_db < /opt/OpenIMSCore/FHoSS/scripts/userdata.sql
-	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on hss_db.* to hss@$FHOSS_IP identified by 'hss';"
-	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on hss_db.* to hss@'%' identified by 'hss';"
-	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 fi
 
 # Sync docker time

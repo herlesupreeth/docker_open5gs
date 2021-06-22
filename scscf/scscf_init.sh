@@ -42,7 +42,7 @@ while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
 done
 
 # Sleep until permissions are set
-sleep 5;
+sleep 10;
 
 # Create SCSCF database, populate tables and grant privileges
 if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='scscf'" 2>&1`" ]];
@@ -53,9 +53,15 @@ then
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_usrloc_scscf-create.sql
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_dialog-create.sql
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_charging-create.sql
-	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on scscf.* to scscf@$SCSCF_IP identified by 'heslo';"
-	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON scscf.* TO 'scscf'@'%' identified by 'heslo';"
-	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+	SCSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'scscf' AND Host = '%')"`
+	if [[ "$SCSCF_USER_EXISTS" == 0 ]]
+	then
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'scscf'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'scscf'@'$SCSCF_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON scscf.* TO 'scscf'@'%'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON scscf.* TO 'scscf'@'$SCSCF_IP'";
+		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+	fi
 fi
 
 export IMS_SLASH_DOMAIN=`echo $IMS_DOMAIN | sed 's/\./\\\./g'`

@@ -38,18 +38,27 @@ while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
 done
 
 # Sleep until permissions are set
-sleep 5;
+sleep 10;
 
 # Create ICSCF database, populate tables and grant privileges
 if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='icscf'" 2>&1`" ]];
 then
 	mysql -u root -h ${MYSQL_IP} -e "create database icscf;"
 	mysql -u root -h ${MYSQL_IP} icscf < /usr/local/src/kamailio/misc/examples/ims/icscf/icscf.sql
-	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on icscf.* to icscf@$ICSCF_IP identified by 'heslo';"
-	mysql -u root -h ${MYSQL_IP} -e "grant delete,insert,select,update on icscf.* to provisioning@$ICSCF_IP identified by 'provi';"
-	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON icscf.* TO 'icscf'@'%' identified by 'heslo';"
-	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL PRIVILEGES ON icscf.* TO 'provisioning'@'%' identified by 'provi';"
-	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+
+	ICSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'icscf' AND Host = '%')"`
+	if [[ "$ICSCF_USER_EXISTS" == 0 ]]
+	then
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'icscf'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'provisioning'@'%' IDENTIFIED WITH mysql_native_password BY 'provi'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'icscf'@'$ICSCF_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'provisioning'@'$ICSCF_IP' IDENTIFIED WITH mysql_native_password BY 'provi'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'icscf'@'%'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'icscf'@'$ICSCF_IP'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'provisioning'@'%'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'provisioning'@'$ICSCF_IP'";
+		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+	fi
 fi
 
 DOMAIN_PRESENT=`mysql -u root -h ${MYSQL_IP} icscf -s -N -e "SELECT count(*) FROM nds_trusted_domains WHERE trusted_domain='$IMS_DOMAIN';"`

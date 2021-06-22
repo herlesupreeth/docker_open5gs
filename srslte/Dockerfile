@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -32,13 +32,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y install cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev git \
     libzmq3-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-qt5-dev qtbase5-dev \
-    software-properties-common g++ make pkg-config libpython-dev python-numpy swig libi2c-dev \
+    software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
     libboost-program-options-dev libconfig++-dev
 
 # Install dependencies to build SoapySDR and Lime Suite
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
     apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-dev freeglut3-dev \
+    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
     python3-distutils gnuplot libfltk1.3-dev liboctave-dev
 
 # Install SoapySDR from Source
@@ -58,7 +58,7 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \
-    apt update && apt -y install libuhd-dev libuhd003 uhd-host && \
+    apt update && apt -y install libuhd-dev libuhd3.15.0 uhd-host && \
     uhd_images_downloader
 
 # Get srsGUI, compile and install

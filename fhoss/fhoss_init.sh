@@ -67,6 +67,27 @@ then
 	mysql -u root -h ${MYSQL_IP} hss_db < /opt/OpenIMSCore/FHoSS/scripts/userdata.sql
 fi
 
+VIS_NET_PRESENT=`mysql -u root -h ${MYSQL_IP} hss_db -s -N -e "SELECT count(*) FROM visited_network;"`
+if [[ "$VIS_NET_PRESENT" -gt 0 ]]
+then
+	mysql -u root -h ${MYSQL_IP} hss_db -e "DELETE FROM visited_network;"
+	mysql -u root -h ${MYSQL_IP} hss_db -e "INSERT INTO visited_network VALUES (1, '$IMS_DOMAIN');"
+fi
+
+PREF_SCSCF_PRESENT=`mysql -u root -h ${MYSQL_IP} hss_db -s -N -e "SELECT count(*) FROM preferred_scscf_set;"`
+if [[ "$PREF_SCSCF_PRESENT" -gt 0 ]]
+then
+	mysql -u root -h ${MYSQL_IP} hss_db -e "DELETE FROM preferred_scscf_set;"
+	mysql -u root -h ${MYSQL_IP} hss_db -e "INSERT INTO preferred_scscf_set VALUES (1, 1, 'scscf1', 'sip:scscf.$IMS_DOMAIN:6060', 0);"
+fi
+
+APP_SERV_PRESENT=`mysql -u root -h ${MYSQL_IP} hss_db -s -N -e "SELECT count(*) FROM application_server;"`
+if [[ "$APP_SERV_PRESENT" -gt 0 ]]
+then
+	mysql -u root -h ${MYSQL_IP} hss_db -e "DELETE FROM application_server;"
+	mysql -u root -h ${MYSQL_IP} hss_db -e "INSERT INTO application_server VALUES (1,'default_as','sip:127.0.0.1:5065',0,'','presence.$IMS_DOMAIN',1024,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);"
+fi
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

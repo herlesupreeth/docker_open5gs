@@ -17,8 +17,7 @@ services:
       - "4997/udp"
     cap_add:
       - NET_ADMIN
-    devices:
-      - "/dev/net/tun"
+    privileged: true
     networks:
       default:
         ipv4_address: ${NR_UE_IP}

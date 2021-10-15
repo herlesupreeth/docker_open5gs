@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -35,7 +35,7 @@ RUN apt-get update && \
 # Install dependencies to build SoapySDR and Lime Suite
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
     apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-dev freeglut3-dev \
+    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
     python3-distutils gnuplot libfltk1.3-dev liboctave-dev
 
 # Install LimeSuite
@@ -48,7 +48,7 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
 
 # Cloning RAN repository (eNB RAN + UE RAN)
 RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
-    cd openairinterface5g/ && git checkout container_fix
+    cd openairinterface5g/ && git checkout develop
 
 # Set the working directory to openairinterface5g
 WORKDIR openairinterface5g

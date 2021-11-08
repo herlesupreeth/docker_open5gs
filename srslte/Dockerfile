@@ -79,6 +79,8 @@ RUN git clone https://github.com/srsran/srsRAN.git && \
 
 RUN cd srsRAN/build && srsran_install_configs.sh service
 
+ENV UHD_IMAGES_DIR=/usr/share/uhd/images/
+
 CMD /mnt/srslte/enb_init.sh && \
     cd /mnt/srslte && /usr/local/bin/srsenb
 

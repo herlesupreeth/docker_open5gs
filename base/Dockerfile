@@ -57,7 +57,8 @@ RUN apt-get update && \
         libcurl4-gnutls-dev \
         libnghttp2-dev \
         libtins-dev \
-        libidn11-dev
+        libidn11-dev \
+        libtalloc-dev
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 
@@ -87,6 +88,7 @@ RUN apt-get update && \
         libcurl4-gnutls-dev \
         libtins-dev \
         libidn11-dev \
+        libtalloc-dev \
         netbase \
         ifupdown \
         net-tools \

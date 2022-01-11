@@ -65,7 +65,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
     git checkout main && meson build --prefix=`pwd`/install && \
-    ninja -C build && cd build && ninja install
+    ninja -C build && cd build && ninja install && \
+    mkdir -p /open5gs/install/include
 
 # Building WebUI of open5gs
 RUN cd open5gs/webui && npm ci --no-optional

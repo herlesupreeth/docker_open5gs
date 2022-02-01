@@ -333,6 +333,7 @@ services:
       - sgwu
       - smf
       - upf
+      - osmomsc
     container_name: mme
     env_file:
       - .env
@@ -553,6 +554,43 @@ services:
     networks:
       default:
         ipv4_address: ${PCSCF_IP}
+  osmomsc:
+    build: ./osmomsc
+    image: docker_osmomsc
+    container_name: osmomsc
+    volumes:
+      - ./osmomsc:/mnt/osmomsc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=osmomsc-1
+    depends_on:
+      - osmohlr
+    expose:
+      - "29118/sctp"
+      - "2775/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOMSC_IP}
+  osmohlr:
+    build: ./osmohlr
+    image: docker_osmohlr
+    container_name: osmohlr
+    volumes:
+      - ./osmohlr:/mnt/osmohlr
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=osmohlr-1
+    expose:
+      - "4222/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOHLR_IP}
 networks:
   default:
     ipam:

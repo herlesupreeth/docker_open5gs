@@ -9,6 +9,19 @@ mme:
       dev: MME_IF
     gtpc:
       dev: MME_IF
+    sgsap:
+      addr: OSMOMSC_IP
+      map:
+        tai:
+          plmn_id:
+            mcc: MCC
+            mnc: MNC
+          tac: 1
+        lai:
+          plmn_id:
+            mcc: MCC
+            mnc: MNC
+          lac: 1
     gummei: 
       plmn_id:
         mcc: MCC

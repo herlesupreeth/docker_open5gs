@@ -21,3 +21,7 @@ _sip._tcp               1D SRV 0 0 4060 icscf
 scscf                   1D IN A         SCSCF_IP
 _sip._udp.scscf         1D SRV 0 0 6060 scscf
 _sip._tcp.scscf         1D SRV 0 0 6060 scscf
+
+smsc                    1D IN A         SMSC_IP
+_sip._udp.smsc          1D SRV 0 0 7060 smsc
+_sip._tcp.smsc          1D SRV 0 0 7060 smsc

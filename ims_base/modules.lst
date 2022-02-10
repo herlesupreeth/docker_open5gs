@@ -7,7 +7,7 @@ modules_dirs:=modules
 cfg_group_include=
 
 # the list of extra modules to compile
-include_modules= cdp cdp_avp db_mysql dialplan ims_auth ims_charging ims_dialog ims_diameter_server ims_icscf ims_ipsec_pcscf ims_isc ims_ocs ims_qos ims_registrar_pcscf ims_registrar_scscf ims_usrloc_pcscf ims_usrloc_scscf outbound presence presence_conference presence_dialoginfo presence_mwi presence_profile presence_reginfo presence_xml pua pua_bla pua_dialoginfo pua_reginfo pua_rpc pua_usrloc pua_xmpp sctp tls utils xcap_client xcap_server xmlops xmlrpc
+include_modules= cdp cdp_avp db_mysql dialplan enum json http_client ims_auth ims_charging ims_dialog ims_diameter_server ims_icscf ims_ipsec_pcscf ims_isc ims_ocs ims_qos ims_registrar_pcscf ims_registrar_scscf ims_usrloc_pcscf ims_usrloc_scscf outbound presence presence_conference presence_dialoginfo presence_mwi presence_profile presence_reginfo presence_xml pua pua_bla pua_dialoginfo pua_reginfo pua_rpc pua_usrloc pua_xmpp sctp tls utils xcap_client xcap_server xmlops xmlrpc
 
 # the list of static modules
 static_modules=
@@ -16,7 +16,7 @@ static_modules=
 skip_modules=
 
 # the list of modules to exclude from compile list
-exclude_modules= acc_json acc_radius app_java app_lua app_lua_sr app_mono app_perl app_python app_python3 app_ruby auth_ephemeral auth_identity auth_radius cnxcc cplc crypto db2_ldap db_berkeley db_cassandra db_mongodb db_oracle db_perlvdb db_postgres db_redis db_sqlite db_unixodbc dnssec erlang evapi geoip geoip2 gzcompress h350 http_async_client http_client jansson janssonrpcc json jsonrpcc jwt kafka kazoo lcr ldap log_systemd lost lwsc memcached misc_radius ndb_cassandra mqtt ndb_mongodb ndb_redis nsq osp peering phonenum pua_json rabbitmq regex rls rtp_media_server secsipid secsipid_proc snmpstats stirshaken systemdops topos_redis uuid websocket xhttp_pi xmpp $(skip_modules)
+exclude_modules= acc_json acc_radius app_java app_lua app_lua_sr app_mono app_perl app_python app_python3 app_ruby auth_ephemeral auth_identity auth_radius cnxcc cplc crypto db2_ldap db_berkeley db_cassandra db_mongodb db_oracle db_perlvdb db_postgres db_redis db_sqlite db_unixodbc dnssec erlang evapi geoip geoip2 gzcompress h350 http_async_client jansson janssonrpcc jsonrpcc jwt kafka kazoo lcr ldap log_systemd lost lwsc memcached misc_radius ndb_cassandra mqtt ndb_mongodb ndb_redis nsq osp peering phonenum pua_json rabbitmq regex rls rtp_media_server secsipid secsipid_proc snmpstats stirshaken systemdops topos_redis uuid websocket xhttp_pi xmpp $(skip_modules)
 
 modules_all= $(filter-out modules/CVS,$(wildcard modules/*))
 modules_noinc= $(filter-out $(addprefix modules/, $(exclude_modules) $(static_modules)), $(modules_all)) 

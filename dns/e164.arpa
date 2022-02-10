@@ -1,0 +1,14 @@
+$TTL 1h
+@ IN SOA ns.e164.arpa. root.e164.arpa. (
+                                                        2009010918 ;serial
+                                                        3600 ;refresh
+                                                        3600 ;retry
+                                                        3600 ;expire
+                                                        3600 ;minimum TTL
+)
+@ IN NS e164.arpa.
+@ IN A DNS_IP
+
+; Wildcard to match any tel:+xxxx and change to sip:xxxx@IMS_DOMAIN
+* IN NAPTR 10 100 "u" "E2U+sip" "!(^.*$)!sip:\\1@IMS_DOMAIN!" .
+* IN NAPTR 20 100 "u" "E2U+sip" "!(^.*$)!sip:+\\1@IMS_DOMAIN!" .

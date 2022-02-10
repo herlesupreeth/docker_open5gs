@@ -59,7 +59,7 @@ RUN version=3.20 && \
 
 # Clone and build UERANSIM
 RUN git clone https://github.com/aligungr/UERANSIM && \
-    cd UERANSIM && git checkout tags/v3.1.9 && \
+    cd UERANSIM && git checkout tags/v3.2.6 && \
     make -j`nproc`
 
 # Build final image

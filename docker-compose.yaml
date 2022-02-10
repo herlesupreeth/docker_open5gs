@@ -554,6 +554,27 @@ services:
     networks:
       default:
         ipv4_address: ${PCSCF_IP}
+  smsc:
+    image: docker_kamailio
+    container_name: smsc
+    dns: ${DNS_IP}
+    volumes:
+      - ./smsc:/mnt/smsc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=smsc-1
+    depends_on:
+      - dns
+      - mysql
+    expose:
+      - "7060/udp"
+      - "7060/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMSC_IP}
   osmomsc:
     build: ./osmomsc
     image: docker_osmomsc

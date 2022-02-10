@@ -33,7 +33,7 @@ RUN apt-get update && \
 	apt-get -y install mysql-server tcpdump screen tmux ntp ntpdate git-core dkms \
 					gcc flex bison libmysqlclient-dev make libssl-dev libcurl4-openssl-dev \
 					libxml2-dev libpcre3-dev bash-completion g++ autoconf libmnl-dev \
-					libsctp-dev libradcli-dev libradcli4 iproute2 net-tools \
+					libsctp-dev libradcli-dev libradcli4 libjson-c-dev pkg-config iproute2 net-tools \
 					iputils-ping
 
 # Fetch Kamailio code (branch 5.3)

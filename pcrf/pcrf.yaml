@@ -4,7 +4,6 @@ logger:
     file: /open5gs/install/var/log/open5gs/pcrf.log
 
 parameter:
-    no_ipv4v6_local_addr_in_packet_filter: true
 
 pcrf:
     freeDiameter: /open5gs/install/etc/freeDiameter/pcrf.conf

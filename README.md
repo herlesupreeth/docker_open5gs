@@ -46,9 +46,11 @@ source .env
 docker-compose build --no-cache
 docker-compose up
 
-# srsLTE eNB
+# srsRAN eNB
 docker-compose -f srsenb.yaml build --no-cache
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
+# srsRAN gNB
+docker-compose -f srsgnb.yaml up -d && docker attach srsgnb
 
 # UERANSIM gNB
 docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb

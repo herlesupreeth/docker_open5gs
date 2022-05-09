@@ -1,0 +1,31 @@
+version: '3'
+services:
+  srsgnb:
+    build: ./srslte
+    image: docker_srslte
+    container_name: srsgnb
+    stdin_open: true
+    tty: true
+    privileged: true
+    devices:
+      - "/dev/bus"
+    volumes:
+      - /dev/serial:/dev/serial:ro
+      - /dev/bus/usb:/dev/bus/usb:ro
+      - ./srslte:/mnt/srslte
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=gnb
+    expose:
+      - "38412/sctp"
+      - "2152/udp"
+    networks:
+      default:
+        ipv4_address: ${SRS_ENB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

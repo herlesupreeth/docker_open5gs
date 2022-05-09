@@ -17,6 +17,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=enb
     expose:
       - "36412/sctp"
       - "2152/udp"

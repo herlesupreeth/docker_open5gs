@@ -31,16 +31,25 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 mkdir -p /etc/srsran
 
 cp /mnt/srslte/enb.conf /etc/srsran
-cp /mnt/srslte/drb.conf /etc/srsran
-cp /mnt/srslte/epc.conf /etc/srsran
-cp /mnt/srslte/mbms.conf /etc/srsran
-cp /mnt/srslte/rr.conf /etc/srsran
+cp /mnt/srslte/rb.conf /etc/srsran
 cp /mnt/srslte/sib.conf /etc/srsran
-cp /mnt/srslte/ue.conf /etc/srsran
-cp /mnt/srslte/user_db.csv /etc/srsran
+
+if [[ -z "$COMPONENT_NAME" ]]; then
+	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
+elif [[ "$COMPONENT_NAME" =~ ^(gnb$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	cp /mnt/srslte/rr_gnb.conf /etc/srsran/rr.conf
+	sed -i 's|MME_IP|'$AMF_IP'|g' /etc/srsran/enb.conf
+elif [[ "$COMPONENT_NAME" =~ ^(enb$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	cp /mnt/srslte/rr.conf /etc/srsran
+	sed -i 's|MME_IP|'$MME_IP'|g' /etc/srsran/enb.conf
+else
+	echo "Error: Invalid component name: '$COMPONENT_NAME'"
+fi
+
 sed -i 's|MNC|'$MNC'|g' /etc/srsran/enb.conf
 sed -i 's|MCC|'$MCC'|g' /etc/srsran/enb.conf
-sed -i 's|MME_IP|'$MME_IP'|g' /etc/srsran/enb.conf
 sed -i 's|SRS_ENB_IP|'$SRS_ENB_IP'|g' /etc/srsran/enb.conf
 
 # Sync docker time

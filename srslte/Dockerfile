@@ -35,30 +35,16 @@ RUN apt-get update && \
     software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
     libboost-program-options-dev libconfig++-dev
 
-# Install dependencies to build SoapySDR and Lime Suite
+# Install SoapySDR and Lime Suite
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
+    add-apt-repository -y ppa:pothosware/framework && \
+    add-apt-repository -y ppa:pothosware/support && \
     apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
-    python3-distutils gnuplot libfltk1.3-dev liboctave-dev
-
-# Install SoapySDR from Source
-RUN git clone https://github.com/pothosware/SoapySDR.git && \
-    cd SoapySDR && \
-    git checkout tags/soapy-sdr-0.7.2 -b soapy-sdr-0.7.2 && \
-    mkdir build && cd build && cmake .. && \
-    make -j`nproc` && make install && ldconfig
-
-# Install LimeSuite
-RUN git clone https://github.com/myriadrf/LimeSuite.git && \
-    cd LimeSuite && \
-    git checkout tags/v20.10.0 -b v20.10.0 && \
-    mkdir builddir && cd builddir && cmake .. && \
-    make -j`nproc` && make install && ldconfig && \
-    cd ../udev-rules && sh ./install.sh
+    apt -y install limesuite liblimesuite-dev limesuite-udev limesuite-images soapysdr-tools soapysdr-module-lms7
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \
-    apt update && apt -y install libuhd-dev libuhd3.15.0 uhd-host && \
+    apt update && apt -y install libuhd-dev libuhd4.2.0 uhd-host && \
     uhd_images_downloader
 
 # Get srsGUI, compile and install
@@ -72,7 +58,7 @@ RUN git clone https://github.com/srsran/srsGUI && \
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN.git && \
     cd srsRAN && \
-    git checkout tags/release_21_04 && \
+    git checkout tags/release_22_04 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig

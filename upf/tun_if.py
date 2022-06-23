@@ -84,10 +84,10 @@ def start(tun_ifname,
 	execute_bash_cmd('ip link set ' + tun_ifname + ' mtu 1450')
 	execute_bash_cmd('ip link set ' + tun_ifname + ' up')
 	if nat_rule == 'yes':
-		execute_bash_cmd('if ! iptables-save | grep -- \"-A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
-			'iptables -t nat -A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
-		execute_bash_cmd('if ! ip6tables-save | grep -- \"-A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE\" ; then ' +
-			'ip6tables -t nat -A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -o ' + tun_ifname + ' -j MASQUERADE; fi')
+		execute_bash_cmd('if ! iptables-save | grep -- \"-A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -d ' + ipv4_range.with_prefixlen + ' -j MASQUERADE\" ; then ' +
+			'iptables -t nat -A POSTROUTING -s ' + ipv4_range.with_prefixlen + ' ! -d ' + ipv4_range.with_prefixlen + ' -j MASQUERADE; fi')
+		execute_bash_cmd('if ! ip6tables-save | grep -- \"-A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -d ' + ipv6_range.with_prefixlen + ' -j MASQUERADE\" ; then ' +
+			'ip6tables -t nat -A POSTROUTING -s ' + ipv6_range.with_prefixlen + ' ! -d ' + ipv6_range.with_prefixlen + ' -j MASQUERADE; fi')
 		execute_bash_cmd('if ! iptables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +
 			'iptables -A INPUT -i ' + tun_ifname + ' -j ACCEPT; fi')
 		execute_bash_cmd('if ! ip6tables-save | grep -- \"-A INPUT -i ' + tun_ifname + ' -j ACCEPT\" ; then ' +

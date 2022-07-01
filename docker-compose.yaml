@@ -546,8 +546,8 @@ services:
       - dns
       - mysql
     expose:
-      - "7060/udp"
-      - "7060/tcp"
+      - "7090/udp"
+      - "7090/tcp"
     networks:
       default:
         ipv4_address: ${SMSC_IP}

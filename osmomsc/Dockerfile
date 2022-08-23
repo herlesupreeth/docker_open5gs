@@ -32,9 +32,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y install wget gnupg telnet
 
-RUN wget https://download.opensuse.org/repositories/network:/osmocom:/latest/xUbuntu_20.04/Release.key && \
-    apt-key add Release.key && \
-    echo "deb https://download.opensuse.org/repositories/network:/osmocom:/latest/xUbuntu_20.04/ ./" > /etc/apt/sources.list.d/osmocom-latest.list && \
+RUN wget https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_20.04/Release.key && \
+    mv Release.key /etc/apt/trusted.gpg.d/osmocom-latest.asc && \
+    echo "deb https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_20.04/ ./" > /etc/apt/sources.list.d/osmocom-latest.list && \
     apt-get update && apt-get -y install osmo-msc
 
 CMD /mnt/osmomsc/osmomsc_init.sh && \

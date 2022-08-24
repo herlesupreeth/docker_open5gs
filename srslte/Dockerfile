@@ -40,7 +40,7 @@ RUN add-apt-repository -y ppa:myriadrf/drivers && \
     add-apt-repository -y ppa:pothosware/framework && \
     add-apt-repository -y ppa:pothosware/support && \
     apt update && \
-    apt -y install limesuite liblimesuite-dev limesuite-udev limesuite-images soapysdr-tools soapysdr-module-lms7
+    apt -y install limesuite liblimesuite-dev limesuite-udev limesuite-images libsoapysdr-dev soapysdr-tools soapysdr-module-lms7
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \

@@ -52,5 +52,7 @@ sed -i 's|MNC|'$MNC'|g' /etc/srsran/enb.conf
 sed -i 's|MCC|'$MCC'|g' /etc/srsran/enb.conf
 sed -i 's|SRS_ENB_IP|'$SRS_ENB_IP'|g' /etc/srsran/enb.conf
 
+service dbus start && service avahi-daemon start
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

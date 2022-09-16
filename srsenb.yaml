@@ -1,7 +1,6 @@
 version: '3'
 services:
   srsenb:
-    build: ./srslte
     image: docker_srslte
     container_name: srsenb
     stdin_open: true

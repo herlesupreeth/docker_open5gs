@@ -1,29 +1,27 @@
 version: '3'
 services:
-  srsgnb:
+  srsue_5g_zmq:
     image: docker_srslte
-    container_name: srsgnb
+    container_name: srsue_5g_zmq
     stdin_open: true
     tty: true
+    cap_add:
+      - NET_ADMIN
     privileged: true
-    devices:
-      - "/dev/bus"
     volumes:
-      - /dev/serial:/dev/serial:ro
-      - /dev/bus/usb:/dev/bus/usb:ro
       - ./srslte:/mnt/srslte
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=gnb
+      - COMPONENT_NAME=ue_5g_zmq
     expose:
-      - "38412/sctp"
-      - "2152/udp"
+      - "2000/tcp"
+      - "2001/tcp"
     networks:
       default:
-        ipv4_address: ${SRS_ENB_IP}
+        ipv4_address: ${SRS_UE_IP}
 networks:
   default:
     external:

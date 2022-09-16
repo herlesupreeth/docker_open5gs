@@ -31,6 +31,9 @@ docker build --no-cache --force-rm -t docker_open5gs .
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .
 
+cd ../srslte
+docker build --no-cache --force-rm -t docker_srslte .
+
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
 ```
@@ -45,10 +48,18 @@ docker-compose build --no-cache
 docker-compose up
 
 # srsRAN eNB
-docker-compose -f srsenb.yaml build --no-cache
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
 # srsRAN gNB
 docker-compose -f srsgnb.yaml up -d && docker attach srsgnb
+# srsRAN ZMQ based setup
+    # eNB
+    docker-compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
+    # gNB
+    docker-compose -f srsgnb_zmq.yaml up -d && docker attach srsgnb_zmq
+    # 4G UE
+    docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
+    # 5G UE
+    docker-compose -f srsue_5g_zmq.yaml up -d && docker attach srsue_5g_zmq
 
 # UERANSIM gNB
 docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb

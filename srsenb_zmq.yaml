@@ -1,26 +1,24 @@
 version: '3'
 services:
-  srsgnb:
+  srsenb_zmq:
     image: docker_srslte
-    container_name: srsgnb
+    container_name: srsenb_zmq
     stdin_open: true
     tty: true
     privileged: true
-    devices:
-      - "/dev/bus"
     volumes:
-      - /dev/serial:/dev/serial:ro
-      - /dev/bus/usb:/dev/bus/usb:ro
       - ./srslte:/mnt/srslte
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=gnb
+      - COMPONENT_NAME=enb_zmq
     expose:
-      - "38412/sctp"
+      - "36412/sctp"
       - "2152/udp"
+      - "2000/tcp"
+      - "2001/tcp"
     networks:
       default:
         ipv4_address: ${SRS_ENB_IP}

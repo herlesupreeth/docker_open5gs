@@ -33,14 +33,21 @@ RUN apt-get update && \
     apt-get -y install cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev git \
     libzmq3-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-qt5-dev qtbase5-dev \
     software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
-    libboost-program-options-dev libconfig++-dev net-tools iputils-ping
+    libboost-program-options-dev libconfig++-dev net-tools iputils-ping libusb-1.0-0-dev
 
-# Install SoapySDR and Lime Suite
-RUN add-apt-repository -y ppa:myriadrf/drivers && \
-    add-apt-repository -y ppa:pothosware/framework && \
-    add-apt-repository -y ppa:pothosware/support && \
-    apt update && \
-    apt -y install limesuite liblimesuite-dev limesuite-udev limesuite-images libsoapysdr-dev soapysdr-tools soapysdr-module-lms7
+# Get SoapySDR, compile and install
+RUN git clone https://github.com/pothosware/SoapySDR.git && \
+    cd SoapySDR && \
+    mkdir build && cd build && \
+    cmake ../ && make && make install && \
+    ldconfig
+
+# Get Limesuite, compile and install
+RUN git clone https://github.com/myriadrf/LimeSuite.git && \
+    cd LimeSuite && \
+    mkdir builddir && cd builddir && \
+    cmake ../ && make && make install && \
+    ldconfig
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \

@@ -37,10 +37,10 @@ smf:
       - PCSCF_IP
     mtu: 1400
 
-nrf:
+scp:
     sbi:
       - addr:
-          - NRF_IP
+          - SCP_IP
         port: 7777
 
 upf:

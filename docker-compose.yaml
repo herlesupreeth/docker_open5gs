@@ -54,10 +54,28 @@ services:
     networks:
       default:
         ipv4_address: ${NRF_IP}
+  scp:
+    image: docker_open5gs
+    container_name: scp
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=scp-1
+    volumes:
+      - ./scp:/mnt/scp
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${SCP_IP}
   ausf:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
     container_name: ausf
     env_file:
       - .env
@@ -77,6 +95,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
       - mongo
     container_name: udr
     env_file:
@@ -97,6 +116,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
     container_name: udm
     env_file:
       - .env
@@ -116,6 +136,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
       - mongo
     container_name: pcf
     env_file:
@@ -136,6 +157,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
       - mongo
     container_name: bsf
     env_file:
@@ -156,6 +178,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
       - mongo
     container_name: nssf
     env_file:
@@ -244,6 +267,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
     container_name: smf
     env_file:
       - .env
@@ -271,6 +295,7 @@ services:
     image: docker_open5gs
     depends_on:
       - nrf
+      - scp
       - smf
     container_name: upf
     env_file:
@@ -302,6 +327,7 @@ services:
       - smf
       - upf
       - nrf
+      - scp
       - ausf
       - udm
       - udr

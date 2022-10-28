@@ -52,6 +52,10 @@ elif [[ "$COMPONENT_NAME" =~ ^(nrf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/nrf/nrf_init.sh  && \
     cd install/bin && ./open5gs-nrfd
+elif [[ "$COMPONENT_NAME" =~ ^(scp-[[:digit:]]+$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	/mnt/scp/scp_init.sh  && \
+    cd install/bin && ./open5gs-scpd
 elif [[ "$COMPONENT_NAME" =~ ^(nssf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/nssf/nssf_init.sh  && \

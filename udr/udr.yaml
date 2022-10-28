@@ -10,8 +10,8 @@ udr:
       - addr: UDR_IP
         port: 7777
 
-nrf:
+scp:
     sbi:
       - addr:
-          - NRF_IP
+          - SCP_IP
         port: 7777

@@ -34,8 +34,8 @@ amf:
         full: Open5GS
     amf_name: open5gs-amf0
 
-nrf:
+scp:
     sbi:
       - addr:
-          - NRF_IP
+          - SCP_IP
         port: 7777

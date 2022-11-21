@@ -60,7 +60,7 @@ RUN apt-get update && \
         libidn11-dev \
         libtalloc-dev
 
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
@@ -69,7 +69,7 @@ RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
     mkdir -p /open5gs/install/include
 
 # Building WebUI of open5gs
-RUN cd open5gs/webui && npm ci --no-optional
+RUN cd open5gs/webui && npm clean-install && npm run build
 
 # Build final image
 FROM ubuntu:focal
@@ -102,7 +102,7 @@ RUN apt-get update && \
 
 RUN pip3 install click
 
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs && \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs && \
     apt-get remove -y curl && apt-get autoremove -y && apt-get autoclean
 
 RUN update-ca-certificates

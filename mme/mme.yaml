@@ -39,6 +39,9 @@ mme:
     network_name:
         full: Open5GS
     mme_name: open5gs-mme0
+    metrics:
+      - addr: MME_IP
+        port: 9091
 
 sgwc:
     gtpc:

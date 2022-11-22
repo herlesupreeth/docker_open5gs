@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+
+  external_labels:
+    monitor: 'open5gs-monitor'
+
+scrape_configs:
+  - job_name: 'amf'
+    static_configs:
+      - targets: ['AMF_IP:9091']
+  - job_name: 'smf'
+    static_configs:
+      - targets: ['SMF_IP:9091']
+  - job_name: 'mme'
+    static_configs:
+      - targets: ['MME_IP:9091']

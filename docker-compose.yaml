@@ -288,6 +288,7 @@ services:
       - "8805/udp"
       - "2123/udp"
       - "7777/tcp"
+      - "9091/tcp"
     networks:
       default:
         ipv4_address: ${SMF_IP}
@@ -346,6 +347,7 @@ services:
     expose:
       - "38412/sctp"
       - "7777/tcp"
+      - "9091/tcp"
     # ports:
     #   - "38412:38412/sctp"
     networks:
@@ -379,6 +381,7 @@ services:
       - "5868/sctp"
       - "36412/sctp"
       - "2123/udp"
+      - "9091/tcp"
     # ports:
     #   - "36412:36412/sctp"
     networks:
@@ -614,6 +617,23 @@ services:
     networks:
       default:
         ipv4_address: ${OSMOHLR_IP}
+  metrics:
+    build: ./metrics
+    image: docker_metrics
+    container_name: metrics
+    env_file:
+      - .env
+    volumes:
+      - ./metrics:/mnt/metrics
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9090/tcp"
+    ports:
+      - "9090:9090/tcp"
+    networks:
+      default:
+        ipv4_address: ${METRICS_IP}
 networks:
   default:
     ipam:

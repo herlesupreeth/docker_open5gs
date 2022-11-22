@@ -287,6 +287,7 @@ services:
       - "8805/udp"
       - "2123/udp"
       - "7777/tcp"
+      - "9091/tcp"
     networks:
       default:
         ipv4_address: ${SMF_IP}
@@ -345,6 +346,7 @@ services:
     expose:
       - "38412/sctp"
       - "7777/tcp"
+      - "9091/tcp"
     # ports:
     #   - "38412:38412/sctp"
     networks:
@@ -358,6 +360,7 @@ services:
       - sgwu
       - smf
       - upf
+      - osmomsc
     container_name: mme
     env_file:
       - .env
@@ -377,6 +380,7 @@ services:
       - "5868/sctp"
       - "36412/sctp"
       - "2123/udp"
+      - "9091/tcp"
     # ports:
     #   - "36412:36412/sctp"
     networks:
@@ -406,6 +410,60 @@ services:
     networks:
       default:
         ipv4_address: ${PCRF_IP}
+  osmomsc:
+    build: ./osmomsc
+    image: docker_osmomsc
+    container_name: osmomsc
+    volumes:
+      - ./osmomsc:/mnt/osmomsc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=osmomsc-1
+    depends_on:
+      - osmohlr
+    expose:
+      - "29118/sctp"
+      - "2775/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOMSC_IP}
+  osmohlr:
+    build: ./osmohlr
+    image: docker_osmohlr
+    container_name: osmohlr
+    volumes:
+      - ./osmohlr:/mnt/osmohlr
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=osmohlr-1
+    expose:
+      - "4222/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOHLR_IP}
+  metrics:
+    build: ./metrics
+    image: docker_metrics
+    container_name: metrics
+    env_file:
+      - .env
+    volumes:
+      - ./metrics:/mnt/metrics
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9090/tcp"
+    ports:
+      - "9090:9090/tcp"
+    networks:
+      default:
+        ipv4_address: ${METRICS_IP}
 networks:
   default:
     ipam:

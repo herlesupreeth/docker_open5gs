@@ -40,6 +40,7 @@ RUN apt-get update && \
         flex \
         bison \
         git \
+        cmake \
         libsctp-dev \
         libgnutls28-dev \
         libgcrypt-dev \

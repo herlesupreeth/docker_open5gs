@@ -33,6 +33,9 @@ amf:
     network_name:
         full: Open5GS
     amf_name: open5gs-amf0
+    metrics:
+      - addr: AMF_IP
+        port: 9091
 
 scp:
     sbi:

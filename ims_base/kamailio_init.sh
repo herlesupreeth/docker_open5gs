@@ -32,21 +32,25 @@ elif [[ "$COMPONENT_NAME" =~ ^(icscf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/icscf/icscf_init.sh && \
 	mkdir -p /var/run/kamailio_icscf && \
+	rm -f /kamailio_icscf.pid && \
 	kamailio -f /etc/kamailio_icscf/kamailio_icscf.cfg -P /kamailio_icscf.pid -DD -E -e
 elif [[ "$COMPONENT_NAME" =~ ^(scscf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/scscf/scscf_init.sh && \
 	mkdir -p /var/run/kamailio_scscf && \
+	rm -f /kamailio_scscf.pid && \
 	kamailio -f /etc/kamailio_scscf/kamailio_scscf.cfg -P /kamailio_scscf.pid -DD -E -e
 elif [[ "$COMPONENT_NAME" =~ ^(pcscf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/pcscf/pcscf_init.sh && \
 	mkdir -p /var/run/kamailio_pcscf && \
+	rm -f /kamailio_pcscf.pid && \
 	kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e
 elif [[ "$COMPONENT_NAME" =~ ^(smsc-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/smsc/smsc_init.sh && \
 	mkdir -p /var/run/kamailio_smsc && \
+	rm -f /kamailio_smsc.pid && \
 	kamailio -f /etc/kamailio_smsc/kamailio_smsc.cfg -P /kamailio_smsc.pid -DD -E -e
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"

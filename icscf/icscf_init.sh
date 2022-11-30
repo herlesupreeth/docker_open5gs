@@ -28,7 +28,7 @@
 
 [ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
-mkdir /etc/kamailio_icscf
+mkdir -p /etc/kamailio_icscf
 cp /mnt/icscf/icscf.cfg /etc/kamailio_icscf
 cp /mnt/icscf/icscf.xml /etc/kamailio_icscf
 cp /mnt/icscf/kamailio_icscf.cfg /etc/kamailio_icscf

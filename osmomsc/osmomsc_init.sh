@@ -26,7 +26,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[ ${#MNC} == 3 ] && 3GPP_REALM="mnc${MNC}.mcc${MCC}.3gppnetwork.org" || 3GPP_REALM="mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+[ ${#MNC} == 3 ] && THREEGPP_REALM="mnc${MNC}.mcc${MCC}.3gppnetwork.org" || THREEGPP_REALM="mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
 cp /mnt/osmomsc/osmo-msc.cfg /etc/osmocom
 
@@ -34,7 +34,7 @@ sed -i 's|OSMOMSC_IP|'$OSMOMSC_IP'|g' /etc/osmocom/osmo-msc.cfg
 sed -i 's|OSMOHLR_IP|'$OSMOHLR_IP'|g' /etc/osmocom/osmo-msc.cfg
 sed -i 's|MNC|'$MNC'|g' /etc/osmocom/osmo-msc.cfg
 sed -i 's|MCC|'$MCC'|g' /etc/osmocom/osmo-msc.cfg
-sed -i 's|3GPP_REALM|'$3GPP_REALM'|g' /etc/osmocom/osmo-msc.cfg
+sed -i 's|THREEGPP_REALM|'$THREEGPP_REALM'|g' /etc/osmocom/osmo-msc.cfg
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

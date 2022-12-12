@@ -149,6 +149,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
+      - "9091/tcp"
     networks:
       default:
         ipv4_address: ${PCF_IP}
@@ -310,6 +311,7 @@ services:
     expose:
       - "2152/udp"
       - "8805/udp"
+      - "9091/tcp"
     # ports:
     #   - "2152:2152/udp"
     cap_add:

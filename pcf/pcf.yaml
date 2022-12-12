@@ -9,6 +9,9 @@ pcf:
     sbi:
       - addr: PCF_IP
         port: 7777
+    metrics:
+      - addr: PCF_IP
+        port: 9091
 
 scp:
     sbi:

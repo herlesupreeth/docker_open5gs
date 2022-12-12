@@ -22,6 +22,9 @@ upf:
       - addr: 2001:230:babe::1/48
         dnn: ims
         dev: ogstun2
+    metrics:
+      - addr: UPF_IP
+        port: 9091
 
 smf:
     pfcp:

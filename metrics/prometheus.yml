@@ -11,6 +11,12 @@ scrape_configs:
   - job_name: 'smf'
     static_configs:
       - targets: ['SMF_IP:9091']
+  - job_name: 'pcf'
+    static_configs:
+      - targets: ['PCF_IP:9091']
+  - job_name: 'upf'
+    static_configs:
+      - targets: ['UPF_IP:9091']
   - job_name: 'mme'
     static_configs:
       - targets: ['MME_IP:9091']

@@ -1,0 +1,48 @@
+# script to be used with pySim-shell.py which is part of the Osmocom pysim package,
+# found at https://osmocom.org/projects/pysim/wiki
+set echo true
+
+# this script will read all 5G related services and files.
+
+# read any 5G related services in EF.UST
+select ADF.USIM
+select EF.UST
+read_binary_decoded
+
+# read all files in EF.5GS
+select ADF.USIM
+select DF.5GS
+
+select EF.5GAUTHKEYS
+read_binary
+read_binary_decoded
+
+select EF.5GS3GPPLOCI
+read_binary
+read_binary_decoded
+
+select EF.5GSN3GPPNSC
+read_record --count 1 1
+read_record_decoded 1
+
+select EF.5GSN3GPPLOCI
+read_binary
+read_binary_decoded
+
+select EF.5GS3GPPNSC
+read_record --count 1 1
+read_record_decoded 1
+
+select EF.Routing_Indicator
+read_binary
+read_binary_decoded
+
+select EF.SUCI_Calc_Info
+read_binary
+read_binary_decoded
+
+select EF.UAC_AIC
+read_binary
+read_binary_decoded
+
+quit

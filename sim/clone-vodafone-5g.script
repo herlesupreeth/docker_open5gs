@@ -1,0 +1,73 @@
+# script to be used with pySim-shell.py which is part of the Osmocom pysim package,
+# found at https://osmocom.org/projects/pysim/wiki
+set echo true
+
+# this script will activate all 5G related services and files.
+
+# TODO: add your card-specific ADM pin at the end of the verify_adm line below
+verify_adm 11111111
+
+# activate any 5G related services in EF.UST
+select ADF.USIM
+select EF.UST
+ust_service_deactivate 93
+ust_service_activate 96
+ust_service_activate 122
+ust_service_activate 123
+ust_service_activate 124
+ust_service_activate 125
+ust_service_deactivate 126
+ust_service_activate 127
+ust_service_activate 129
+ust_service_activate 130
+ust_service_activate 132
+ust_service_activate 133
+ust_service_activate 134
+ust_service_activate 135
+
+# activate all files in EF.5GS
+select ADF.USIM
+select DF.5GS
+
+select EF.5GSN3GPPNSC
+deactivate_file
+
+select EF.SUPI_NAI
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.URSP
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.TN3GPPSNN
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.OPL5G
+deactivate_file
+
+activate_file EF.5GAUTHKEYS
+
+activate_file EF.5GS3GPPLOCI
+
+activate_file EF.5GSN3GPPLOCI
+
+activate_file EF.5GS3GPPNSC
+select EF.5GS3GPPNSC
+update_record 1 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+activate_file EF.Routing_Indicator
+select EF.Routing_Indicator
+update_binary f1ffffff
+
+activate_file EF.SUCI_Calc_Info
+select EF.SUCI_Calc_Info
+# TODO: Update the public key based on your deployment
+update_binary_decoded {"prot_scheme_id_list":[{"priority":0,"identifier":1,"key_index":1},{"priority":1,"identifier":0,"key_index":0}],"hnet_pubkey_list":[{"hnet_pubkey_identifier":1,"hnet_pubkey":"28ea6090c84ba15d44cb19123a5d1a28c1aa560af6cad33f12afa660b821fa13"},{"hnet_pubkey_identifier":2,"hnet_pubkey":"03d7eb7f7c043c6a2e7d217750d8c93371bf32178c6c0348620e76202daf1bdc35"}]}
+
+activate_file EF.UAC_AIC
+select EF.UAC_AIC
+update_binary 00000000
+
+quit

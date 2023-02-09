@@ -66,9 +66,9 @@ RUN git clone https://github.com/srsran/srsGUI && \
 #RUN apt-get update && apt-get install -y gdb libdw-dev
 
 # Get srsLTE, compile and install
-RUN git clone https://github.com/srsran/srsRAN.git && \
+RUN git clone https://github.com/herlesupreeth/srsRAN.git && \
     cd srsRAN && \
-    git checkout tags/release_22_10 && \
+    git checkout lc/main && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig

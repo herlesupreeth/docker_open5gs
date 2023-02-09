@@ -38,4 +38,5 @@ RUN wget https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_20.04/Re
     apt-get update && apt-get -y install osmo-msc
 
 CMD /mnt/osmomsc/osmomsc_init.sh && \
+    rm -f /mnt/osmomsc/sms.db* && \
     cd /mnt/osmomsc && /bin/osmo-msc -c /etc/osmocom/osmo-msc.cfg

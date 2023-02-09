@@ -1,5 +1,6 @@
 log/
 **/*.log
+**/*.pcap
 **/*.db
 **/*.db-shm
 **/*.db-wal

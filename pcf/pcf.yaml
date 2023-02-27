@@ -3,6 +3,12 @@ db_uri: mongodb://MONGO_IP/open5gs
 logger:
     file: /open5gs/install/var/log/open5gs/pcf.log
 
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
 parameter:
 
 pcf:

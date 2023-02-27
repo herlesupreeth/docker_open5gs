@@ -1,5 +1,11 @@
 db_uri: mongodb://MONGO_IP/open5gs
 
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
 logger:
     file: /open5gs/install/var/log/open5gs/udr.log
 

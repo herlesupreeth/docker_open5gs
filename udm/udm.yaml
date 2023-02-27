@@ -9,15 +9,14 @@ sbi:
 
 parameter:
 
-hnet:
-  - id: 1
-    scheme: 1
-    key: /open5gs/install/etc/open5gs/hnet/curve25519-1.key
-  - id: 2
-    scheme: 2
-    key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
-
 udm:
+    hnet:
+      - id: 1
+        scheme: 1
+        key: /open5gs/install/etc/open5gs/hnet/curve25519-1.key
+      - id: 2
+        scheme: 2
+        key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
     sbi:
       - addr: UDM_IP
         port: 7777

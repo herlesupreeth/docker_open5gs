@@ -24,3 +24,9 @@ scp:
       - addr:
           - SCP_IP
         port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

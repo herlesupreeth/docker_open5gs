@@ -8,8 +8,10 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 udm:
+    discovery:
+      delegated: no
     hnet:
       - id: 1
         scheme: 1

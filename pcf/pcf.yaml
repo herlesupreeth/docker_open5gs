@@ -10,8 +10,10 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 pcf:
+    discovery:
+      delegated: no
     sbi:
       - addr: PCF_IP
         port: 7777

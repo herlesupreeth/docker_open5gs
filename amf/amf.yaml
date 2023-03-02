@@ -8,11 +8,13 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 amf:
     sbi:
       - addr: AMF_IP
         port: 7777
+    discovery:
+      delegated: no
     ngap:
       - addr: AMF_IP
     guami:

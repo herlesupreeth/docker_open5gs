@@ -10,8 +10,10 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 bsf:
+    discovery:
+      delegated: no
     sbi:
       - addr: BSF_IP
         port: 7777

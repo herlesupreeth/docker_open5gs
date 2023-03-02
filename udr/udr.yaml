@@ -10,8 +10,10 @@ logger:
     file: /open5gs/install/var/log/open5gs/udr.log
 
 parameter:
-
+    no_scp: true
 udr:
+    discovery:
+      delegated: no
     sbi:
       - addr: UDR_IP
         port: 7777

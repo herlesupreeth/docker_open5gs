@@ -8,7 +8,7 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 nrf:
     sbi:
       addr:

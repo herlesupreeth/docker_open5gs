@@ -8,8 +8,10 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 ausf:
+    discovery:
+      delegated: no
     sbi:
       - addr: AUSF_IP
         port: 7777

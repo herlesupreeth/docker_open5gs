@@ -9,8 +9,10 @@ sbi:
 
 parameter:
     no_ipv4v6_local_addr_in_packet_filter: true
-
+    no_scp: true
 smf:
+    discovery:
+      delegated: no
     freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
     sbi:
       - addr: SMF_IP

@@ -8,8 +8,10 @@ sbi:
       no_tls: true
 
 parameter:
-
+    no_scp: true
 nssf:
+    discovery:
+      delegated: no
     sbi:
       - addr: NSSF_IP
         port: 7777

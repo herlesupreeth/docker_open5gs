@@ -30,13 +30,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install updates and dependencies
 RUN apt-get update && \
-    apt-get -y install cmake git subversion software-properties-common apt-utils unzip xxd linux-headers-$(uname -r)
+    apt-get -y install cmake git subversion software-properties-common apt-utils unzip xxd
 
 # Install dependencies to build SoapySDR and Lime Suite
 RUN add-apt-repository -y ppa:myriadrf/drivers && \
     apt update && \
     apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
-    python3-distutils gnuplot libfltk1.3-dev liboctave-dev
+    python3-distutils gnuplot libfltk1.3-dev liboctave-dev libz-dev
 
 # Install LimeSuite
 RUN git clone https://github.com/myriadrf/LimeSuite.git && \

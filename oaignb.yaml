@@ -1,11 +1,11 @@
 version: '3'
 services:
-  oaienb:
+  oaignb:
     build:
       context: oai
-      dockerfile: enb_dockerfile
-    image: docker_oai_enb
-    container_name: oaienb
+      dockerfile: gnb_dockerfile
+    image: docker_oai_gnb
+    container_name: oaignb
     stdin_open: true
     tty: true
     privileged: true
@@ -23,7 +23,7 @@ services:
     env_file:
       - .env
     expose:
-      - "36412/sctp"
+      - "38412/sctp"
       - "2152/udp"
     networks:
       default:

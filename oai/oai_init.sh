@@ -30,11 +30,14 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 cp /mnt/oai/enb.band7.tm1.50PRB.usrpb210.conf $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/
+cp /mnt/oai/gnb.sa.band78.fr1.106PRB.usrpb210.conf $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/
+cp /mnt/oai/gnb.sa.band41.fr1.52PRB.usrpb210.conf $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/
 
 [ ${#MNC} == 3 ] && MNC_LEN=3 || MNC_LEN=2
 
 ENB_CONF_FILE="enb.band7.tm1.50PRB.usrpb210.conf"
-\
+GNB_CONF_FILE="gnb.sa.band41.fr1.52PRB.usrpb210.conf"
+
 sed -i 's|MNC_LEN|'$MNC_LEN'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
 sed -i 's|MNC|'$MNC'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
 sed -i 's|MCC|'$MCC'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
@@ -42,7 +45,12 @@ sed -i 's|OAI_ENB_IF|'$IF_NAME'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC
 sed -i 's|OAI_ENB_IP|'$OAI_ENB_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
 sed -i 's|MME_IP|'$MME_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
 
-cat $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE
+sed -i 's|MNC_LEN|'$MNC_LEN'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
+sed -i 's|MNC|'$MNC'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
+sed -i 's|MCC|'$MCC'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
+sed -i 's|OAI_ENB_IF|'$IF_NAME'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
+sed -i 's|OAI_ENB_IP|'$OAI_ENB_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
+sed -i 's|AMF_IP|'$AMF_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

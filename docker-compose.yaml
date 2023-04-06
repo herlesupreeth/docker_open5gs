@@ -269,6 +269,7 @@ services:
     depends_on:
       - nrf
       - scp
+      - amf
     container_name: smf
     env_file:
       - .env
@@ -327,8 +328,6 @@ services:
   amf:
     image: docker_open5gs
     depends_on:
-      - smf
-      - upf
       - nrf
       - scp
       - ausf

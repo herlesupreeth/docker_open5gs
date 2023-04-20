@@ -54,7 +54,7 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \
-    apt update && apt -y install libuhd-dev libuhd4.3.0 uhd-host && \
+    apt update && apt -y install libuhd-dev uhd-host && \
     uhd_images_downloader
 
 # Get srsGUI, compile and install

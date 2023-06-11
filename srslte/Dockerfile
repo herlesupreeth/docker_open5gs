@@ -34,7 +34,7 @@ RUN apt-get update && \
     libzmq3-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-qt5-dev qtbase5-dev \
     software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
     libboost-program-options-dev libconfig++-dev net-tools iputils-ping libusb-1.0-0-dev libpython3-dev python3-numpy swig \
-    python3-distutils
+    python3-distutils iproute2
 
 # Get SoapySDR, compile and install
 RUN git clone https://github.com/pothosware/SoapySDR.git && \

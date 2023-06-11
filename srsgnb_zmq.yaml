@@ -1,13 +1,13 @@
 version: '3'
 services:
   srsgnb_zmq:
-    image: docker_srslte
+    image: docker_srsran
     container_name: srsgnb_zmq
     stdin_open: true
     tty: true
     privileged: true
     volumes:
-      - ./srslte:/mnt/srslte
+      - ./srsran:/mnt/srsran
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
@@ -21,7 +21,7 @@ services:
       - "2001/tcp"
     networks:
       default:
-        ipv4_address: ${SRS_ENB_IP}
+        ipv4_address: ${SRS_GNB_IP}
 networks:
   default:
     external:

@@ -66,14 +66,14 @@ RUN git clone https://github.com/srsran/srsGUI && \
 #RUN apt-get update && apt-get install -y gdb libdw-dev
 
 # Get srsLTE, compile and install
-RUN git clone https://github.com/herlesupreeth/srsRAN.git && \
-    cd srsRAN && \
-    git checkout lc/main && \
+RUN git clone https://github.com/srsran/srsRAN_4G.git && \
+    cd srsRAN_4G && \
+    git checkout release_23_04 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig
 
-RUN cd srsRAN/build && srsran_install_configs.sh service
+RUN cd srsRAN_4G/build && srsran_install_configs.sh service
 
 ENV UHD_IMAGES_DIR=/usr/share/uhd/images/
 

@@ -34,6 +34,9 @@ docker build --no-cache --force-rm -t docker_kamailio .
 cd ../srslte
 docker build --no-cache --force-rm -t docker_srslte .
 
+cd ../srsran
+docker build --no-cache --force-rm -t docker_srsran .
+
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
 ```

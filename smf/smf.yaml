@@ -22,13 +22,13 @@ smf:
     pfcp:
       - addr: SMF_IP
     subnet:
-      - addr: 192.168.100.1/24
+      - addr: ${UE_internet_IPV4}
         dnn: internet
         dev: ogstun
       - addr: 2001:230:cafe::1/48
         dev: ogstun
         dnn: internet
-      - addr: 192.168.101.1/24
+      - addr: ${UE_ims_IPV4}
         dnn: ims
         dev: ogstun2
       - addr: 2001:230:babe::1/48

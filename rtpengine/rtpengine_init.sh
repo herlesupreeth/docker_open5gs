@@ -66,12 +66,12 @@ fi
 # -N (create a new chain with the name rtpengine)
 iptables -N rtpengine 2> /dev/null
 
-# -D: Delete the rule for the target "rtpengine" if exists. -j (target): chain name or extension name 
-# from the table "filter" (the default -without the option '-t') 
+# -D: Delete the rule for the target "rtpengine" if exists. -j (target): chain name or extension name
+# from the table "filter" (the default -without the option '-t')
 iptables -D INPUT -j rtpengine 2> /dev/null
 # Add the rule again so the packets will go to rtpengine chain after the (filter-INPUT) hook point.
 iptables -I INPUT -j rtpengine
-# Delete and Insert a rule in the rtpengine chain to forward the UDP traffic    
+# Delete and Insert a rule in the rtpengine chain to forward the UDP traffic
 iptables -D rtpengine -p udp -j RTPENGINE --id "$TABLE" 2>/dev/null
 iptables -I rtpengine -p udp -j RTPENGINE --id "$TABLE"
 iptables-save > /etc/iptables.rules
@@ -85,7 +85,7 @@ ip6tables -I rtpengine -p udp -j RTPENGINE --id "$TABLE"
 ip6tables-save > /etc/ip6tables.rules
 
 # Add static route to route traffic back to UE as there is not NATing
-ip r add 192.168.101.0/24 via ${UPF_IP}
+ip r add ${UE_IPV4_IMS} via ${UPF_IP}
 
 set -x
 

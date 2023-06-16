@@ -5,7 +5,7 @@ Docker files to build and run open5gs in a docker
 
 Docker host machine
 
-- Ubuntu 18.04 and 20.04
+- Ubuntu 18.04 and 20.04 or 22.04
 
 SDRs tested with srsLTE eNB
 
@@ -82,6 +82,8 @@ TEST_NETWORK --> Change this only if it clashes with the internal network at you
 DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
 SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB/gNB is not running the same docker network/host
 UPF_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB/gNB is not running the same docker network/host
+UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
+UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
 If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps

@@ -37,6 +37,8 @@ python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6
 cp /mnt/upf/upf.yaml install/etc/open5gs
 sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV4_INTERNET|'$UE_IPV4_INTERNET'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV4_IMS|'$UE_IPV4_IMS'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 
 # Sync docker time

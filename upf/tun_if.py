@@ -27,13 +27,11 @@
 import click
 import subprocess
 import ipaddress
-import os
-UE_IPV4_INTERNET = os.environ['UE_IPV4_INTERNET']
 
 """
 Usage in command line:
 e.g:
-$ python3 tun_if.py --tun_ifname ogstun --ipv4_range {UE_IPV4_INTERNET} --ipv6_range 2001:230:cafe::/48
+$ python3 tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range 2001:230:cafe::/48
 """
 
 
@@ -53,7 +51,7 @@ def validate_ip_net(ctx, param, value):
 @click.option('--ipv4_range',
               required=True,
               callback=validate_ip_net,
-              help='UE IPv4 Address range in CIDR format e.g. {UE_IPV4_INTERNET}')
+              help='UE IPv4 Address range in CIDR format e.g. 192.168.100.0/24')
 @click.option('--ipv6_range',
               required=True,
               callback=validate_ip_net,

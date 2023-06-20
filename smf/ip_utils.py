@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -26,23 +24,48 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
-export IF_NAME=$(ip r | awk '/default/ { print $5 }')
+import click
+import sys
+import ipaddress
 
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+"""
+Script used to fetch first IP address in a given IP range. i.e. the calling bash script reads the std output
 
-UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
-UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)
+Usage in command line:
+e.g:
+$ python3 ip_utils.py --ip_range 192.168.100.0/24
+$ python3 ip_utils.py --ip_range 2001:230:cafe::/48
+"""
 
-cp /mnt/upf/upf.yaml install/etc/open5gs
-sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+def validate_ip_net(ctx, param, value):
+    try:
+        ip_net = ipaddress.ip_network(value)
+        return ip_net
+    except ValueError:
+        raise click.BadParameter(
+            'Value does not represent a valid IPv4/IPv6 range')
+
+
+@click.command()
+@click.option('--ip_range',
+              required=True,
+              callback=validate_ip_net,
+              help='UE IPv4/IPv6 Address range in CIDR format e.g. 192.168.100.0/24 or 2001:230:cafe::/48')
+def start(ip_range):
+
+    # Get the first IP address in the IP range and netmask prefix length
+    first_ip_addr = next(ip_range.hosts(), None)
+    if not first_ip_addr:
+        raise ValueError('Invalid UE IPv4 range. Only one IP given')
+    else:
+        first_ip_addr = first_ip_addr.exploded
+        ip_netmask_prefix = ip_range.prefixlen
+        print(str(first_ip_addr) + '/' + str(ip_netmask_prefix))
+
+if __name__ == '__main__':
+    try:
+        start()
+        sys.exit(0)
+    except ValueError:
+        sys.exit(1)

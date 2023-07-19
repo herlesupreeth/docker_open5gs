@@ -27,7 +27,6 @@
 FROM ubuntu:focal as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 # Install updates and dependencies
 RUN apt-get update && \
@@ -76,7 +75,6 @@ RUN cd open5gs/webui && npm clean-install && npm run build
 FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

@@ -39,6 +39,7 @@ cp /mnt/hss/make_certs.sh install/etc/freeDiameter
 sed -i 's|HSS_IP|'$HSS_IP'|g' install/etc/freeDiameter/hss.conf
 sed -i 's|MME_IP|'$MME_IP'|g' install/etc/freeDiameter/hss.conf
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/hss.conf
+sed -i 's|LD_LIBRARY_PATH|'$LD_LIBRARY_PATH'|g' install/etc/freeDiameter/hss.conf
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/make_certs.sh
 sed -i 's|MONGO_IP|'$MONGO_IP'|g' install/etc/open5gs/hss.yaml
 

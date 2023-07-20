@@ -1,14 +1,13 @@
 version: '3'
 services:
   mongo:
-    build: ./mongo
-    image: docker_mongo
+    image: mongo:6.0
     container_name: mongo
+    command: --bind_ip 0.0.0.0
     env_file:
       - .env
     volumes:
-      - ./mongo:/mnt/mongo
-      - mongodbdata:/var/lib/mongodb
+      - mongodbdata:/data/db
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:

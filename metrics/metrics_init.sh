@@ -29,6 +29,9 @@
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+export PROMETHEUS_WORK_DIR=prometheus-$PROMETHEUS_VERSION.linux-$(dpkg --print-architecture)
+cd $PROMETHEUS_WORK_DIR
+
 mkdir -p /config
 
 cp /mnt/metrics/prometheus.yml /config/

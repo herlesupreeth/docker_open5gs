@@ -24,18 +24,19 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/Debian_11"
 
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install wget gnupg telnet
 
-RUN wget https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_20.04/Release.key && \
+RUN wget $OSMOCOM_REPO/Release.key && \
     mv Release.key /etc/apt/trusted.gpg.d/osmocom-latest.asc && \
-    echo "deb https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_20.04/ ./" > /etc/apt/sources.list.d/osmocom-latest.list && \
-    apt-get update && apt-get -y install osmo-hlr
+    echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list && \
+    apt-get update && apt-get install -f && apt-get --install-suggests -y install osmo-hlr
 
 CMD /mnt/osmohlr/osmohlr_init.sh && \
-    cd /mnt/osmohlr && /bin/osmo-hlr -c /etc/osmocom/osmo-hlr.cfg
+    cd /mnt/osmohlr && /usr/bin/osmo-hlr -c /etc/osmocom/osmo-hlr.cfg

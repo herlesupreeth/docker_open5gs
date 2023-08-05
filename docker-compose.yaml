@@ -471,13 +471,14 @@ services:
     networks:
       default:
         ipv4_address: ${MYSQL_IP}
-  fhoss:
-    build: ./fhoss
-    image: docker_fhoss
-    container_name: fhoss
+  pyhss:
+    build: ./pyhss
+    image: docker_pyhss
+    container_name: pyhss
     dns: ${DNS_IP}
     volumes:
-      - ./fhoss:/mnt/fhoss
+      - ./pyhss:/mnt/pyhss
+      - ./pyhss/logs:/pyhss/log/
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
@@ -492,7 +493,7 @@ services:
       - "8080:8080/tcp"
     networks:
       default:
-        ipv4_address: ${FHOSS_IP}
+        ipv4_address: ${PYHSS_IP}
   icscf:
     image: docker_kamailio
     container_name: icscf
@@ -508,7 +509,7 @@ services:
     depends_on:
       - dns
       - mysql
-      - fhoss
+      - pyhss
     expose:
       - "3869/udp"
       - "3869/tcp"
@@ -532,7 +533,7 @@ services:
     depends_on:
       - dns
       - mysql
-      - fhoss
+      - pyhss
     expose:
       - "3870/udp"
       - "3870/tcp"

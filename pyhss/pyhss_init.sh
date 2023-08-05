@@ -26,38 +26,39 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cp /mnt/dns/epc_zone /etc/bind
-cp /mnt/dns/ims_zone /etc/bind
-cp /mnt/dns/pub_3gpp_zone /etc/bind
-cp /mnt/dns/e164.arpa /etc/bind
-cp /mnt/dns/named.conf /etc/bind
+while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
+	sleep 5;
+done
+
+# Sleep until permissions are set
+sleep 10;
+
+# Create IMS HSS database user
+PYHSS_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'pyhss' AND Host = '%')"`
+if [[ "$PYHSS_USER_EXISTS" == 0 ]]
+then
+	mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'pyhss'@'%' IDENTIFIED WITH mysql_native_password BY 'ims_db_pass'";
+	mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'pyhss'@'$PYHSS_IP' IDENTIFIED WITH mysql_native_password BY 'ims_db_pass'";
+	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+fi
 
 [ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 [ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-[ ${#MNC} == 3 ] && PUB_3GPP_DOMAIN="mnc${MNC}.mcc${MCC}.pub.3gppnetwork.org" || PUB_3GPP_DOMAIN="mnc0${MNC}.mcc${MCC}.pub.3gppnetwork.org"
 
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/bind/epc_zone
-sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/epc_zone
-[ -z "$PCRF_PUB_IP" ] && sed -i 's|PCRF_IP|'$PCRF_IP'|g' /etc/bind/epc_zone || sed -i 's|PCRF_IP|'$PCRF_PUB_IP'|g' /etc/bind/epc_zone
+cp /mnt/pyhss/config.yaml ./
+cp /mnt/pyhss/default_ifc.xml ./
+cp /mnt/pyhss/default_sh_user_data.xml ./
 
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/ims_zone
-sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/ims_zone
-sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/bind/ims_zone
-sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/bind/ims_zone
-sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/bind/ims_zone
-sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' /etc/bind/ims_zone
-sed -i 's|SMSC_IP|'$SMSC_IP'|g' /etc/bind/ims_zone
-
-sed -i 's|PUB_3GPP_DOMAIN|'$PUB_3GPP_DOMAIN'|g' /etc/bind/pub_3gpp_zone
-sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/pub_3gpp_zone
-sed -i 's|ENTITLEMENT_SERVER_IP|'$ENTITLEMENT_SERVER_IP'|g' /etc/bind/pub_3gpp_zone
-
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/e164.arpa
-sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/e164.arpa
-
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/bind/named.conf
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/named.conf
-sed -i 's|PUB_3GPP_DOMAIN|'$PUB_3GPP_DOMAIN'|g' /etc/bind/named.conf
+sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' ./config.yaml
+sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' ./config.yaml
+sed -i 's|OP_MCC|'$MCC'|g' ./config.yaml
+sed -i 's|OP_MNC|'$MNC'|g' ./config.yaml
+sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' ./config.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+export FLASK_APP=PyHSS_API.py
+flask run --host=$PYHSS_IP --port=8080 &
+
+python3 hss.py

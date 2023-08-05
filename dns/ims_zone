@@ -22,7 +22,7 @@ scscf                   1D IN A         SCSCF_IP
 _sip._udp.scscf         1D SRV 0 0 6060 scscf
 _sip._tcp.scscf         1D SRV 0 0 6060 scscf
 
-hss                     1D IN A         FHOSS_IP
+hss                     1D IN A         PYHSS_IP
 
 smsc                    1D IN A         SMSC_IP
 _sip._udp.smsc          1D SRV 0 0 7090 smsc

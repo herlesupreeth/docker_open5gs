@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This is the default iFC template used by PyHSS, variables come from the Jinja2 template passed inside diameter.py where you can additional variables if required -->
+<IMSSubscription>
+    <PrivateID>{{ iFC_vars['imsi'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</PrivateID>
+    <ServiceProfile>
+        <PublicIdentity>
+            <Identity>sip:{{ iFC_vars['msisdn'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+                <Extension>
+                    <AliasIdentityGroupID>1</AliasIdentityGroupID>
+                </Extension>
+            </Extension>
+        </PublicIdentity>
+        <PublicIdentity>
+            <Identity>tel:{{ iFC_vars['msisdn'] }}</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+                <Extension>
+                    <AliasIdentityGroupID>1</AliasIdentityGroupID>
+                </Extension>
+            </Extension>
+        </PublicIdentity>
+        <PublicIdentity>
+            <Identity>sip:{{ iFC_vars['imsi'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+            </Extension>
+        </PublicIdentity>
+
+
+        <!-- Copy SIP REGISTER towards Application Server -->
+        <!-- <InitialFilterCriteria>
+            <Priority>10</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>REGISTER</Method>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+                <Extension>
+                    <IncludeRegisterRequest/>
+                    <IncludeRegisterResponse/>
+                </Extension>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+        <!-- Copy SIP REGISTER towards SMSc -->
+        <!-- <InitialFilterCriteria>
+            <Priority>11</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>REGISTER</Method>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:smsc.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:7090</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+                <Extension>
+                    <IncludeRegisterRequest/>
+                    <IncludeRegisterResponse/>
+                </Extension>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+        <!-- SIP MESSAGE Traffic -->
+        <InitialFilterCriteria>
+            <Priority>20</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>MESSAGE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>1</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                        <Header>Server</Header>
+                    </SIPHeader>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>2</Group>
+                    <SessionCase>0</SessionCase>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:smsc.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+
+        <!-- SIP USSD Traffic to USSD-GW-->
+        <!-- <InitialFilterCriteria>
+            <Priority>25</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                      <Header>Recv-Info</Header>
+                      <Content>"g.3gpp.ussd"</Content>
+                    </SIPHeader>
+                </SPT>                
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:ussd.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+        <!-- SIP INVITE Traffic from Registered Sub-->
+        <!-- <InitialFilterCriteria>
+            <Priority>30</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <Group>0</Group>
+                    <SessionCase>0</SessionCase>
+                </SPT>             
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+        <!-- SIP INVITE Traffic for calls to Unregistered Sub (TERMINATING_UNREGISTERED) -->
+        <!-- <InitialFilterCriteria>
+            <Priority>40</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <Group>0</Group>
+                    <SessionCase>2</SessionCase>
+                </SPT>           
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:voicemail.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+    </ServiceProfile>
+</IMSSubscription>

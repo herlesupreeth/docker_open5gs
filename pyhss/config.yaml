@@ -1,0 +1,122 @@
+## HSS Parameters
+hss:
+  transport: "TCP"
+  #IP Addresses to bind on (List) - For TCP only the first IP is used, for SCTP all used for Transport (Multihomed).
+  bind_ip: ["PYHSS_IP"]
+
+  #Port to listen on (Same for TCP & SCTP)
+  bind_port: 3868
+
+  #Value to populate as the OriginHost in Diameter responses
+  OriginHost: "hss.IMS_DOMAIN"
+
+  #Value to populate as the OriginRealm in Diameter responses
+  OriginRealm: "IMS_DOMAIN"
+
+  #Value to populate as the Product name in Diameter responses
+  ProductName: "pyHSS"
+
+  #Name of the Site, shown in API
+  site_name: "Test Site"
+
+  #Your Home Mobile Country Code (Used for PLMN calcluation)
+  MCC: "OP_MCC"
+  #Your Home Mobile Network Code (Used for PLMN calcluation)
+  MNC: "OP_MNC"
+
+  #Enable GMLC / SLh Interface
+  SLh_enabled: False
+
+  #IMSI of Test Subscriber for Unit Checks (Optional)
+  test_sub_imsi: '001021234567890'
+
+  #Device Watchdog Request Interval (In Seconds - If set to 0 disabled)
+  device_watchdog_request_interval: 5
+
+  #Async Queue Check Interval (In Seconds - If set to 0 disabled)
+  async_check_interval: 0
+
+  #The maximum time to wait, in seconds, before disconnecting a client when no data is received.
+  client_socket_timeout: 120
+
+  #The maximum amount of times a failed diameter response/query should be resent before considering the peer offline and terminating their connection
+  diameter_max_retries: 1
+
+  #Prevent updates from being performed without a valid 'Provisioning-Key' in the header
+  lock_provisioning: False
+
+  #Provisioning Key for this HSS, alias for an API key. Required to be present in the header of requests to this HSS' api, if lock_provisioning is True.
+  provisioning_key: "hss"
+
+  #If enabled sends CLRs to old MME when new MME attaches active sub
+  CancelLocationRequest_Enabled: False
+
+  #Workaround for some MMEs to force an Insert Subscriber Data request to be sent immediately after ULA
+  Insert_Subscriber_Data_Force: False
+
+  #Default Initial Filter Criteria for IMS Subscribers
+  #Jinja Formatted Template, see the example for variables passed to it.
+  Default_iFC: 'default_ifc.xml'
+
+  #Default Sh User Data
+  Default_Sh_UserData: 'default_sh_user_data.xml'
+
+  #S-CSCF Pool
+  scscf_pool:
+    - 'sip:scscf.IMS_DOMAIN:6060'
+
+api:
+  page_size: 200
+
+external:
+  external_webhook_notification_enabled: False
+  external_webhook_notification_url: https://api.example.com/webhook
+
+eir:
+  imsi_imei_logging: True    #Store current IMEI / IMSI pair in backend
+  sim_swap_notify_webhook:  http://PYHSS_IP:5000/webhooks/sim_swap_notify/
+  no_match_response: 2       #Greylist
+  tac_database_csv: '/etc/pyhss/tac_database_Nov2022.csv'
+
+logging:
+  level: WARNING
+  logfiles:
+    hss_logging_file: log/hss.log
+    diameter_logging_file: log/diameter.log
+    database_logging_file: log/db.log
+  log_to_terminal: True
+  sqlalchemy_sql_echo: True
+  sqlalchemy_pool_recycle: 15
+  sqlalchemy_pool_size: 30
+  sqlalchemy_max_overflow: 0
+
+## Database Parameters
+database:
+  db_type: mysql    #Supported types are MySQL and Postgres
+  server: MYSQL_IP
+  username: pyhss
+  password: ims_db_pass
+  database: ims_hss_db
+
+## Geographic Redundancy Parameters
+geored:
+  enabled: False
+  sync_actions: ['HSS', 'IMS', 'PCRF', 'EIR']    #What event actions should be synced
+  sync_endpoints:                         #List of PyHSS API Endpoints to update
+    - 'http://hss01.mnc001.mcc001.3gppnetwork.org:8080'
+    - 'http://hss02.mnc001.mcc001.3gppnetwork.org:8080'
+
+## Stats Parameters
+redis:
+  enabled: False
+  clear_stats_on_boot: True
+  host: PYHSS_IP
+  port: 6379
+
+prometheus:
+  enabled: False
+  port: 8081    #If the API is run the API runs on the next port number up from this
+
+snmp:
+  port: 1161
+  listen_address: PYHSS_IP

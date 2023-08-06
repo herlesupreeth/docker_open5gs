@@ -59,34 +59,49 @@ cd ..
 set -a
 source .env
 docker-compose build --no-cache
-docker-compose up
+```
 
-Over-The-Air setups: 
+4G deployment:
 
-# srsRAN eNB using SDR
+```
+# 4G Core Network + IMS + SMS over SGs
+docker-compose -f 4g-volte-deploy.yaml up
+
+# srsRAN eNB using SDR (OTA)
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
-# srsRAN gNB using SDR
+
+# srsRAN ZMQ eNB (RF simulated)
+docker-compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
+
+# srsRAN ZMQ 4G UE (RF simulated)
+docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
+```
+
+5G SA deployment:
+
+```
+# 5G Core Network
+docker-compose -f 4g-volte-deploy.yaml up
+
+# srsRAN gNB using SDR (OTA)
 docker-compose -f srsgnb.yaml up -d && docker attach srsgnb
 
-RF simulated setups:
-
-# srsRAN ZMQ eNB
-docker-compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
-# srsRAN ZMQ gNB
+# srsRAN ZMQ gNB (RF simulated)
 docker-compose -f srsgnb_zmq.yaml up -d && docker attach srsgnb_zmq
-# srsRAN ZMQ 4G UE
-docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
-# srsRAN ZMQ 5G UE
+
+# srsRAN ZMQ 5G UE (RF simulated)
 docker-compose -f srsue_5g_zmq.yaml up -d && docker attach srsue_5g_zmq
-# UERANSIM gNB
+
+# UERANSIM gNB (RF simulated)
 docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb
-# UERANSIM NR-UE
+
+# UERANSIM NR-UE (RF simulated)
 docker-compose -f nr-ue.yaml up -d && docker attach nr_ue
 ```
 
 ## Configuration
 
-For the quick run (eNB/gNB, CN in same docker network), edit only the following parameters in .env as per your setup
+For the quick run (eNB/gNB, CN in same docker network), edit only the following parameters in **.env** as per your setup
 
 ```
 MCC
@@ -101,7 +116,9 @@ UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range
 
 If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
 
-Under mme section in docker compose file (**docker-compose.yaml**), uncomment the following part
+4G deployment:
+
+Under mme section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
 ```
 ...
     # ports:
@@ -109,15 +126,7 @@ Under mme section in docker compose file (**docker-compose.yaml**), uncomment th
 ...
 ```
 
-Under amf section in docker compose file (**docker-compose.yaml**, **sa-deploy.yaml**), uncomment the following part
-```
-...
-    # ports:
-    #   - "38412:38412/sctp"
-...
-```
-
-If deploying in 5G mode only (**sa-deploy.yaml**), then uncomment the following part under **upf** section
+Then, uncomment the following part under **sgwu** section
 ```
 ...
     # ports:
@@ -125,7 +134,17 @@ If deploying in 5G mode only (**sa-deploy.yaml**), then uncomment the following 
 ...
 ```
 
-If deploying in 4G mode only (**docker-compose.yaml**), then uncomment the following part under **sgwu** section
+5G SA deployment:
+
+Under amf section in docker compose file (**sa-deploy.yaml**), uncomment the following part
+```
+...
+    # ports:
+    #   - "38412:38412/sctp"
+...
+```
+
+Then, uncomment the following part under **upf** section
 ```
 ...
     # ports:

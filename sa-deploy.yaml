@@ -142,6 +142,7 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=smf-1
+      - DEPLOY_MODE=5G
     volumes:
       - ./smf:/mnt/smf
       - ./log:/open5gs/install/var/log/open5gs

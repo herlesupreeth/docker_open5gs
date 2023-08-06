@@ -32,7 +32,7 @@ RF simulated setups:
 	* [docker-compose](https://docs.docker.com/compose) - Version 2.14 or above
 
 
-Clone repository and build base docker image of open5gs, kamailio, ueransim
+#### Clone repository and build base docker image of open5gs, kamailio, ueransim
 
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
@@ -52,7 +52,7 @@ cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
 ```
 
-### Build and Run using docker-compose
+#### Build and Run using docker-compose
 
 ```
 cd ..
@@ -63,7 +63,7 @@ sudo ufw disable
 sudo sysctl -w net.ipv4.ip_forward=1
 ```
 
-4G deployment:
+###### 4G deployment
 
 ```
 # 4G Core Network + IMS + SMS over SGs
@@ -79,7 +79,7 @@ docker-compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
 docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
 ```
 
-5G SA deployment:
+###### 5G SA deployment
 
 ```
 # 5G Core Network
@@ -118,7 +118,7 @@ UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range
 
 If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
 
-4G deployment:
+###### 4G deployment
 
 Under mme section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
 ```
@@ -136,7 +136,7 @@ Then, uncomment the following part under **sgwu** section
 ...
 ```
 
-5G SA deployment:
+###### 5G SA deployment
 
 Under amf section in docker compose file (**sa-deploy.yaml**), uncomment the following part
 ```
@@ -154,7 +154,9 @@ Then, uncomment the following part under **upf** section
 ...
 ```
 
-## Provisioning of UE information
+## Provisioning of SIM information
+
+### Provisioning of SIM information in open5gs HSS as follows:
 
 Open (http://<DOCKER_HOST_IP>:3000) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
 ```
@@ -163,6 +165,118 @@ Password : 1423
 ```
 
 Using Web UI, add a subscriber
+
+### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
+
+1. First, login to the osmohlr container
+
+```
+docker exec -it osmohlr /bin/bash
+```
+
+2. Then, telnet to localhost
+
+```
+$ telnet localhost 4258
+
+OsmoHLR> enable
+OsmoHLR#
+```
+
+3. Finally, register the subscriber information as in following example:
+
+```
+OsmoHLR# subscriber imsi 001010123456790 create
+OsmoHLR# subscriber imsi 001010123456790 update msisdn 9076543210
+```
+
+**Replace IMSI and MSISDN as per your programmed SIM**
+
+
+### Provisioning of SIM information in pyHSS is as follows:
+
+1. Goto http://172.22.0.18:8080/docs/
+2. Select **apn** -> **Create new APN** -> Press on **Try it out**. Then, in payload section use the below JSON and then press **Execute**
+
+```
+{
+  "apn": "internet",
+  "apn_ambr_dl": 0,
+  "apn_ambr_ul": 0
+}
+```
+
+Take note of **apn_id** specified in **Response body** under **Server response** for **internet** APN
+
+Repeat creation step for following payload
+
+```
+{
+  "apn": "ims",
+  "apn_ambr_dl": 0,
+  "apn_ambr_ul": 0
+}
+```
+
+Take note of **apn_id** specified in **Response body** under **Server response** for **ims** APN
+
+**Execute this step of APN creation only once**
+
+3. Next, select **auc** -> **Create new AUC** -> Press on **Try it out**. Then, in payload section use the below example JSON to fill in ki, opc and amf for your SIM and then press **Execute**
+
+```
+{
+  "ki": "8baf473f2f8fd09487cccbd7097c6862",
+  "opc": "8E27B6AF0E692E750F32667A3B14605D",
+  "amf": "8000"
+}
+```
+
+Take note of **auc_id** specified in **Response body** under **Server response**
+
+**Replace ki, opc and amf as per your programmed SIM**
+
+**Execute this step for each of your SIM card only if Ki or OPc or AMF is different than existing one**
+
+4. Next, select **subscriber** -> **Create new SUBSCRIBER** -> Press on **Try it out**. Then, in payload section use the below example JSON to fill in imsi, auc_id and apn_list for your SIM and then press **Execute**
+
+```
+{
+  "imsi": "001010123456790",
+  "enabled": true,
+  "auc_id": 1,
+  "default_apn": 1,
+  "apn_list": "0,1",
+  "msisdn": "9076543210",
+  "ue_ambr_dl": 0,
+  "ue_ambr_ul": 0
+}
+```
+
+- **auc_id** is the ID of the **AUC** created in the previous steps
+- **default_apn** is the ID of the **internet** APN created in the previous steps
+- **apn_list** is the comma separated list of APN IDs allowed for the UE i.e. APN ID for **internet** and **ims** APN created in the previous steps
+
+**Replace imsi and msisdn as per your programmed SIM**
+
+5. Finally, select **ims_subscriber** -> **Create new IMS SUBSCRIBER** -> Press on **Try it out**. Then, in payload section use the below example JSON to fill in imsi, msisdn, msisdn_list, scscf_peer, scscf_realm and scscf for your SIM/deployment and then press **Execute**
+
+```
+{
+    "imsi": "001010123456790",
+    "msisdn": "9076543210",
+    "sh_profile": "string",
+    "scscf_peer": "scscf.ims.mnc001.mcc001.3gppnetwork.org",
+    "msisdn_list": "[9076543210]",
+    "ifc_path": "default_ifc.xml",
+    "scscf": "sip:scscf.ims.mnc001.mcc001.3gppnetwork.org:6060",
+    "scscf_realm": "ims.mnc001.mcc001.3gppnetwork.org"
+}
+```
+
+**Replace imsi, msisdn and msisdn_list as per your programmed SIM**
+
+**Replace scscf_peer, scscf and scscf_realm as per your deployment**
 
 ## Not supported
 - IPv6 usage in Docker

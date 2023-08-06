@@ -83,7 +83,7 @@ docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
 
 ```
 # 5G Core Network
-docker-compose -f 4g-volte-deploy.yaml up
+docker-compose -f sa-deploy.yaml up
 
 # srsRAN gNB using SDR (OTA)
 docker-compose -f srsgnb.yaml up -d && docker attach srsgnb

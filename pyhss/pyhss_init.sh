@@ -50,6 +50,7 @@ cp /mnt/pyhss/default_ifc.xml ./
 cp /mnt/pyhss/default_sh_user_data.xml ./
 
 sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' ./config.yaml
+sed -i 's|PYHSS_BIND_PORT|'$PYHSS_BIND_PORT'|g' ./config.yaml
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' ./config.yaml
 sed -i 's|OP_MCC|'$MCC'|g' ./config.yaml
 sed -i 's|OP_MNC|'$MNC'|g' ./config.yaml

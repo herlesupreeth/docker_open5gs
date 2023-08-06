@@ -32,13 +32,13 @@ smf:
         dnn: ims
         dev: ogstun2
     dns:
-      - 8.8.8.8
-      - 8.8.4.4
+      - SMF_DNS1
+      - SMF_DNS2
       - 2001:4860:4860::8888
       - 2001:4860:4860::8844
     p-cscf:
       - PCSCF_IP
-    mtu: 1400
+    mtu: 1410
     metrics:
       - addr: SMF_IP
         port: 9091

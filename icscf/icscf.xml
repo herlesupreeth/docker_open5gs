@@ -15,9 +15,9 @@
 	MaxAuthSessionTimeout="3600"
 >
 
-	<Peer FQDN="hss.IMS_DOMAIN" Realm="IMS_DOMAIN" port="3868"/>
+	<Peer FQDN="hss.IMS_DOMAIN" Realm="IMS_DOMAIN" port="PYHSS_BIND_PORT"/>
 
-	<Acceptor port="3869" bind="ICSCF_IP"/>
+	<Acceptor port="ICSCF_BIND_PORT" bind="ICSCF_IP"/>
 
 	<Auth id="16777216" vendor="10415"/><!-- 3GPP Cx -->
 	<Auth id="16777216" vendor="4491"/><!-- CableLabs Cx -->

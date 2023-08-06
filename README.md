@@ -59,6 +59,8 @@ cd ..
 set -a
 source .env
 docker-compose build --no-cache
+sudo ufw disable
+sudo sysctl -w net.ipv4.ip_forward=1
 ```
 
 4G deployment:

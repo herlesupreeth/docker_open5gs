@@ -14,9 +14,9 @@
 	DefaultAuthSessionTimeout="3600"
 	MaxAuthSessionTimeout="3600"
 >
-	<Peer FQDN="pcrf.EPC_DOMAIN" Realm="EPC_DOMAIN" port="3868"/> 
+	<Peer FQDN="pcrf.EPC_DOMAIN" Realm="EPC_DOMAIN" port="PCRF_BIND_PORT"/> 
 
-	<Acceptor port="3871" bind="PCSCF_IP"/>
+	<Acceptor port="PCSCF_BIND_PORT" bind="PCSCF_IP"/>
 
 	<Auth id="16777236" vendor="10415"/> <!-- 3GPP Rx -->
 	<Auth id="16777236" vendor="0"/> <!-- 3GPP Rx -->

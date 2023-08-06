@@ -5,7 +5,7 @@ hss:
   bind_ip: ["PYHSS_IP"]
 
   #Port to listen on (Same for TCP & SCTP)
-  bind_port: 3868
+  bind_port: PYHSS_BIND_PORT
 
   #Value to populate as the OriginHost in Diameter responses
   OriginHost: "hss.IMS_DOMAIN"

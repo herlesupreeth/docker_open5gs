@@ -18,8 +18,9 @@ cell_cfg:
   tac: 1                                                                                      # Tracking area code (needs to match the core configuration).
   pci: 1                                                                                      # Physical cell ID.
   pdcch:
-    ss_type: common                                                                           # Search Space type, has to be set to common
-    dci_format_0_1_and_1_1: false                                                             # Set correct DCI format (fallback)
+    dedicated:
+      ss2_type: common                                                                        # Search Space type, has to be set to common
+      dci_format_0_1_and_1_1: false                                                           # Set correct DCI format (fallback)
 
 log:
   filename: /mnt/srsran/gnb.log                                                               # Path of the log file.

@@ -58,7 +58,6 @@ docker build --no-cache --force-rm -t docker_ueransim .
 cd ..
 set -a
 source .env
-docker-compose build --no-cache
 sudo ufw disable
 sudo sysctl -w net.ipv4.ip_forward=1
 ```

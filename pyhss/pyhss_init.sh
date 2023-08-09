@@ -34,11 +34,13 @@ done
 sleep 10;
 
 # Create IMS HSS database user
-PYHSS_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'pyhss' AND Host = '%')"`
+PYHSS_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'pyhss' AND Host = '$PYHSS_IP')"`
 if [[ "$PYHSS_USER_EXISTS" == 0 ]]
 then
 	mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'pyhss'@'%' IDENTIFIED WITH mysql_native_password BY 'ims_db_pass'";
 	mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'pyhss'@'$PYHSS_IP' IDENTIFIED WITH mysql_native_password BY 'ims_db_pass'";
+	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON *.* TO 'pyhss'@'%'";
+	mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON *.* TO 'pyhss'@'$PYHSS_IP'";
 	mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 fi
 

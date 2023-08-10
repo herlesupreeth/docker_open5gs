@@ -229,15 +229,15 @@ Take note of **apn_id** specified in **Response body** under **Server response**
 {
   "ki": "8baf473f2f8fd09487cccbd7097c6862",
   "opc": "8E27B6AF0E692E750F32667A3B14605D",
-  "amf": "8000"
+  "amf": "8000",
+  "sqn": 0,
+  "imsi": "001010123456790"
 }
 ```
 
 Take note of **auc_id** specified in **Response body** under **Server response**
 
-**Replace ki, opc and amf as per your programmed SIM**
-
-**Execute this step for each of your SIM card only if Ki or OPc or AMF is different than existing one**
+**Replace imsi, ki, opc and amf as per your programmed SIM**
 
 4. Next, select **subscriber** -> **Create new SUBSCRIBER** -> Press on **Try it out**. Then, in payload section use the below example JSON to fill in imsi, auc_id and apn_list for your SIM and then press **Execute**
 

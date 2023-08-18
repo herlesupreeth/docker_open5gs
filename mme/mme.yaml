@@ -51,3 +51,7 @@ smf:
     gtpc:
       - addr:
         - SMF_IP
+
+time:
+  t3412:
+    value: 540

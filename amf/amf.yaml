@@ -55,6 +55,6 @@ nrf:
           - NRF_IP
         port: 7777
 
-time:
-  t3512:
-    value: 540
+# time:
+#   t3512:
+#     value: 540

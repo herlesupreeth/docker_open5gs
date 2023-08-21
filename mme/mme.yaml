@@ -52,6 +52,6 @@ smf:
       - addr:
         - SMF_IP
 
-# time:
-#   t3412:
-#     value: 540
+time:
+  t3412:
+    value: 540

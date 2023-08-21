@@ -39,6 +39,9 @@ done
 # Sleep until permissions are set
 sleep 10;
 
+# Drop SMSC database
+mysql -u root -h ${MYSQL_IP} -e "drop database smsc;"
+
 # Create SMSC database, populate tables and grant privileges
 if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='smsc'" 2>&1`" ]];
 then

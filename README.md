@@ -62,6 +62,7 @@ sudo ufw disable
 docker-compose -f 4g-volte-deploy.yaml build
 docker-compose -f sa-deploy.yaml build
 sudo sysctl -w net.ipv4.ip_forward=1
+sudo cpupower frequency-set -g performance
 ```
 
 ###### 4G deployment

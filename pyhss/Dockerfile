@@ -44,7 +44,8 @@ RUN apt-get update && \
         
 
 # Get pyhss code and install
-RUN git clone https://github.com/nickvsnetworking/pyhss
+RUN git clone https://github.com/nickvsnetworking/pyhss && \
+    cd pyhss && git checkout fa059d56330f6e565a9b546d5a9ed4071c2c9ab6
 RUN cd pyhss && pip3 install -r requirements.txt
 
 RUN mkdir -p /pyhss/log/

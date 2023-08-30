@@ -197,7 +197,7 @@ OsmoHLR# subscriber imsi 001010123456790 update msisdn 9076543210
 
 ### Provisioning of SIM information in pyHSS is as follows:
 
-1. Goto http://172.22.0.18:8080/docs/
+1. Goto http://<DOCKER_HOST_IP>:8080/docs/
 2. Select **apn** -> **Create new APN** -> Press on **Try it out**. Then, in payload section use the below JSON and then press **Execute**
 
 ```

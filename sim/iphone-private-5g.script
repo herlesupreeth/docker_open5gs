@@ -1,0 +1,76 @@
+# script to be used with pySim-shell.py which is part of the Osmocom pysim package,
+# found at https://osmocom.org/projects/pysim/wiki
+set echo true
+set debug true
+
+# this script will activate all 5G related services and files required for iPhone to allow SA operation.
+
+# TODO: add your card-specific ADM pin at the end of the verify_adm line below
+verify_adm 97965180
+
+# activate any 5G related services in EF.UST
+select ADF.USIM
+select EF.UST
+ust_service_activate 93
+ust_service_deactivate 96
+ust_service_deactivate 122
+ust_service_deactivate 123
+ust_service_activate 124
+ust_service_deactivate 125
+ust_service_deactivate 126
+ust_service_deactivate 127
+ust_service_deactivate 129
+ust_service_deactivate 130
+ust_service_deactivate 132
+ust_service_deactivate 133
+ust_service_deactivate 134
+ust_service_deactivate 135
+
+# activate all files in EF.5GS
+select ADF.USIM
+select DF.5GS
+
+select EF.5GSN3GPPNSC
+deactivate_file
+
+select EF.SUPI_NAI
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.URSP
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.TN3GPPSNN
+deactivate_file
+
+# only exists on sysmoISIM-SJA2v2
+select EF.OPL5G
+deactivate_file
+
+select EF.5GAUTHKEYS
+deactivate_file
+
+select EF.5GS3GPPLOCI
+deactivate_file
+
+select EF.5GSN3GPPLOCI
+deactivate_file
+
+select EF.5GS3GPPNSC
+deactivate_file
+
+activate_file EF.Routing_Indicator
+select EF.Routing_Indicator
+update_binary 00000000
+
+activate_file EF.SUCI_Calc_Info
+select EF.SUCI_Calc_Info
+# TODO: Update the public key based on your deployment
+update_binary_decoded {"prot_scheme_id_list":[{"priority":0,"identifier":1,"key_index":1},{"priority":1,"identifier":0,"key_index":0}],"hnet_pubkey_list":[{"hnet_pubkey_identifier":1,"hnet_pubkey":"28ea6090c84ba15d44cb19123a5d1a28c1aa560af6cad33f12afa660b821fa13"}]}
+
+activate_file EF.UAC_AIC
+select EF.UAC_AIC
+update_binary 00000000
+
+quit

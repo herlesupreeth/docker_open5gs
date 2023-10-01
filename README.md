@@ -114,6 +114,8 @@ TEST_NETWORK --> Change this only if it clashes with the internal network at you
 DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
 SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB is not running the same docker network/host
 UPF_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if gNB is not running the same docker network/host
+MME_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB is not running the same docker network/host
+SRS_ENB_IP --> Change this to the IP address of the host running your eNB, change only if eNB is not running the same docker network/host
 UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
 UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
@@ -136,6 +138,23 @@ Then, uncomment the following part under **sgwu** section
     # ports:
     #   - "2152:2152/udp"
 ...
+```
+
+In addition, replace the following part in the docker compose file (**srsenb.yaml**)
+```
+...
+    networks:
+      default:
+        ipv4_address: ${SRS_ENB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default
+```
+with 
+```
+...
+	network_mode: host
 ```
 
 ###### 5G SA deployment

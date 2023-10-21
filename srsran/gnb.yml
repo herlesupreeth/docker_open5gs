@@ -30,3 +30,11 @@ pcap:
   mac_filename: /mnt/srsran/gnb_mac.pcap                          # Path where the MAC PCAP is stored.
   ngap_enable: false                                              # Set to true to enable NGAP PCAPs.
   ngap_filename: /mnt/srsran/gnb_ngap.pcap                        # Path where the NGAP PCAP is stored.
+  f1ap_enable: false                                              # Set to true to enable F1AP PCAPs.
+  f1ap_filename: /mnt/srsran/gnb_f1ap.pcap                        # Path where the F1AP PCAP is stored.
+  e1ap_enable: false                                              # Set to true to enable E1AP PCAPs.
+  e1ap_filename: /mnt/srsran/gnb_e1ap.pcap                        # Path where the E1AP PCAP is stored.
+  e2ap_enable: false                                              # Set to true to enable E2AP PCAPs.
+  e2ap_filename: /mnt/srsran/gnb_e2ap.pcap                        # Path where the E2AP PCAP is stored.
+  gtpu_enable: false                                              # Set to true to enable GTP-U PCAPs.
+  gtpu_filename: /mnt/srsran/gnb_gtpu.pcap                        # Path where the GTP-U PCAP is stored.

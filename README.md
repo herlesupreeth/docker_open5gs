@@ -105,7 +105,23 @@ docker-compose -f nr-ue.yaml up -d && docker container attach nr_ue
 
 ## Configuration
 
+The quick run has all components (eNB/gNB, CN) running in the same docker network.
+While a more advanced configuration involves running the eNB/gNB in a separate docker network/host than the CN.
+
+#### 1. Single Host (eNB/gNB, CN in same docker network)
 For the quick run (eNB/gNB, CN in same docker network), edit only the following parameters in **.env** as per your setup
+
+```
+MCC
+MNC
+TEST_NETWORK --> Change this only if it clashes with the internal network at your home/office
+DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
+UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
+UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
+```
+
+#### 2. Multihost (eNB/gNB, CN in separate docker network/host)
+If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
 
 ```
 MCC
@@ -120,9 +136,9 @@ UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip 
 UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
-If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
+##### 4G deployment
 
-###### 4G deployment
+###### On the host running the CN
 
 Under mme section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
 ```
@@ -140,7 +156,10 @@ Then, uncomment the following part under **sgwu** section
 ...
 ```
 
-In addition, replace the following part in the docker compose file (**srsenb.yaml**)
+
+###### On the host running the eNB
+
+Replace the following part in the docker compose file (**srsenb.yaml**)
 ```
 ...
     networks:
@@ -157,7 +176,7 @@ with
 	network_mode: host
 ```
 
-###### 5G SA deployment
+##### 5G SA deployment
 
 Under amf section in docker compose file (**sa-deploy.yaml**), uncomment the following part
 ```

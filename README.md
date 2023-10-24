@@ -25,122 +25,90 @@ RF simulated setups:
  - srsRAN (gNB + UE) simulation over ZMQ
  - UERANSIM (gNB + UE) simulator
 
-## Build and Execution Instructions
+## Building docker images
 
 * Mandatory requirements:
 	* [docker-ce](https://docs.docker.com/install/linux/docker-ce/ubuntu) - Version 22.0.5 or above
-	* [docker-compose](https://docs.docker.com/compose) - Version 2.14 or above
+	* [docker compose](https://docs.docker.com/compose) - Version 2.14 or above
 
 
-#### Clone repository and build base docker image of open5gs, kamailio, ueransim
+#### Clone repository and build base docker image of open5gs, kamailio, srsRAN_4G, srsRAN_Project, ueransim
 
 ```
+# Build docker images for open5gs EPC/5GC components
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
+# Build docker images for kamailio IMS components
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .
 
+# Build docker images for srsRAN_4G eNB + srsUE (4G+5G)
 cd ../srslte
 docker build --no-cache --force-rm -t docker_srslte .
 
+# Build docker images for srsRAN_Project gNB
 cd ../srsran
 docker build --no-cache --force-rm -t docker_srsran .
 
+# Build docker images for UERANSIM (gNB + UE)
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
 ```
 
-#### Build and Run using docker-compose
+#### Build docker images for additional components
 
 ```
 cd ..
 set -a
 source .env
 sudo ufw disable
-docker-compose -f 4g-volte-deploy.yaml build
-docker-compose -f sa-deploy.yaml build
 sudo sysctl -w net.ipv4.ip_forward=1
 sudo cpupower frequency-set -g performance
+
+# For 4G deployment only
+docker compose -f 4g-volte-deploy.yaml build
+
+# For 5G deployment only
+docker compose -f sa-deploy.yaml build
 ```
 
-###### 4G deployment
+## Network and deployment configuration
 
-```
-# 4G Core Network + IMS + SMS over SGs
-docker-compose -f 4g-volte-deploy.yaml up
+The setup can be mainly deployed in two ways:
 
-# srsRAN eNB using SDR (OTA)
-docker-compose -f srsenb.yaml up -d && docker container attach srsenb
+1. Single host setup where eNB/gNB and (EPC+IMS)/5GC are deployed on a single host machine
+2. Multi host setup where eNB/gNB is deployed on a separate host machine than (EPC+IMS)/5GC
 
-# srsRAN ZMQ eNB (RF simulated)
-docker-compose -f srsenb_zmq.yaml up -d && docker container attach srsenb_zmq
-
-# srsRAN ZMQ 4G UE (RF simulated)
-docker-compose -f srsue_zmq.yaml up -d && docker container attach srsue_zmq
-```
-
-###### 5G SA deployment
-
-```
-# 5G Core Network
-docker-compose -f sa-deploy.yaml up
-
-# srsRAN gNB using SDR (OTA)
-docker-compose -f srsgnb.yaml up -d && docker container attach srsgnb
-
-# srsRAN ZMQ gNB (RF simulated)
-docker-compose -f srsgnb_zmq.yaml up -d && docker container attach srsgnb_zmq
-
-# srsRAN ZMQ 5G UE (RF simulated)
-docker-compose -f srsue_5g_zmq.yaml up -d && docker container attach srsue_5g_zmq
-
-# UERANSIM gNB (RF simulated)
-docker-compose -f nr-gnb.yaml up -d && docker container attach nr_gnb
-
-# UERANSIM NR-UE (RF simulated)
-docker-compose -f nr-ue.yaml up -d && docker container attach nr_ue
-```
-
-## Configuration
-
-The quick run has all components (eNB/gNB, CN) running in the same docker network.
-While a more advanced configuration involves running the eNB/gNB in a separate docker network/host than the CN.
-
-#### 1. Single Host (eNB/gNB, CN in same docker network)
-For the quick run (eNB/gNB, CN in same docker network), edit only the following parameters in **.env** as per your setup
+### Single Host setup configuration
+Edit only the following parameters in **.env** as per your setup
 
 ```
 MCC
 MNC
-TEST_NETWORK --> Change this only if it clashes with the internal network at your home/office
 DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
 UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
 UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
-#### 2. Multihost (eNB/gNB, CN in separate docker network/host)
-If eNB/gNB is NOT running in the same docker network/host as the host running the dockerized Core/IMS then follow the below additional steps
+### Multihost setup configuration
 
+#### 4G deployment
+
+###### On the host running the (EPC+IMS)
+
+Edit only the following parameters in **.env** as per your setup
 ```
 MCC
 MNC
-TEST_NETWORK --> Change this only if it clashes with the internal network at your home/office
-DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
-SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB is not running the same docker network/host
-UPF_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP set above only if gNB is not running the same docker network/host
-MME_IP --> Change this to value of DOCKER_HOST_IP set above only if eNB is not running the same docker network/host
-SRS_ENB_IP --> Change this to the IP address of the host running your eNB, change only if eNB is not running the same docker network/host
+DOCKER_HOST_IP --> This is the IP address of the host running (EPC+IMS)
+SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP
 UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
 UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
-##### 4G deployment
-
-###### On the host running the CN
-
-Under mme section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
+Under **mme** section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
 ```
 ...
     # ports:
@@ -156,12 +124,19 @@ Then, uncomment the following part under **sgwu** section
 ...
 ```
 
-
 ###### On the host running the eNB
+
+Edit only the following parameters in **.env** as per your setup
+```
+MCC
+MNC
+DOCKER_HOST_IP --> This is the IP address of the host running eNB
+MME_IP --> Change this to IP address of host running (EPC+IMS)
+SRS_ENB_IP --> Change this to the IP address of the host running eNB
+```
 
 Replace the following part in the docker compose file (**srsenb.yaml**)
 ```
-...
     networks:
       default:
         ipv4_address: ${SRS_ENB_IP}
@@ -172,13 +147,24 @@ networks:
 ```
 with 
 ```
-...
 	network_mode: host
 ```
 
-##### 5G SA deployment
+#### 5G SA deployment
 
-Under amf section in docker compose file (**sa-deploy.yaml**), uncomment the following part
+###### On the host running the 5GC
+
+Edit only the following parameters in **.env** as per your setup
+```
+MCC
+MNC
+DOCKER_HOST_IP --> This is the IP address of the host running 5GC
+UPF_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP
+UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
+UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
+```
+
+Under **amf** section in docker compose file (**sa-deploy.yaml**), uncomment the following part
 ```
 ...
     # ports:
@@ -192,6 +178,72 @@ Then, uncomment the following part under **upf** section
     # ports:
     #   - "2152:2152/udp"
 ...
+```
+
+###### On the host running the gNB
+
+Edit only the following parameters in **.env** as per your setup
+```
+MCC
+MNC
+DOCKER_HOST_IP --> This is the IP address of the host running gNB
+AMF_IP --> Change this to IP address of host running 5GC
+SRS_GNB_IP --> Change this to the IP address of the host running gNB
+```
+
+Replace the following part in the docker compose file (**srsgnb.yaml**)
+```
+    networks:
+      default:
+        ipv4_address: ${SRS_GNB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default
+```
+with 
+```
+	network_mode: host
+```
+
+## Network Deployment
+
+###### 4G deployment
+
+```
+# 4G Core Network + IMS + SMS over SGs
+docker compose -f 4g-volte-deploy.yaml up
+
+# srsRAN eNB using SDR (OTA)
+docker compose -f srsenb.yaml up -d && docker container attach srsenb
+
+# srsRAN ZMQ eNB (RF simulated)
+docker compose -f srsenb_zmq.yaml up -d && docker container attach srsenb_zmq
+
+# srsRAN ZMQ 4G UE (RF simulated)
+docker compose -f srsue_zmq.yaml up -d && docker container attach srsue_zmq
+```
+
+###### 5G SA deployment
+
+```
+# 5G Core Network
+docker compose -f sa-deploy.yaml up
+
+# srsRAN gNB using SDR (OTA)
+docker compose -f srsgnb.yaml up -d && docker container attach srsgnb
+
+# srsRAN ZMQ gNB (RF simulated)
+docker compose -f srsgnb_zmq.yaml up -d && docker container attach srsgnb_zmq
+
+# srsRAN ZMQ 5G UE (RF simulated)
+docker compose -f srsue_5g_zmq.yaml up -d && docker container attach srsue_5g_zmq
+
+# UERANSIM gNB (RF simulated)
+docker compose -f nr-gnb.yaml up -d && docker container attach nr_gnb
+
+# UERANSIM NR-UE (RF simulated)
+docker compose -f nr-ue.yaml up -d && docker container attach nr_ue
 ```
 
 ## Provisioning of SIM information

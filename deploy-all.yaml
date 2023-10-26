@@ -560,6 +560,7 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=pcscf-1
+      - DEPLOY_MODE=ALL
     depends_on:
       - dns
       - mysql

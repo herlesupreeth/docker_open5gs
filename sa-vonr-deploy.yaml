@@ -37,82 +37,113 @@ services:
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
-  hss:
+  nrf:
     image: docker_open5gs
-    container_name: hss
+    container_name: nrf
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=hss-1
+      - COMPONENT_NAME=nrf-1
     volumes:
-      - ./hss:/mnt/hss
+      - ./nrf:/mnt/nrf
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${NRF_IP}
+  scp:
+    image: docker_open5gs
+    container_name: scp
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=scp-1
+    volumes:
+      - ./scp:/mnt/scp
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${SCP_IP}
+  ausf:
+    image: docker_open5gs
     depends_on:
+      - nrf
+      - scp
+    container_name: ausf
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=ausf-1
+    volumes:
+      - ./ausf:/mnt/ausf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${AUSF_IP}
+  udr:
+    image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
       - mongo
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-    networks:
-      default:
-        ipv4_address: ${HSS_IP}
-  sgwc:
-    image: docker_open5gs
-    depends_on:
-      - smf
-      - upf
-    container_name: sgwc
+    container_name: udr
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=sgwc-1
+      - COMPONENT_NAME=udr-1
     volumes:
-      - ./sgwc:/mnt/sgwc
+      - ./udr:/mnt/udr
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "2123/udp"
-      - "8805/udp"
+      - "7777/tcp"
     networks:
       default:
-        ipv4_address: ${SGWC_IP}
-  sgwu:
+        ipv4_address: ${UDR_IP}
+  udm:
     image: docker_open5gs
     depends_on:
-      - smf
-      - upf
-    container_name: sgwu
+      - nrf
+      - scp
+    container_name: udm
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=sgwu-1
+      - COMPONENT_NAME=udm-1
     volumes:
-      - ./sgwu:/mnt/sgwu
+      - ./udm:/mnt/udm
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "8805/udp"
-      - "2152/udp"
-    # ports:
-    #   - "2152:2152/udp"
+      - "7777/tcp"
     networks:
       default:
-        ipv4_address: ${SGWU_IP}
+        ipv4_address: ${UDM_IP}
   smf:
     image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
+      - amf
     container_name: smf
     env_file:
       - .env
     environment:
       - COMPONENT_NAME=smf-1
-      - DEPLOY_MODE=4G
+      - DEPLOY_MODE=5G
     volumes:
       - ./smf:/mnt/smf
       - ./log:/open5gs/install/var/log/open5gs
@@ -135,6 +166,8 @@ services:
   upf:
     image: docker_open5gs
     depends_on:
+      - nrf
+      - scp
       - smf
     container_name: upf
     env_file:
@@ -150,72 +183,127 @@ services:
       - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
+    # ports:
+    #   - "2152:2152/udp"
     cap_add:
       - NET_ADMIN
     privileged: true
     sysctls:
       - net.ipv4.ip_forward=1
+      #- net.ipv6.conf.all.disable_ipv6=0
     networks:
       default:
         ipv4_address: ${UPF_IP}
-  mme:
+  amf:
     image: docker_open5gs
     depends_on:
-      - hss
-      - sgwc
-      - sgwu
-      - smf
-      - upf
-      - osmomsc
-    container_name: mme
+      - nrf
+      - scp
+      - ausf
+      - udm
+      - udr
+      - pcf
+      - bsf
+    container_name: amf
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=mme-1
+      - COMPONENT_NAME=amf-1
     volumes:
-      - ./mme:/mnt/mme
+      - ./amf:/mnt/amf
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-      - "36412/sctp"
-      - "2123/udp"
+      - "38412/sctp"
+      - "7777/tcp"
       - "9091/tcp"
     # ports:
-    #   - "36412:36412/sctp"
+    #   - "38412:38412/sctp"
     networks:
       default:
-        ipv4_address: ${MME_IP}
-  pcrf:
+        ipv4_address: ${AMF_IP}
+  pcf:
     image: docker_open5gs
-    container_name: pcrf
+    depends_on:
+      - nrf
+      - scp
+      - mongo
+    container_name: pcf
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=pcrf-1
-    depends_on:
-      - mongo
+      - COMPONENT_NAME=pcf-1
     volumes:
-      - ./pcrf:/mnt/pcrf
+      - ./pcf:/mnt/pcf
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
+      - "7777/tcp"
+      - "9091/tcp"
     networks:
       default:
-        ipv4_address: ${PCRF_IP}
+        ipv4_address: ${PCF_IP}
+  bsf:
+    image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
+      - mongo
+    container_name: bsf
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=bsf-1
+    volumes:
+      - ./bsf:/mnt/bsf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${BSF_IP}
+  nssf:
+    image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
+      - mongo
+    container_name: nssf
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=nssf-1
+    volumes:
+      - ./nssf:/mnt/nssf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "7777/tcp"
+    networks:
+      default:
+        ipv4_address: ${NSSF_IP}
+  metrics:
+    build: ./metrics
+    image: docker_metrics
+    container_name: metrics
+    env_file:
+      - .env
+    volumes:
+      - ./metrics:/mnt/metrics
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9090/tcp"
+    ports:
+      - "9090:9090/tcp"
+    networks:
+      default:
+        ipv4_address: ${METRICS_IP}
   dns:
     build: ./dns
     image: docker_dns
@@ -361,7 +449,7 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=pcscf-1
-      - DEPLOY_MODE=4G
+      - DEPLOY_MODE=5G
     depends_on:
       - dns
       - mysql
@@ -401,60 +489,6 @@ services:
     networks:
       default:
         ipv4_address: ${SMSC_IP}
-  osmomsc:
-    build: ./osmomsc
-    image: docker_osmomsc
-    container_name: osmomsc
-    volumes:
-      - ./osmomsc:/mnt/osmomsc
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=osmomsc-1
-    depends_on:
-      - osmohlr
-    expose:
-      - "29118/sctp"
-      - "2775/tcp"
-    networks:
-      default:
-        ipv4_address: ${OSMOMSC_IP}
-  osmohlr:
-    build: ./osmohlr
-    image: docker_osmohlr
-    container_name: osmohlr
-    volumes:
-      - ./osmohlr:/mnt/osmohlr
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=osmohlr-1
-    expose:
-      - "4222/tcp"
-    networks:
-      default:
-        ipv4_address: ${OSMOHLR_IP}
-  metrics:
-    build: ./metrics
-    image: docker_metrics
-    container_name: metrics
-    env_file:
-      - .env
-    volumes:
-      - ./metrics:/mnt/metrics
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "9090/tcp"
-    ports:
-      - "9090:9090/tcp"
-    networks:
-      default:
-        ipv4_address: ${METRICS_IP}
 networks:
   default:
     ipam:

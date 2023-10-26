@@ -42,6 +42,8 @@ else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
 
+cp /mnt/srsran/qos.yml /etc/srsran/qos.yml
+
 sed -i 's|PLMN|'$MCC''$MNC'|g' /etc/srsran/gnb.yml
 sed -i 's|AMF_IP|'$AMF_IP'|g' /etc/srsran/gnb.yml
 sed -i 's|SRS_GNB_IP|'$SRS_GNB_IP'|g' /etc/srsran/gnb.yml
@@ -50,7 +52,7 @@ sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/gnb.yml
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start
 
-gnb -c /etc/srsran/gnb.yml
+gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

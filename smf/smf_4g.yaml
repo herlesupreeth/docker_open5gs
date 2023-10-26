@@ -38,7 +38,7 @@ smf:
       - 2001:4860:4860::8844
     p-cscf:
       - PCSCF_IP
-    mtu: 1410
+    mtu: 1450
     metrics:
       - addr: SMF_IP
         port: 9091

@@ -94,6 +94,10 @@ elif [[ "$COMPONENT_NAME" =~ ^(upf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/upf/upf_init.sh  && \
     cd install/bin && ./open5gs-upfd
+elif [[ "$COMPONENT_NAME" =~ ^(sepp-[[:digit:]]+$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	/mnt/sepp/sepp_init.sh  && \
+    cd install/bin && ./open5gs-seppd
 elif [[ "$COMPONENT_NAME" =~ ^(webui) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	sleep 10 && /mnt/webui/webui_init.sh

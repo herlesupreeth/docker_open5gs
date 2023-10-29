@@ -5,11 +5,12 @@ parameter:
 
 sgwu:
     gtpu:
-      - addr: SGWU_IP
-        advertise: SGWU_ADVERTISE_IP
+      server:
+        - address: SGWU_IP
+          advertise: SGWU_ADVERTISE_IP
     pfcp:
-      - addr: SGWU_IP
-
-sgwc:
-    pfcp:
-      - addr: SGWC_IP
+      server:
+        - address: SGWU_IP
+      client:
+        sgwc:
+          - address: SGWC_IP

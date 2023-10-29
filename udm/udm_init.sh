@@ -26,10 +26,11 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+[ ${#MNC} == 3 ] && FIVEGC_DOMAIN="5gc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || FIVEGC_DOMAIN="5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+
 cp /mnt/udm/udm.yaml install/etc/open5gs
-sed -i 's|UDM_IP|'$UDM_IP'|g' install/etc/open5gs/udm.yaml
+sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/udm.yaml
 sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/udm.yaml
-sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/udm.yaml
 
 cp /mnt/udm/curve25519-1.key install/etc/open5gs/hnet
 cp /mnt/udm/secp256r1-2.key install/etc/open5gs/hnet

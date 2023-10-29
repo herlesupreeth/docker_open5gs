@@ -28,10 +28,10 @@
 
 [ ${#MNC} == 3 ] && FIVEGC_DOMAIN="5gc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || FIVEGC_DOMAIN="5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
-cp /mnt/nssf/nssf.yaml install/etc/open5gs
-sed -i 's|NSSF_IP|'$NSSF_IP'|g' install/etc/open5gs/nssf.yaml
-sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/nssf.yaml
-sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/nssf.yaml
+cp /mnt/sepp/sepp.yaml install/etc/open5gs
+sed -i 's|SEPP_IP|'$SEPP_IP'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/sepp.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

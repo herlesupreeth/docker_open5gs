@@ -32,6 +32,7 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 [ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+[ ${#MNC} == 3 ] && FIVEGC_DOMAIN="5gc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || FIVEGC_DOMAIN="5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
 UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
 UE_IPV4_IMS_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_IMS)
@@ -53,6 +54,7 @@ sed -i 's|SMF_DNS2|'$SMF_DNS2'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
+sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/freeDiameter/smf.conf
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' install/etc/freeDiameter/smf.conf
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/smf.conf

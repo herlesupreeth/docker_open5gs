@@ -13,20 +13,15 @@ parameter:
 
 pcf:
     sbi:
-      - addr: PCF_IP
-        port: 7777
+      server:
+        - address: PCF_IP
+          port: 7777
+      client:
+        # nrf:
+        #     - uri: http://nrf.FIVEGC_DOMAIN:7777
+        scp:
+          - uri: http://SCP_IP:7777
     metrics:
-      - addr: PCF_IP
-        port: 9091
-
-scp:
-    sbi:
-      - addr:
-          - SCP_IP
-        port: 7777
-
-nrf:
-    sbi:
-      - addr:
-          - NRF_IP
-        port: 7777
+      server:
+        - address: PCF_IP
+          port: 9091

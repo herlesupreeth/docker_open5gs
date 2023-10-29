@@ -1,0 +1,16 @@
+$ORIGIN FIVEGC_DOMAIN.
+$TTL 1W
+@                       1D IN SOA       localhost. root.localhost. (
+                                        1		; serial
+                                        3H              ; refresh
+                                        15M             ; retry
+                                        1W              ; expiry
+                                        1D )            ; minimum
+
+                        1D IN NS        5gcns
+5gcns                   1D IN A         DNS_IP
+
+nrf                     1D IN A         NRF_IP
+ausf                    1D IN A         AUSF_IP
+udm                     1D IN A         UDM_IP
+sepp                    1D IN A         SEPP_IP

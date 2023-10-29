@@ -6,22 +6,30 @@ parameter:
 mme:
     freeDiameter: /open5gs/install/etc/freeDiameter/mme.conf
     s1ap:
-      dev: MME_IF
+      server:
+        - address: MME_IP
     gtpc:
-      dev: MME_IF
+      server:
+        - address: MME_IP
+      client:
+        sgwc:
+          - address: SGWC_IP
+        smf:
+          - address: SMF_IP
     sgsap:
-      addr: OSMOMSC_IP
-      map:
-        tai:
-          plmn_id:
-            mcc: MCC
-            mnc: MNC
-          tac: 1
-        lai:
-          plmn_id:
-            mcc: MCC
-            mnc: MNC
-          lac: 1
+      server:
+        - address: OSMOMSC_IP
+          map:
+            tai:
+              plmn_id:
+                mcc: MCC
+                mnc: MNC
+              tac: 1
+            lai:
+              plmn_id:
+                mcc: MCC
+                mnc: MNC
+              lac: 1
     gummei: 
       plmn_id:
         mcc: MCC
@@ -40,17 +48,9 @@ mme:
         full: Open5GS
     mme_name: open5gs-mme0
     metrics:
-      - addr: MME_IP
-        port: 9091
-
-sgwc:
-    gtpc:
-      addr: SGWC_IP
-
-smf:
-    gtpc:
-      - addr:
-        - SMF_IP
+      server:
+        - address: MME_IP
+          port: 9091
 
 time:
   t3412:

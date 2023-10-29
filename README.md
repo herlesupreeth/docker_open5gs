@@ -37,7 +37,7 @@ RF simulated setups:
 ```
 # Build docker images for open5gs EPC/5GC components
 git clone https://github.com/herlesupreeth/docker_open5gs
-cd docker_open5gs/base
+cd docker_open5gs/base && git checkout roaming
 docker build --no-cache --force-rm -t docker_open5gs .
 
 # Build docker images for kamailio IMS components

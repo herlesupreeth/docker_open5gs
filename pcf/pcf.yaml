@@ -18,7 +18,7 @@ pcf:
           port: 7777
       client:
         # nrf:
-        #     - uri: http://nrf.FIVEGC_DOMAIN:7777
+        #     - uri: http://nrf.FIVEGC_DOMAIN
         scp:
           - uri: http://SCP_IP:7777
     metrics:

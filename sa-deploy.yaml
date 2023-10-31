@@ -69,6 +69,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
+      - "80/tcp"
+      - "443/tcp"
     networks:
       default:
         ipv4_address: ${NRF_IP}
@@ -111,6 +113,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
+      - "80/tcp"
+      - "443/tcp"
     networks:
       default:
         ipv4_address: ${AUSF_IP}
@@ -156,6 +160,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
+      - "80/tcp"
+      - "443/tcp"
     networks:
       default:
         ipv4_address: ${UDM_IP}

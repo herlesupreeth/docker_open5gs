@@ -17,4 +17,3 @@ nrf:
     sbi:
       server:
         - address: nrf.FIVEGC_DOMAIN
-          port: 7777

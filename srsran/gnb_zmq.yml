@@ -21,6 +21,9 @@ cell_cfg:
     dedicated:
       ss2_type: common                                                                        # Search Space type, has to be set to common
       dci_format_0_1_and_1_1: false                                                           # Set correct DCI format (fallback)
+    common:
+      ss0_index: 0
+      coreset0_index: 6
   prach:
     prach_config_index: 1
 

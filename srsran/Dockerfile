@@ -40,7 +40,7 @@ RUN add-apt-repository ppa:ettusresearch/uhd && \
 
 # Get srsRAN_Project, compile and install
 RUN git clone https://github.com/srsran/srsRAN_Project.git && \
-    cd srsRAN_Project && git checkout tags/release_23_10 && \
+    cd srsRAN_Project && git checkout 55c984b55736d0dd2d2ee328f1ae8d9de97e3e19 && \
     mkdir build && cd build && \
     cmake ../ -DENABLE_EXPORT=ON -DENABLE_ZEROMQ=ON && make -j`nproc` && make install && \
     ldconfig

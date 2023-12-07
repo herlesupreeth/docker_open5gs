@@ -4,15 +4,15 @@ amf:
 
 ru_sdr:
   device_driver: zmq                                                                          # The RF driver name.
-  device_args: tx_port=tcp://SRS_GNB_IP:2000,rx_port=tcp://SRS_UE_IP:2001,base_srate=11.52e6  # Optionally pass arguments to the selected RF driver.
-  srate: 11.52                                                                                # RF sample rate might need to be adjusted according to selected bandwidth.
+  device_args: tx_port=tcp://SRS_GNB_IP:2000,rx_port=tcp://SRS_UE_IP:2001,base_srate=23.04e6  # Optionally pass arguments to the selected RF driver.
+  srate: 23.04                                                                                # RF sample rate might need to be adjusted according to selected bandwidth.
   tx_gain: 75                                                                                 # Transmit gain of the RF might need to adjusted to the given situation.
   rx_gain: 75                                                                                 # Receive gain of the RF might need to adjusted to the given situation.
 
 cell_cfg:
   dl_arfcn: 368500                                                                            # ARFCN of the downlink carrier (center frequency).
   band: 3                                                                                     # The NR band.
-  channel_bandwidth_MHz: 10                                                                   # Bandwith in MHz. Number of PRBs will be automatically derived.
+  channel_bandwidth_MHz: 20                                                                   # Bandwith in MHz. Number of PRBs will be automatically derived.
   common_scs: 15                                                                              # Subcarrier spacing in kHz used for data.
   plmn: "PLMN"                                                                                # PLMN broadcasted by the gNB.
   tac: 1                                                                                      # Tracking area code (needs to match the core configuration).
@@ -23,7 +23,7 @@ cell_cfg:
       dci_format_0_1_and_1_1: false                                                           # Set correct DCI format (fallback)
     common:
       ss0_index: 0
-      coreset0_index: 6
+      coreset0_index: 13
   prach:
     prach_config_index: 1
 

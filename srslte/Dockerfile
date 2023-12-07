@@ -68,7 +68,7 @@ RUN git clone https://github.com/srsran/srsGUI && \
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN_4G.git && \
     cd srsRAN_4G && \
-    git checkout release_23_04_1 && \
+    git checkout 4eb990c9c6ad9b0af943bba71d0f8355b3ebb259 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig

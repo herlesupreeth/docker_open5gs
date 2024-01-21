@@ -1,38 +1,50 @@
 logger:
     file: /open5gs/install/var/log/open5gs/mme.log
 
+global:
+  max:
+    ue: MAX_NUM_UE
+
 parameter:
 
 mme:
     freeDiameter: /open5gs/install/etc/freeDiameter/mme.conf
     s1ap:
-      dev: MME_IF
+      server:
+        - dev: MME_IF
     gtpc:
-      dev: MME_IF
+      server:
+        - dev: MME_IF
+      client:
+        sgwc:
+          - address: SGWC_IP
+        smf:
+          - address: SMF_IP
     sgsap:
-      addr: OSMOMSC_IP
-      map:
-        tai:
-          plmn_id:
-            mcc: MCC
-            mnc: MNC
-          tac: 1
-        lai:
-          plmn_id:
-            mcc: MCC
-            mnc: MNC
-          lac: 1
+      server:
+        - address: OSMOMSC_IP
+          map:
+            tai:
+              plmn_id:
+                mcc: MCC
+                mnc: MNC
+              tac: 1
+            lai:
+              plmn_id:
+                mcc: MCC
+                mnc: MNC
+              lac: 1
     gummei: 
-      plmn_id:
-        mcc: MCC
-        mnc: MNC
-      mme_gid: 2
-      mme_code: 1
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
+        mme_gid: 2
+        mme_code: 1
     tai:
-      plmn_id:
-        mcc: MCC
-        mnc: MNC
-      tac: 1
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
+        tac: 1
     security:
         integrity_order : [ EIA2, EIA1, EIA0 ]
         ciphering_order : [ EEA0, EEA1, EEA2 ]
@@ -40,18 +52,9 @@ mme:
         full: Open5GS
     mme_name: open5gs-mme0
     metrics:
-      - addr: MME_IP
-        port: 9091
-
-sgwc:
-    gtpc:
-      addr: SGWC_IP
-
-smf:
-    gtpc:
-      - addr:
-        - SMF_IP
-
-time:
-  t3412:
-    value: 540
+      server:
+        - address: MME_IP
+          port: 9091
+    time:
+      t3412:
+        value: 540

@@ -5,10 +5,11 @@ parameter:
 
 sgwc:
     gtpc:
-      - addr: SGWC_IP
+      server:
+        - address: SGWC_IP
     pfcp:
-      - addr: SGWC_IP
-
-sgwu:
-    pfcp:
-      - addr: SGWU_IP
+      server:
+        - address: SGWC_IP
+      client:
+        sgwu:
+          - address: SGWU_IP

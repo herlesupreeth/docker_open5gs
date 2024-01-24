@@ -7,14 +7,25 @@ sbi:
     client:
       no_tls: true
 
+global:
+  max:
+    ue: MAX_NUM_UE
+
 parameter:
 
 amf:
     sbi:
-      - addr: AMF_IP
-        port: 7777
+      server:
+        - address: AMF_IP
+          port: 7777
+      client:
+        nrf:
+          - uri: http://NRF_IP:7777
+        scp:
+          - uri: http://SCP_IP:7777
     ngap:
-      - addr: AMF_IP
+      server:
+        - address: AMF_IP
     guami:
       - plmn_id:
           mcc: MCC
@@ -40,21 +51,10 @@ amf:
         full: Open5GS
     amf_name: open5gs-amf0
     metrics:
-      - addr: AMF_IP
-        port: 9091
+      server:
+        - address: AMF_IP
+          port: 9091
+    time:
+      t3512:
+        value: 540
 
-scp:
-    sbi:
-      - addr:
-          - SCP_IP
-        port: 7777
-
-nrf:
-    sbi:
-      - addr:
-          - NRF_IP
-        port: 7777
-
-time:
-  t3512:
-    value: 540

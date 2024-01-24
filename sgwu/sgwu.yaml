@@ -1,15 +1,21 @@
 logger:
     file: /open5gs/install/var/log/open5gs/sgwu.log
 
+global:
+  max:
+    ue: MAX_NUM_UE
+
 parameter:
 
 sgwu:
     gtpu:
-      - addr: SGWU_IP
-        advertise: SGWU_ADVERTISE_IP
+      server:
+        - address: SGWU_IP
+          advertise: SGWU_ADVERTISE_IP
     pfcp:
-      - addr: SGWU_IP
+      server:
+        - address: SGWU_IP
+      client:
+        sgwc:
+          - address: SGWC_IP
 
-sgwc:
-    pfcp:
-      - addr: SGWC_IP

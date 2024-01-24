@@ -7,6 +7,10 @@ sbi:
     client:
       no_tls: true
 
+global:
+  max:
+    ue: MAX_NUM_UE
+
 parameter:
 
 udm:
@@ -18,17 +22,11 @@ udm:
         scheme: 2
         key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
     sbi:
-      - addr: UDM_IP
-        port: 7777
-
-scp:
-    sbi:
-      - addr:
-          - SCP_IP
-        port: 7777
-
-nrf:
-    sbi:
-      - addr:
-          - NRF_IP
-        port: 7777
+      server:
+        - address: UDM_IP
+          port: 7777
+      client:
+        nrf:
+          - uri: http://NRF_IP:7777
+        scp:
+          - uri: http://SCP_IP:7777

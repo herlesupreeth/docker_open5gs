@@ -7,16 +7,18 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
+
+# parameter:
 
 nrf:
+    serving:  # 5G roaming requires PLMN in NRF
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
     sbi:
-      addr:
-        - NRF_IP
-      port: 7777
-
-scp:
-    sbi:
-      addr:
-        - SCP_IP
-      port: 7777
+      server:
+      - address: NRF_IP
+        port: 7777

@@ -7,28 +7,38 @@ sbi:
     client:
       no_tls: true
 
+global:
+  max:
+    ue: MAX_NUM_UE
+
 parameter:
     no_ipv4v6_local_addr_in_packet_filter: true
 
 smf:
     freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
     gtpc:
-      - addr: SMF_IP
+      server:
+        - address: SMF_IP
     gtpu:
-      - addr: SMF_IP
+      server:
+        - address: SMF_IP
     pfcp:
-      - addr: SMF_IP
-    subnet:
-      - addr: UE_IPV4_INTERNET_TUN_IP
+      server:
+        - address: SMF_IP
+      client:
+        upf:
+          - address: UPF_IP
+    session:
+      - subnet: UE_IPV4_INTERNET_TUN_IP
         dnn: internet
         dev: ogstun
-      - addr: 2001:230:cafe::1/48
-        dev: ogstun
+      - subnet: 2001:230:cafe::1/48
         dnn: internet
-      - addr: UE_IPV4_IMS_TUN_IP
+        dev: ogstun
+      - subnet: UE_IPV4_IMS_TUN_IP
         dnn: ims
         dev: ogstun2
-      - addr: 2001:230:babe::1/48
+      - subnet: 2001:230:babe::1/48
         dnn: ims
         dev: ogstun2
     dns:
@@ -40,9 +50,7 @@ smf:
       - PCSCF_IP
     mtu: 1450
     metrics:
-      - addr: SMF_IP
-        port: 9091
+      server:
+        - address: SMF_IP
+          port: 9091
 
-upf:
-    pfcp:
-      - addr: UPF_IP

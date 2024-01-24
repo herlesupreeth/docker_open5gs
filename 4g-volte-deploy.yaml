@@ -31,9 +31,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3000/tcp"
+      - "9999/tcp"
     ports:
-      - "3000:3000/tcp"
+      - "9999:9999/tcp"
     networks:
       default:
         ipv4_address: ${WEBUI_IP}

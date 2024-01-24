@@ -250,7 +250,7 @@ docker compose -f nr-ue.yaml up -d && docker container attach nr_ue
 
 ### Provisioning of SIM information in open5gs HSS as follows:
 
-Open (http://<DOCKER_HOST_IP>:3000) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
+Open (http://<DOCKER_HOST_IP>:9999) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
 ```
 Username : admin
 Password : 1423

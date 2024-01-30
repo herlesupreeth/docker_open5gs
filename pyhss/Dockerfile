@@ -39,6 +39,7 @@ RUN apt-get update && \
         pkg-config \
         libsystemd-dev \
         libmysqlclient-dev \
+        libsctp-dev \
         gcc \
         mysql-server
         

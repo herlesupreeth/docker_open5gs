@@ -1,5 +1,7 @@
 ## HSS Parameters
 hss:
+  # Transport Type. "TCP" and "SCTP" are valid options.
+  # Note: SCTP works but is still experimental. TCP has been load-tested and performs in a production environment.
   transport: "TCP"
   #IP Addresses to bind on (List) - For TCP only the first IP is used, for SCTP all used for Transport (Multihomed).
   bind_ip: ["PYHSS_IP"]
@@ -30,17 +32,14 @@ hss:
   #IMSI of Test Subscriber for Unit Checks (Optional)
   test_sub_imsi: '001021234567890'
 
-  #Device Watchdog Request Interval (In Seconds - If set to 0 disabled)
-  device_watchdog_request_interval: 5
-
-  #Async Queue Check Interval (In Seconds - If set to 0 disabled)
-  async_check_interval: 0
-
   #The maximum time to wait, in seconds, before disconnecting a client when no data is received.
   client_socket_timeout: 120
 
-  #The maximum amount of times a failed diameter response/query should be resent before considering the peer offline and terminating their connection
-  diameter_max_retries: 1
+  #The maximum time to wait, in seconds, before discarding a diameter request.
+  diameter_request_timeout: 3
+
+  #The amount of time, in seconds, before purging a disconnected client from the Active Diameter Peers key in redis.
+  active_diameter_peers_timeout: 10
 
   #Prevent updates from being performed without a valid 'Provisioning-Key' in the header
   lock_provisioning: False
@@ -56,34 +55,50 @@ hss:
 
   #Default Initial Filter Criteria for IMS Subscribers
   #Jinja Formatted Template, see the example for variables passed to it.
-  Default_iFC: 'default_ifc.xml'
+  Default_iFC: 'INSTALL_PREFIX/default_ifc.xml'
 
   #Default Sh User Data
-  Default_Sh_UserData: 'default_sh_user_data.xml'
+  Default_Sh_UserData: 'INSTALL_PREFIX/default_sh_user_data.xml'
 
   #S-CSCF Pool
   scscf_pool:
     - 'sip:scscf.IMS_DOMAIN:6060'
 
+  roaming:
+    outbound:
+      # Whether or not to a subscriber to connect to an undefined network when outbound roaming.
+      allow_undefined_networks: True
+
+  # SCTP Socket Parameters
+  sctp:
+    rtoMax: 5000
+    rtoMin: 500
+    rtoInitial: 1000
+
 api:
   page_size: 200
+  # Whether or not to return key-based data when querying the AUC. Disable in production systems.
+  enable_insecure_auc: True
 
-external:
-  external_webhook_notification_enabled: False
-  external_webhook_notification_url: https://api.example.com/webhook
+benchmarking:
+  # Whether to enable benchmark logging
+  enabled: True
+  # How often to report, in seconds. Not all benchmarking supports interval reporting.
+  reporting_interval: 3600
 
 eir:
   imsi_imei_logging: True    #Store current IMEI / IMSI pair in backend
-  sim_swap_notify_webhook:  http://PYHSS_IP:5000/webhooks/sim_swap_notify/
   no_match_response: 2       #Greylist
-  tac_database_csv: '/etc/pyhss/tac_database_Nov2022.csv'
+  store_offnet_imsi: False  # Whether or not to store an IMEI / IMSI pair that doesn't exist in the AUC
+  simSwapNotification: False # If the IMEI for a stored IMSI/IMEI combo changes, notify the webhook endpoint
 
 logging:
-  level: WARNING
+  level: DEBUG
   logfiles:
-    hss_logging_file: log/hss.log
-    diameter_logging_file: log/diameter.log
-    database_logging_file: log/db.log
+    hss_logging_file: INSTALL_PREFIX/log/hss.log
+    diameter_logging_file: INSTALL_PREFIX/log/diameter.log
+    geored_logging_file: INSTALL_PREFIX/log/geored.log
+    metric_logging_file: INSTALL_PREFIX/log/metrics.log
   log_to_terminal: True
   sqlalchemy_sql_echo: True
   sqlalchemy_pool_recycle: 15
@@ -97,6 +112,14 @@ database:
   username: pyhss
   password: ims_db_pass
   database: ims_hss_db
+  readCacheEnabled: True
+  readCacheInterval: 60
+
+## External Webhook Notifications
+webhooks:
+  enabled: False
+  endpoints:
+    - 'http://127.0.0.1:8181'
 
 ## Geographic Redundancy Parameters
 geored:
@@ -106,17 +129,22 @@ geored:
     - 'http://hss01.mnc001.mcc001.3gppnetwork.org:8080'
     - 'http://hss02.mnc001.mcc001.3gppnetwork.org:8080'
 
-## Stats Parameters
+#Redis is required to run PyHSS. An instance running on a local network is recommended for production.
 redis:
-  enabled: False
-  clear_stats_on_boot: True
-  host: PYHSS_IP
+  # Which connection type to attempt. Valid options are: tcp, unix, sentinel
+  # tcp - Connection via a standard TCP socket to a given host and port.
+  # unix - Connect to redis via a unix socket, provided by unixSocketPath.
+  # sentinel - Connect to one or more redis sentinel hosts.
+  connectionType: "tcp"
+  unixSocketPath: '/var/run/redis/redis-server.sock'
+  host: 127.0.0.1
   port: 6379
 
 prometheus:
   enabled: False
   port: 8081    #If the API is run the API runs on the next port number up from this
+  async_subscriber_count: False    #If enabled the subscriber count will be updated asynchronously for Prometheus
 
 snmp:
   port: 1161
-  listen_address: PYHSS_IP
+  listen_address: 127.0.0.1

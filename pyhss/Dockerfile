@@ -41,12 +41,20 @@ RUN apt-get update && \
         libmysqlclient-dev \
         libsctp-dev \
         gcc \
-        mysql-server
-        
+        mysql-server \
+        lsb-release \
+        curl \
+        gpg
+
+
+RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends redis
 
 # Get pyhss code and install
 RUN git clone https://github.com/nickvsnetworking/pyhss && \
-    cd pyhss && git checkout fa059d56330f6e565a9b546d5a9ed4071c2c9ab6
+    cd pyhss && git checkout 44268e2757735cd798d0ee6f103fac8b582cfa94
 RUN cd pyhss && pip3 install -r requirements.txt
 
 RUN mkdir -p /pyhss/log/

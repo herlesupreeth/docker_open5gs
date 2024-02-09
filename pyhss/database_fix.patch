@@ -1,0 +1,16 @@
+diff --git a/lib/database.py b/lib/database.py
+index d673efa..877697e 100755
+--- a/lib/database.py
++++ b/lib/database.py
+@@ -375,7 +375,10 @@ class Database:
+         #Load IMEI TAC database into Redis if enabled
+         if ('tac_database_csv' in self.config['eir']):
+             self.load_IMEI_database_into_Redis()
+-            self.tacData = json.loads(self.redisMessaging.getValue(key="tacDatabase", usePrefix=True, prefixHostname=self.hostname, prefixServiceName='database'))
++            try:
++                self.tacData = json.loads(self.redisMessaging.getValue(key="tacDatabase", usePrefix=True, prefixHostname=self.hostname, prefixServiceName='database'))
++            except:
++                self.tacData = {}
+         else:
+             self.logTool.log(service='Database', level='info', message="Not loading EIR IMEI TAC Database as Redis not enabled or TAC CSV Database not set in config", redisClient=self.redisMessaging)
+             self.tacData = {}

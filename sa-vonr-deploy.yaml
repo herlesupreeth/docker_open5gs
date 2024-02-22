@@ -37,6 +37,22 @@ services:
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
+  cli:
+    image: docker_open5gs
+    container_name: cli
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=cli
+    volumes:
+      - ./cli:/mnt/cli
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      default:
+        ipv4_address: ${CLI_IP}
   nrf:
     image: docker_open5gs
     container_name: nrf

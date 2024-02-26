@@ -11,8 +11,6 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 udm:
     hnet:
       - id: 1

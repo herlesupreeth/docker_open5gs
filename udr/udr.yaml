@@ -13,8 +13,6 @@ global:
 logger:
     file: /open5gs/install/var/log/open5gs/udr.log
 
-parameter:
-
 udr:
     sbi:
       server:

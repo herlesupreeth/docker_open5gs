@@ -7,7 +7,5 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 pcrf:
     freeDiameter: /open5gs/install/etc/freeDiameter/pcrf.conf

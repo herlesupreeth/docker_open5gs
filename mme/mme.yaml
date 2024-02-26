@@ -5,8 +5,6 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 mme:
     freeDiameter: /open5gs/install/etc/freeDiameter/mme.conf
     s1ap:

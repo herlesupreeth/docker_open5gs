@@ -13,8 +13,6 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 bsf:
     sbi:
       server:

@@ -10,9 +10,8 @@ sbi:
 global:
   max:
     ue: MAX_NUM_UE
-
-parameter:
-    no_ipv4v6_local_addr_in_packet_filter: true
+  parameter:
+      no_ipv4v6_local_addr_in_packet_filter: true
 
 smf:
     freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf

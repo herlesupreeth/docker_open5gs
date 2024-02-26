@@ -7,7 +7,5 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 hss:
     freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf

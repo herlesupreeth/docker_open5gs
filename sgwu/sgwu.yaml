@@ -5,8 +5,6 @@ global:
   max:
     ue: MAX_NUM_UE
 
-parameter:
-
 sgwu:
     gtpu:
       server:

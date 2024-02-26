@@ -11,8 +11,6 @@ global:
   max:
     ue: MAX_NUM_UE
 
-# parameter:
-
 nrf:
     serving:  # 5G roaming requires PLMN in NRF
       - plmn_id:

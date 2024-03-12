@@ -97,6 +97,9 @@ elif [[ "$COMPONENT_NAME" =~ ^(upf-[[:digit:]]+$) ]]; then
 elif [[ "$COMPONENT_NAME" =~ ^(webui) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	sleep 10 && /mnt/webui/webui_init.sh
+elif [[ "$COMPONENT_NAME" =~ ^(cli) ]]; then
+        echo "Deploying component: '$COMPONENT_NAME'"
+        sleep 10 && /mnt/cli/cli_init.sh
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi

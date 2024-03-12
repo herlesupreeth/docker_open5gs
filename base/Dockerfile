@@ -102,6 +102,7 @@ RUN apt-get update && \
         python3-pip \
         iptables \
         iperf \
+        mongodb-clients \
         gnupg && \
     apt-get autoremove -y && apt-get autoclean
 
@@ -120,6 +121,7 @@ COPY --from=builder /open5gs/install/etc /open5gs/install/etc
 COPY --from=builder /open5gs/install/include /open5gs/install/include
 COPY --from=builder /open5gs/install/lib /open5gs/install/lib
 COPY --from=builder /open5gs/webui /open5gs/webui
+COPY --from=builder /open5gs/misc/db /open5gs/misc/db
 
 # Set the working directory to open5gs
 WORKDIR open5gs

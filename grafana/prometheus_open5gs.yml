@@ -1,0 +1,6 @@
+apiVersion: 1
+
+datasources:
+  - name: Open5Gs
+    type: prometheus
+    url: http://METRICS_IP:9090

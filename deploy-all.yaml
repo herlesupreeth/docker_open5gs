@@ -663,6 +663,23 @@ services:
     networks:
       default:
         ipv4_address: ${METRICS_IP}
+  grafana:
+    build: ./grafana
+    image: docker_grafana
+    container_name: grafana
+    env_file:
+      - .env
+    volumes:
+      - ./grafana:/mnt/grafana
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${GRAFANA_IP}
 networks:
   default:
     ipam:

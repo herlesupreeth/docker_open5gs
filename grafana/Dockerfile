@@ -29,11 +29,11 @@ FROM ubuntu:jammy
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y apt-transport-https software-properties-common wget && \
+    apt-get install -y --no-install-recommends apt-transport-https software-properties-common wget && \
     mkdir -p /etc/apt/keyrings/ && \
     wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | tee /etc/apt/keyrings/grafana.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee -a /etc/apt/sources.list.d/grafana.list && \
     apt-get update && \
-    apt-get install -y grafana 
+    apt-get install -y --no-install-recommends grafana 
 
 CMD /mnt/grafana/grafana_init.sh

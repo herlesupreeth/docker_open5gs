@@ -32,6 +32,9 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
 [ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
+ln -s /usr/bin/mongo /usr/bin/mongosh
+sed -i "s|localhost|$MONGO_IP|" /open5gs/misc/db/open5gs-dbctl
+
 cp /mnt/hss/hss.yaml install/etc/open5gs
 cp /mnt/hss/hss.conf install/etc/freeDiameter
 cp /mnt/hss/make_certs.sh install/etc/freeDiameter

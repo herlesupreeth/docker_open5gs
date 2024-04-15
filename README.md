@@ -258,6 +258,13 @@ Password : 1423
 
 Using Web UI, add a subscriber
 
+#### or using cli 
+
+```
+sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd09487cccbd7097c6862 8E27B6AF0E692E750F32667A3B14605D
+```
+
+
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 
 1. First, login to the osmohlr container

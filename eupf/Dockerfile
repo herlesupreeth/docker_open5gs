@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -26,24 +24,32 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
-export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
-export IF_NAME=$(ip r | awk '/default/ { print $5 }')
+FROM ubuntu:jammy
 
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+ENV DEBIAN_FRONTEND=noninteractive
 
-UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
-UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)
+# Install updates and dependencies
+RUN apt-get update && \
+    apt-get -y install wget git clang llvm gcc-multilib libbpf-dev \
+    net-tools iputils-ping git ifupdown iperf iptables
 
-cp /mnt/upf/upf.yaml install/etc/open5gs
-sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/upf.yaml
+# Install Golang
+RUN rm -rf /usr/local/go && wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
 
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+# Install the Swag command line tool for Golang
+RUN go install github.com/swaggo/swag/cmd/swag@v1.8.12
+
+# Get eupf, compile and install
+RUN export PATH=$(go env GOPATH)/bin:${PATH} && \
+    git clone https://github.com/edgecomllc/eupf.git && \
+    cd eupf && git checkout tags/v0.6.4 && \
+    go generate -v ./cmd/... && \
+    go build -v -o bin/eupf ./cmd/
+
+# Set the working directory to eupf
+WORKDIR eupf
+
+CMD /mnt/eupf/eupf_init.sh

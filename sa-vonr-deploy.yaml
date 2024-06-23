@@ -163,19 +163,21 @@ services:
     networks:
       default:
         ipv4_address: ${SMF_IP}
-  upf:
-    image: docker_open5gs
+  eupf:
+    image: docker_eupf
     depends_on:
       - nrf
       - scp
       - smf
-    container_name: upf
+    container_name: eupf
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=upf-1
+      - COMPONENT_NAME=eupf-1
     volumes:
-      - ./upf:/mnt/upf
+      - ./eupf:/mnt/eupf
+      - /sys/fs/bpf:/sys/fs/bpf
+      - /sys/kernel/debug:/sys/kernel/debug:ro
       - ./log:/open5gs/install/var/log/open5gs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -183,17 +185,36 @@ services:
       - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
+      - "8181/tcp"
     # ports:
     #   - "2152:2152/udp"
+    ulimits:
+      memlock: -1
     cap_add:
       - NET_ADMIN
+      - SYS_ADMIN
     privileged: true
     sysctls:
-      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.forwarding=1
       #- net.ipv6.conf.all.disable_ipv6=0
     networks:
       default:
         ipv4_address: ${UPF_IP}
+  eupf-routes:
+    image: nicolaka/netshoot
+    network_mode: host
+    privileged: true
+    container_name: eupf-routes
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ip ro add ${UE_IPV4_INTERNET} via ${UPF_IP} && \
+        iptables -t nat -A POSTROUTING -s ${UE_IPV4_INTERNET} -j MASQUERADE
+        echo "done"
+        tail -f /dev/null
   amf:
     image: docker_open5gs
     depends_on:

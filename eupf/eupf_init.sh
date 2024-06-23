@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -24,48 +26,21 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import click
-import sys
-import ipaddress
+export PATH="/usr/local/go/bin:${PATH}"
+export PATH=$(go env GOPATH)/bin:${PATH}
+export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
+export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
-"""
-Script used to fetch first IP address in a given IP range. i.e. the calling bash script reads the std output
+./bin/eupf \
+    --iface $IF_NAME \
+    --aaddr $UPF_IP:8181 \
+    --paddr $UPF_IP:8805 \
+    --maddr $UPF_IP:9091 \
+    --nodeid $UPF_IP \
+    --ueip false \
+    --ftup false \
+    --loglvl info \
+    --n3addr $UPF_ADVERTISE_IP
 
-Usage in command line:
-e.g:
-$ python3 ip_utils.py --ip_range 192.168.100.0/24
-$ python3 ip_utils.py --ip_range 2001:230:cafe::/48
-"""
-
-
-def validate_ip_net(ctx, param, value):
-    try:
-        ip_net = ipaddress.ip_network(value)
-        return ip_net
-    except ValueError:
-        raise click.BadParameter(
-            'Value does not represent a valid IPv4/IPv6 range')
-
-
-@click.command()
-@click.option('--ip_range',
-              required=True,
-              callback=validate_ip_net,
-              help='UE IPv4/IPv6 Address range in CIDR format e.g. 192.168.100.0/24 or 2001:230:cafe::/48')
-def start(ip_range):
-
-    # Get the first IP address in the IP range and netmask prefix length
-    first_ip_addr = next(ip_range.hosts(), None)
-    if not first_ip_addr:
-        raise ValueError('Invalid UE IPv4 range. Only one IP given')
-    else:
-        first_ip_addr = first_ip_addr.exploded
-        ip_netmask_prefix = ip_range.prefixlen
-        print(str(first_ip_addr) + '/' + str(ip_netmask_prefix))
-
-if __name__ == '__main__':
-    try:
-        start()
-        sys.exit(0)
-    except ValueError:
-        sys.exit(1)
+# Sync docker time
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

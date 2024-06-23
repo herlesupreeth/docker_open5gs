@@ -40,6 +40,10 @@ git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
+# Build docker images for eUPF
+cd ../eupf
+docker build --no-cache --force-rm -t docker_eupf .
+
 # Build docker images for kamailio IMS components
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .

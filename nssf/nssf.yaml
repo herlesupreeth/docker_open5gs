@@ -22,7 +22,7 @@ nssf:
         scp:
           - uri: http://SCP_IP:7777
         nsi:
-          - uri: http://NRF_IP:7777
+          - uri: http://NRF_FQDN
             s_nssai:
               sst: 1
 

@@ -14,8 +14,7 @@ global:
 ausf:
     sbi:
       server:
-        - address: AUSF_IP
-          port: 7777
+        - address: AUSF_FQDN
       client:
         nrf:
           - uri: http://NRF_IP:7777

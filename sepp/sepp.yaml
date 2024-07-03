@@ -1,0 +1,32 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/sepp.log
+
+global:
+  max:
+    ue: MAX_NUM_UE
+
+sepp:
+    sbi:
+      server:
+        - address: SEPP_IP
+          port: 7777
+      client:
+        scp:
+          - uri: http://SCP_IP:7777
+    n32:
+      server:
+        - sender: SEPP_HOSTNAME
+          address: SEPP_IP
+          port: 7779
+          n32f:
+            address: SEPP_IP
+            port: 7780
+      client:
+        nrf:
+          - uri: http://NRF_IP:7777
+        sepp:
+          - receiver: SEPP_V_HOSTNAME
+            uri: http://SEPP_V_IP:7779
+            n32f:
+              uri: http://SEPP_V_IP:7780
+

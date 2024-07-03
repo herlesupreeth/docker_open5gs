@@ -21,8 +21,7 @@ udm:
         key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
     sbi:
       server:
-        - address: UDM_IP
-          port: 7777
+        - address: UDM_FQDN
       client:
         nrf:
           - uri: http://NRF_IP:7777

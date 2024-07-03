@@ -18,5 +18,5 @@ nrf:
           mnc: MNC
     sbi:
       server:
-      - address: NRF_IP
-        port: 7777
+      - address: NRF_FQDN
+

@@ -55,4 +55,10 @@ amf:
     time:
       t3512:
         value: 540
-
+    access_control:
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
+      - plmn_id:
+          mcc: MCC_V
+          mnc: MNC_V

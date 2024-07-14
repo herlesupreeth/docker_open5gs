@@ -28,6 +28,7 @@
 
 cp /mnt/nrf/nrf.yaml install/etc/open5gs
 sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/nrf.yaml
+sed -i 's|NRF_FQDN|'$NRF_FQDN'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/nrf.yaml

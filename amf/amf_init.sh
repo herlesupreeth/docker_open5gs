@@ -30,6 +30,8 @@ cp /mnt/amf/amf.yaml install/etc/open5gs
 sed -i 's|AMF_IP|'$AMF_IP'|g' install/etc/open5gs/amf.yaml
 sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/amf.yaml
 sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/amf.yaml
+sed -i 's|MNC_V|'$MNC_V'|g' install/etc/open5gs/amf.yaml
+sed -i 's|MCC_V|'$MCC_V'|g' install/etc/open5gs/amf.yaml
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/amf.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/amf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/amf.yaml

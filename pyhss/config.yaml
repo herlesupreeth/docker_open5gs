@@ -93,7 +93,7 @@ eir:
   simSwapNotification: False # If the IMEI for a stored IMSI/IMEI combo changes, notify the webhook endpoint
 
 logging:
-  level: DEBUG
+  level: INFO
   logfiles:
     hss_logging_file: INSTALL_PREFIX/log/hss.log
     diameter_logging_file: INSTALL_PREFIX/log/diameter.log

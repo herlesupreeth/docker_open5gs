@@ -42,5 +42,5 @@ pcap:
   e1ap_filename: /mnt/srsran/gnb_e1ap.pcap                                                    # Path where the E1AP PCAP is stored.
   e2ap_enable: false                                                                          # Set to true to enable E2AP PCAPs.
   e2ap_filename: /mnt/srsran/gnb_e2ap.pcap                                                    # Path where the E2AP PCAP is stored.
-  gtpu_enable: false                                                                          # Set to true to enable GTP-U PCAPs.
-  gtpu_filename: /mnt/srsran/gnb_gtpu.pcap                                                    # Path where the GTP-U PCAP is stored.
+  n3_enable: false                                                                            # Set to true to enable N3 PCAPs.
+  n3_filename: /mnt/srsran/gnb_n3.pcap                                                        # Path where the N3 PCAP is stored.

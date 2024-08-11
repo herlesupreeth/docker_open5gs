@@ -54,7 +54,7 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
 
 # Get BladeRF, compile and install
 RUN git clone https://github.com/Nuand/bladeRF.git && \
-    cd bladeRF/host/ && \
+    cd bladeRF/host/ && git checkout tags/2024.05 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON -DBLADERF_GROUP=plugdev ../ && make && make install && \
     ldconfig && \
@@ -84,7 +84,7 @@ RUN git clone https://github.com/srsran/srsGUI && \
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN_4G.git && \
     cd srsRAN_4G && \
-    git checkout 4eb990c9c6ad9b0af943bba71d0f8355b3ebb259 && \
+    git checkout ec29b0c1ff79cebcbe66caa6d6b90778261c42b8 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig

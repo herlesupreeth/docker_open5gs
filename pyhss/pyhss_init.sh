@@ -64,8 +64,6 @@ sed -i 's|INSTALL_PREFIX|'$INSTALL_PREFIX'|g' ./config.yaml
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-git apply /mnt/pyhss/database_fix.patch
-
 redis-server --daemonize yes
 
 cd services

@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/amf.log
+    file:
+      path: /open5gs/install/var/log/open5gs/amf.log
 
 sbi:
     server:

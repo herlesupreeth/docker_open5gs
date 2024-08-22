@@ -60,8 +60,7 @@ def start(ip_range):
         raise ValueError('Invalid UE IPv4 range. Only one IP given')
     else:
         first_ip_addr = first_ip_addr.exploded
-        ip_netmask_prefix = ip_range.prefixlen
-        print(str(first_ip_addr) + '/' + str(ip_netmask_prefix))
+        print(str(first_ip_addr))
 
 if __name__ == '__main__':
     try:

@@ -11,7 +11,8 @@ global:
     ue: MAX_NUM_UE
 
 logger:
-    file: /open5gs/install/var/log/open5gs/udr.log
+    file:
+      path: /open5gs/install/var/log/open5gs/udr.log
 
 udr:
     sbi:

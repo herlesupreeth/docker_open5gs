@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/sgwc.log
+    file:
+      path: /open5gs/install/var/log/open5gs/sgwc.log
 
 global:
   max:

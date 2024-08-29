@@ -16,14 +16,49 @@ jobs:
         include:
           - image: docker_open5gs
             context: base
+            file: Dockerfile
           - image: docker_kamailio
             context: ims_base
+            file: Dockerfile
           - image: docker_srslte
             context: srslte
+            file: Dockerfile
           - image: docker_srsran
             context: srsran
+            file: Dockerfile
           - image: docker_ueransim
             context: ueransim
+            file: Dockerfile
+          - image: docker_dns
+            context: dns
+            file: Dockerfile
+          - image: docker_mysql
+            context: mysql
+            file: Dockerfile
+          - image: docker_pyhss
+            context: pyhss
+            file: Dockerfile
+          - image: docker_osmomsc
+            context: osmomsc
+            file: Dockerfile
+          - image: docker_osmohlr
+            context: osmohlr
+            file: Dockerfile
+          - image: docker_metrics
+            context: metrics
+            file: Dockerfile
+          - image: docker_grafana
+            context: grafana
+            file: Dockerfile
+          - image: docker_rtpengine
+            context: rtpengine
+            file: Dockerfile
+          - image: docker_oai_enb
+            context: oai
+            file: enb_dockerfile
+          - image: docker_oai_gnb
+            context: oai
+            file: gnb_dockerfile
 
     runs-on: ubuntu-latest
     permissions:
@@ -66,6 +101,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
+          file: ${{ matrix.context }}/${{ matrix.file }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

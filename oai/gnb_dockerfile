@@ -24,30 +24,24 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV BUILD_UHD_FROM_SOURCE=True
+ENV UHD_VERSION=4.4.0.0
 
 # Install updates and dependencies
 RUN apt-get update && \
-    apt-get -y install cmake git subversion software-properties-common apt-utils unzip xxd
-# Install dependencies to build SoapySDR and Lime Suite
-RUN add-apt-repository -y ppa:myriadrf/drivers && \
-    apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
-    python3-distutils gnuplot libfltk1.3-dev liboctave-dev libz-dev
+    apt-get -y install build-essential cmake git subversion software-properties-common apt-utils unzip xxd iproute2
 
-# Install LimeSuite
-RUN git clone https://github.com/myriadrf/LimeSuite.git && \
-    cd LimeSuite && \
-    git checkout tags/v20.10.0 -b v20.10.0 && \
-    mkdir builddir && cd builddir && cmake .. && \
-    make -j`nproc` && make install && ldconfig && \
-    cd ../udev-rules && sh ./install.sh
+# Install SoapySDR and Lime Suite
+RUN apt-get update && \
+    apt-get -y install limesuite liblimesuite-dev limesuite-udev \
+    soapysdr-tools soapysdr-module-lms7
 
 # Cloning RAN repository (eNB RAN + UE RAN)
 RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
-    cd openairinterface5g/ && git checkout develop
+    cd openairinterface5g/ && git checkout v2.1.0
 
 # Set the working directory to openairinterface5g
 WORKDIR openairinterface5g
@@ -55,5 +49,5 @@ WORKDIR openairinterface5g
 RUN . ./oaienv && cd cmake_targets && \
     ./build_oai -I -w USRP --gNB --verbose-compile
 
-CMD . ./oaienv && apt install -y iproute2 && /mnt/oai/oai_init.sh && cd cmake_targets/ran_build/build && \
+CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/ran_build/build && \
     ./nr-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/gnb.sa.band41.fr1.52PRB.usrpb210.conf --sa -d

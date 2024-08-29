@@ -25,13 +25,75 @@ RF simulated setups:
  - srsRAN (gNB + UE) simulation over ZMQ
  - UERANSIM (gNB + UE) simulator
 
-## Building docker images
+## Prepare Docker images
 
 * Mandatory requirements:
 	* [docker-ce](https://docs.docker.com/install/linux/docker-ce/ubuntu) - Version 22.0.5 or above
 	* [docker compose](https://docs.docker.com/compose) - Version 2.14 or above
 
+You can either pull the pre-built docker images or build them from the source.
 
+### Get Pre-built Docker images
+
+Pull base images:
+```
+docker pull ghcr.io/herlesupreeth/docker_open5gs:master
+docker tag ghcr.io/herlesupreeth/docker_open5gs:master docker_open5gs
+
+docker pull ghcr.io/herlesupreeth/docker_grafana:master
+docker tag ghcr.io/herlesupreeth/docker_grafana:master docker_grafana
+
+
+docker pull ghcr.io/herlesupreeth/docker_metrics:master
+docker tag ghcr.io/herlesupreeth/docker_metrics:master docker_metrics
+```
+
+You can also pull the pre-built images for additional components
+
+For IMS components:
+```
+docker pull ghcr.io/herlesupreeth/docker_osmohlr:master
+docker tag ghcr.io/herlesupreeth/docker_osmohlr:master docker_osmohlr
+
+docker pull ghcr.io/herlesupreeth/docker_osmomsc:master
+docker tag ghcr.io/herlesupreeth/docker_osmomsc:master docker_osmomsc
+
+docker pull ghcr.io/herlesupreeth/docker_pyhss:master
+docker tag ghcr.io/herlesupreeth/docker_pyhss:master docker_pyhss
+
+docker pull ghcr.io/herlesupreeth/docker_kamailio:master
+docker tag ghcr.io/herlesupreeth/docker_kamailio:master docker_kamailio
+
+docker pull ghcr.io/herlesupreeth/docker_mysql:master
+docker tag ghcr.io/herlesupreeth/docker_mysql:master docker_mysql
+
+```
+
+For srsRAN components:
+```
+docker pull ghcr.io/herlesupreeth/docker_srslte:master
+docker tag ghcr.io/herlesupreeth/docker_srslte:master docker_srslte
+
+docker pull ghcr.io/herlesupreeth/docker_srsran:master
+docker tag ghcr.io/herlesupreeth/docker_srsran:master docker_srsran
+```
+
+For UERANSIM components:
+```
+docker pull ghcr.io/herlesupreeth/docker_nr-gnb:master
+docker tag ghcr.io/herlesupreeth/docker_nr-gnb:master docker_nr-gnb
+```
+
+For OAI components:
+```
+docker pull ghcr.io/herlesupreeth/docker_oai_enb:master
+docker tag ghcr.io/herlesupreeth/docker_oai_enb:master docker_oai_enb
+
+docker pull ghcr.io/herlesupreeth/docker_oai_ue:master
+docker tag ghcr.io/herlesupreeth/docker_oai_ue:master docker_oai_ue
+```
+
+### Build Docker images from source
 #### Clone repository and build base docker image of open5gs, kamailio, srsRAN_4G, srsRAN_Project, ueransim
 
 ```

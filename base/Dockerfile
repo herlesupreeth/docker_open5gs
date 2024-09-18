@@ -102,6 +102,9 @@ RUN apt-get update && \
         python3-pip \
         iptables \
         iperf \
+        iperf3 \
+        traceroute \
+        tcpdump \
         mongodb-clients \
         gnupg && \
     apt-get autoremove -y && apt-get autoclean

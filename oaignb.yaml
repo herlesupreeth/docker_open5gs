@@ -3,8 +3,10 @@ services:
   oaignb:
     build:
       context: oai
-      dockerfile: gnb_dockerfile
-    image: docker_oai_gnb
+      dockerfile: all_dockerfile
+      args:
+        SDRPLATFORM: USRP
+    image: docker_oai
     container_name: oaignb
     stdin_open: true
     tty: true

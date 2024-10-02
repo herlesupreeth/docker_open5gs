@@ -3,8 +3,10 @@ services:
   oaienb:
     build:
       context: oai
-      dockerfile: enb_dockerfile
-    image: docker_oai_enb
+      dockerfile: all_dockerfile
+      args:
+        SDRPLATFORM: USRP
+    image: docker_oai
     container_name: oaienb
     stdin_open: true
     tty: true

@@ -643,6 +643,9 @@ services:
       - COMPONENT_NAME=osmohlr-1
     expose:
       - "4222/tcp"
+      - "4259/tcp"
+    ports:
+      - "4259:4259/tcp"
     networks:
       default:
         ipv4_address: ${OSMOHLR_IP}

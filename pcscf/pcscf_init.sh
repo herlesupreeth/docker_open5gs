@@ -92,6 +92,13 @@ sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
 
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo.cfg
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt.cfg
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

@@ -212,7 +212,8 @@ services:
       - -c
       - |
         ip ro add ${UE_IPV4_INTERNET} via ${UPF_IP} && \
-        iptables -t nat -A POSTROUTING -s ${UE_IPV4_INTERNET} -j MASQUERADE
+        iptables -t nat -A POSTROUTING -s ${UE_IPV4_INTERNET} -j MASQUERADE && \
+        sysctl -w net.ipv4.conf.all.accept_local=1
         echo "done"
         tail -f /dev/null
   amf:

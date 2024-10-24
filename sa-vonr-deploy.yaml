@@ -489,7 +489,7 @@ services:
       default:
         ipv4_address: ${SMSC_IP}
   grafana:
-    image: grafana/grafana:10.1.5
+    image: grafana/grafana:11.3.0
     container_name: grafana
     env_file:
       - .env

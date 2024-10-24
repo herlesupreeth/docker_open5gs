@@ -71,7 +71,7 @@ sudo cpupower frequency-set -g performance
 docker compose -f 4g-volte-deploy.yaml build
 
 # For 5G deployment only
-docker compose -f sa-deploy.yaml build
+docker compose -f sa-vonr-deploy.yaml build
 ```
 
 ## Network and deployment configuration
@@ -228,7 +228,7 @@ docker compose -f srsue_zmq.yaml up -d && docker container attach srsue_zmq
 
 ```
 # 5G Core Network
-docker compose -f sa-deploy.yaml up
+docker compose -f sa-vonr-deploy.yaml up
 
 # srsRAN gNB using SDR (OTA)
 docker compose -f srsgnb.yaml up -d && docker container attach srsgnb

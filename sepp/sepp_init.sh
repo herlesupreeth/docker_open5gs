@@ -27,11 +27,21 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [ ${#MNC} == 3 ] && FIVEGC_DOMAIN="5gc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || FIVEGC_DOMAIN="5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+[ ${#MNC} == 3 ] && FIVEGC_DOMAIN_R="5gc.mnc${MNC_R}.mcc${MCC_R}.3gppnetwork.org" || FIVEGC_DOMAIN_R="5gc.mnc0${MNC_R}.mcc${MCC_R}.3gppnetwork.org"
 
 cp /mnt/sepp/sepp.yaml install/etc/open5gs
 sed -i 's|SEPP_IP|'$SEPP_IP'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|MNC_R|'$MNC_R'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|MCC_R|'$MCC_R'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/sepp.yaml
 sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|DOCKER_HOST_IP_R|'$DOCKER_HOST_IP_R'|g' install/etc/open5gs/sepp.yaml
+sed -i 's|FIVEGC_DOMAIN_R|'$FIVEGC_DOMAIN_R'|g' install/etc/open5gs/sepp.yaml
 sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/sepp.yaml
+
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+

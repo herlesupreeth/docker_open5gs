@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/ausf.log
+    file:
+      path: /open5gs/install/var/log/open5gs/ausf.log
 
 sbi:
     server:
@@ -7,14 +8,17 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 ausf:
     sbi:
       server:
         - address: ausf.FIVEGC_DOMAIN
+          #port: 7777
       client:
-#        nrf:
-#          - uri: http://nrf.FIVEGC_DOMAIN
+        nrf:
+          - uri: http://NRF_IP:7777
         scp:
           - uri: http://SCP_IP:7777

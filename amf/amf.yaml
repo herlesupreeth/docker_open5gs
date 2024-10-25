@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/amf.log
+    file:
+      path: /open5gs/install/var/log/open5gs/amf.log
 
 sbi:
     server:
@@ -7,7 +8,9 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 amf:
     sbi:
@@ -15,13 +18,20 @@ amf:
         - address: AMF_IP
           port: 7777
       client:
-        # nrf:
-        #     - uri: http://nrf.FIVEGC_DOMAIN
+        nrf:
+          - uri: http://NRF_IP:7777
         scp:
           - uri: http://SCP_IP:7777
     ngap:
       server:
         - address: AMF_IP
+    access_control: #Home Network and Visited Networks
+      - plmn_id: 
+          mcc: MCC
+          mnc: MNC
+      - plmn_id:
+          mcc: MCC_R
+          mnc: MNC_R
     guami:
       - plmn_id:
           mcc: MCC
@@ -44,13 +54,13 @@ amf:
         integrity_order : [ NIA2, NIA1, NIA0 ]
         ciphering_order : [ NEA0, NEA1, NEA2 ]
     network_name:
-        full: Open5GS
+        full: NAP
     amf_name: open5gs-amf0
     metrics:
       server:
         - address: AMF_IP
           port: 9091
+    time:
+      t3512:
+        value: 540
 
-time:
-  t3512:
-    value: 540

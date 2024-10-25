@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/scp.log
+    file:
+      path: /open5gs/install/var/log/open5gs/scp.log
 
 sbi:
     server:
@@ -7,7 +8,9 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 scp:
     sbi:

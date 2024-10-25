@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--This is the default iFC template used by PyHSS, variables come from the Jinja2 template passed inside diameter.py where you can additional variables if required -->
 <Sh-Data>
+    <IMSPrivateUserIdentity>{{ Sh_template_vars['imsi'] }}@ims.mnc{{ Sh_template_vars['mnc'] }}.mcc{{ Sh_template_vars['mcc'] }}.3gppnetwork.org</IMSPrivateUserIdentity>
     <!-- This provides the Public Identifiers to the Application Server -->
     <PublicIdentifiers>
         <IMSPublicIdentity>sip:{{ Sh_template_vars['msisdn'] }}@ims.mnc{{ Sh_template_vars['mnc'] }}.mcc{{ Sh_template_vars['mcc'] }}.3gppnetwork.org</IMSPublicIdentity>
@@ -20,9 +21,9 @@
         </EPSLocationInformation>
     </Extension>
 
-    <!-- This container for the XCAP Data for the Subscriber -->
-
-    <!-- XCAP data from Database -->
-    {{ Sh_template_vars['sh_profile'] }}
+    <Sh-IMS-Data>
+        <S-CSCFName>{{ Sh_template_vars['scscf'] }}</S-CSCFName>
+        <IMSUserState>{{ Sh_template_vars['imsUserState'] }}</IMSUserState>
+    </Sh-IMS-Data>
 
 </Sh-Data>

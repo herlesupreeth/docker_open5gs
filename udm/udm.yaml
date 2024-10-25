@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/udm.log
+    file:
+      path: /open5gs/install/var/log/open5gs/udm.log
 
 sbi:
     server:
@@ -7,7 +8,9 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 udm:
     hnet:
@@ -20,8 +23,9 @@ udm:
     sbi:
       server:
         - address: udm.FIVEGC_DOMAIN
+          #port: 7777
       client:
-#        nrf:
-#          - uri: http://nrf.FIVEGC_DOMAIN
+        nrf:
+          - uri: http://NRF_IP:7777
         scp:
           - uri: http://SCP_IP:7777

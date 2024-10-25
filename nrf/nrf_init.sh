@@ -29,8 +29,11 @@
 [ ${#MNC} == 3 ] && FIVEGC_DOMAIN="5gc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || FIVEGC_DOMAIN="5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
 cp /mnt/nrf/nrf.yaml install/etc/open5gs
+sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/nrf.yaml
+sed -i 's|SCP_IP|'$SCP_IP'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/nrf.yaml
+sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/nrf.yaml
 sed -i 's|FIVEGC_DOMAIN|'$FIVEGC_DOMAIN'|g' install/etc/open5gs/nrf.yaml
 
 # Sync docker time

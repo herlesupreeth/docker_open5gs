@@ -1,16 +1,19 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/mme.log
+    file:
+      path: /open5gs/install/var/log/open5gs/mme.log
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 mme:
     freeDiameter: /open5gs/install/etc/freeDiameter/mme.conf
     s1ap:
       server:
-        - address: MME_IP
+        - dev: MME_IF
     gtpc:
       server:
-        - address: MME_IP
+        - dev: MME_IF
       client:
         sgwc:
           - address: SGWC_IP
@@ -31,16 +34,16 @@ mme:
                 mnc: MNC
               lac: 1
     gummei: 
-      plmn_id:
-        mcc: MCC
-        mnc: MNC
-      mme_gid: 2
-      mme_code: 1
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
+        mme_gid: 2
+        mme_code: 1
     tai:
-      plmn_id:
-        mcc: MCC
-        mnc: MNC
-      tac: 1
+      - plmn_id:
+          mcc: MCC
+          mnc: MNC
+        tac: 1
     security:
         integrity_order : [ EIA2, EIA1, EIA0 ]
         ciphering_order : [ EEA0, EEA1, EEA2 ]
@@ -51,7 +54,6 @@ mme:
       server:
         - address: MME_IP
           port: 9091
-
-time:
-  t3412:
-    value: 540
+    time:
+      t3412:
+        value: 540

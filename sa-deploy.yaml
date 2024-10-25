@@ -17,21 +17,6 @@ services:
     networks:
       default:
         ipv4_address: ${MONGO_IP}
-  dns:
-    build: ./dns
-    image: docker_dns
-    container_name: dns
-    env_file:
-      - .env
-    volumes:
-      - ./dns:/mnt/dns
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "53/udp"
-    networks:
-      default:
-        ipv4_address: ${DNS_IP}
   webui:
     image: docker_open5gs
     container_name: webui
@@ -46,18 +31,15 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3000/tcp"
+      - "9999/tcp"
     ports:
-      - "3000:3000/tcp"
+      - "9999:9999/tcp"
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
     image: docker_open5gs
     container_name: nrf
-    dns: ${DNS_IP}
-    depends_on:
-      - dns
     env_file:
       - .env
     environment:
@@ -69,17 +51,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
-      - "80/tcp"
-      - "443/tcp"
     networks:
       default:
         ipv4_address: ${NRF_IP}
   scp:
     image: docker_open5gs
     container_name: scp
-    dns: ${DNS_IP}
-    depends_on:
-      - dns
     env_file:
       - .env
     environment:
@@ -99,9 +76,7 @@ services:
     depends_on:
       - nrf
       - scp
-      - dns
     container_name: ausf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -113,8 +88,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
-      - "80/tcp"
-      - "443/tcp"
     networks:
       default:
         ipv4_address: ${AUSF_IP}
@@ -124,9 +97,7 @@ services:
       - nrf
       - scp
       - mongo
-      - dns
     container_name: udr
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -146,9 +117,7 @@ services:
     depends_on:
       - nrf
       - scp
-      - dns
     container_name: udm
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -160,8 +129,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
-      - "80/tcp"
-      - "443/tcp"
     networks:
       default:
         ipv4_address: ${UDM_IP}
@@ -171,9 +138,7 @@ services:
       - nrf
       - scp
       - amf
-      - dns
     container_name: smf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -204,9 +169,7 @@ services:
       - nrf
       - scp
       - smf
-      - dns
     container_name: upf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -241,9 +204,7 @@ services:
       - udr
       - pcf
       - bsf
-      - dns
     container_name: amf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -268,9 +229,7 @@ services:
       - nrf
       - scp
       - mongo
-      - dns
     container_name: pcf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -292,9 +251,7 @@ services:
       - nrf
       - scp
       - mongo
-      - dns
     container_name: bsf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -315,9 +272,7 @@ services:
       - nrf
       - scp
       - mongo
-      - dns
     container_name: nssf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -332,33 +287,6 @@ services:
     networks:
       default:
         ipv4_address: ${NSSF_IP}
-  sepp:
-    image: docker_open5gs
-    depends_on:
-      - nrf
-      - scp
-      - dns
-    container_name: sepp
-    dns: ${DNS_IP}
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=sepp-1
-    volumes:
-      - ./sepp:/mnt/sepp
-      - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "7777/tcp"
-      - "7779/tcp"
-      - "7780/tcp"
-    # ports:
-    #   - "7779:7779/tcp"
-    #   - "7780:7780/tcp"
-    networks:
-      default:
-        ipv4_address: ${SEPP_IP}
   metrics:
     build: ./metrics
     image: docker_metrics
@@ -376,6 +304,23 @@ services:
     networks:
       default:
         ipv4_address: ${METRICS_IP}
+  grafana:
+    build: ./grafana
+    image: docker_grafana
+    container_name: grafana
+    env_file:
+      - .env
+    volumes:
+      - ./grafana:/mnt/grafana
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${GRAFANA_IP}
 networks:
   default:
     ipam:

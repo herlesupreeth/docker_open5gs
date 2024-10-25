@@ -1,7 +1,10 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/sgwc.log
+    file:
+      path: /open5gs/install/var/log/open5gs/sgwc.log
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 sgwc:
     gtpc:

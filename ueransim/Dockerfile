@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal as builder
+FROM ubuntu:jammy as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -43,19 +43,8 @@ RUN apt-get update && \
         ifupdown \
         iputils-ping \
         wget \
-        libssl-dev
-
-RUN version=3.20 && \
-    build=0 && \
-    mkdir ~/temp && \
-    cd ~/temp && \
-    wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz && \
-    tar -xzvf cmake-$version.$build.tar.gz && \
-    cd cmake-$version.$build/ && \
-    ./bootstrap && \
-    make -j`nproc` && \
-    make install && ldconfig && \
-    cmake --version
+        libssl-dev \
+        cmake
 
 # Clone and build UERANSIM
 RUN git clone https://github.com/aligungr/UERANSIM && \
@@ -63,7 +52,7 @@ RUN git clone https://github.com/aligungr/UERANSIM && \
     make -j`nproc`
 
 # Build final image
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 

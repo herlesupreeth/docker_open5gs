@@ -34,7 +34,7 @@ RUN apt-get update && \
     libzmq3-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-qt5-dev qtbase5-dev \
     software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
     libboost-program-options-dev libconfig++-dev net-tools iputils-ping libusb-1.0-0-dev libpython3-dev python3-numpy swig \
-    python3-distutils iproute2
+    python3-distutils iproute2 wget
 
 # Get SoapySDR, compile and install
 RUN git clone https://github.com/pothosware/SoapySDR.git && \
@@ -49,6 +49,22 @@ RUN git clone https://github.com/myriadrf/LimeSuite.git && \
     cd LimeSuite && \
     git checkout tags/v22.09.1 -b v22.09.1 && \
     mkdir builddir && cd builddir && \
+    cmake ../ && make && make install && \
+    ldconfig
+
+# Get BladeRF, compile and install
+RUN git clone https://github.com/Nuand/bladeRF.git && \
+    cd bladeRF/host/ && git checkout tags/2024.05 && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON -DBLADERF_GROUP=plugdev ../ && make && make install && \
+    ldconfig && \
+    mkdir -p /etc/Nuand/bladeRF/ && \
+    wget https://www.nuand.com/fpga/hostedxA4-latest.rbf --output-document /etc/Nuand/bladeRF/hostedxA4-latest.rbf
+
+# Get SoapySDR for BladeRF, compile and install
+RUN git clone https://github.com/pothosware/SoapyBladeRF.git && \
+    cd SoapyBladeRF && \
+    mkdir build && cd build && \
     cmake ../ && make && make install && \
     ldconfig
 
@@ -68,7 +84,7 @@ RUN git clone https://github.com/srsran/srsGUI && \
 # Get srsLTE, compile and install
 RUN git clone https://github.com/srsran/srsRAN_4G.git && \
     cd srsRAN_4G && \
-    git checkout 4eb990c9c6ad9b0af943bba71d0f8355b3ebb259 && \
+    git checkout ec29b0c1ff79cebcbe66caa6d6b90778261c42b8 && \
     mkdir build && cd build && \
     cmake ../ && make -j`nproc` && make install && \
     ldconfig

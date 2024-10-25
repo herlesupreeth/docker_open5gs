@@ -1,5 +1,6 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/nssf.log
+    file:
+      path: /open5gs/install/var/log/open5gs/nssf.log
 
 sbi:
     server:
@@ -7,7 +8,9 @@ sbi:
     client:
       no_tls: true
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 nssf:
     sbi:
@@ -15,11 +18,12 @@ nssf:
         - address: NSSF_IP
           port: 7777
       client:
-#        nrf:
-#          - uri: http://nrf.FIVEGC_DOMAIN
+        nrf:
+          - uri: http://NRF_IP:7777
         scp:
           - uri: http://SCP_IP:7777
         nsi:
           - uri: http://nrf.FIVEGC_DOMAIN
             s_nssai:
               sst: 1
+

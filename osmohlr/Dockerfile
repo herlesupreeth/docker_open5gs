@@ -39,4 +39,4 @@ RUN wget $OSMOCOM_REPO/Release.key && \
     apt-get update && apt-get install -f && apt-get --install-suggests -y install osmo-hlr
 
 CMD /mnt/osmohlr/osmohlr_init.sh && \
-    cd /mnt/osmohlr && /usr/bin/osmo-hlr -c /etc/osmocom/osmo-hlr.cfg
+    cd /mnt/osmohlr && /usr/bin/osmo-hlr -c /etc/osmocom/osmo-hlr.cfg --db-upgrade

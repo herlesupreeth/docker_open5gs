@@ -1,9 +1,12 @@
 db_uri: mongodb://MONGO_IP/open5gs
 
 logger:
-    file: /open5gs/install/var/log/open5gs/pcrf.log
+    file:
+      path: /open5gs/install/var/log/open5gs/pcrf.log
 
-parameter:
+global:
+  max:
+    ue: MAX_NUM_UE
 
 pcrf:
     freeDiameter: /open5gs/install/etc/freeDiameter/pcrf.conf

@@ -1,25 +1,32 @@
 logger:
-    file: /open5gs/install/var/log/open5gs/sepp.log
+  file: /open5gs/install/var/log/open5gs/sepp.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+global:
+  max:
+    ue: 1024
 
 sepp:
-    sbi:
-      server:
-        - address: SEPP_IP
-          port: 7777
-      client:
-        scp:
-          - uri: http://SCP_IP:7777
-    n32:
-      server:
-        - sender: sepp.FIVEGC_DOMAIN
-          address: SEPP_IP
-          port: 7779
-          n32f:
-            address: SEPP_IP
-            port: 7780
-      client:
-        # sepp: # Configure roaming networks below
-        #   - receiver: sepp.5gc.mnc070.mcc999.3gppnetwork.org
-        #     uri: http://192.168.220.25:7779
-        #     n32f:
-        #       uri: http://192.168.220.25:7780
+  sbi:
+    server:
+      - address: SEPP_IP
+        port: 7777
+    client:
+      nrf:
+        - uri: http://NRF_IP:7777
+      scp:
+        - uri: http://SCP_IP:7777
+  n32:
+    server:
+      - sender: sepp.FIVEGC_DOMAIN
+#        address: SEPP_IP
+#        port: 7778
+    client:
+      sepp:
+        - receiver: sepp.FIVEGC_DOMAIN_R
+          uri: http://DOCKER_HOST_IP_R:7777

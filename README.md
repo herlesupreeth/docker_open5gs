@@ -37,7 +37,7 @@ RF simulated setups:
 ```
 # Build docker images for open5gs EPC/5GC components
 git clone https://github.com/herlesupreeth/docker_open5gs
-cd docker_open5gs/base && git checkout roaming
+cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
 # Build docker images for kamailio IMS components
@@ -250,13 +250,20 @@ docker compose -f nr-ue.yaml up -d && docker container attach nr_ue
 
 ### Provisioning of SIM information in open5gs HSS as follows:
 
-Open (http://<DOCKER_HOST_IP>:3000) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
+Open (http://<DOCKER_HOST_IP>:9999) in a web browser, where <DOCKER_HOST_IP> is the IP of the machine/VM running the open5gs containers. Login with following credentials
 ```
 Username : admin
 Password : 1423
 ```
 
 Using Web UI, add a subscriber
+
+#### or using cli 
+
+```
+sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd09487cccbd7097c6862 8E27B6AF0E692E750F32667A3B14605D
+```
+
 
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 

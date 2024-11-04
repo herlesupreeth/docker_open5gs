@@ -1,7 +1,7 @@
 version: '3'
 services:
   mongo:
-    image: mongo:4.2
+    image: mongo:6.0
     container_name: mongo
     command: --bind_ip 0.0.0.0
     env_file:
@@ -31,16 +31,15 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "9999/tcp"
+      - "3000/tcp"
     ports:
-      - "9999:9999/tcp"
+      - "3000:3000/tcp"
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
     image: docker_open5gs
     container_name: nrf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -55,8 +54,6 @@ services:
     networks:
       default:
         ipv4_address: ${NRF_IP}
-        aliases:
-          - nrf.5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org
   scp:
     image: docker_open5gs
     container_name: scp
@@ -71,7 +68,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "7777/tcp"
-      - "80/tcp"
     networks:
       default:
         ipv4_address: ${SCP_IP}
@@ -81,7 +77,6 @@ services:
       - nrf
       - scp
     container_name: ausf
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -96,8 +91,6 @@ services:
     networks:
       default:
         ipv4_address: ${AUSF_IP}
-        aliases:
-          - ausf.5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org
   udr:
     image: docker_open5gs
     depends_on:
@@ -125,7 +118,6 @@ services:
       - nrf
       - scp
     container_name: udm
-    dns: ${DNS_IP}
     env_file:
       - .env
     environment:
@@ -140,8 +132,6 @@ services:
     networks:
       default:
         ipv4_address: ${UDM_IP}
-        aliases:
-          - udm.5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org
   smf:
     image: docker_open5gs
     depends_on:
@@ -193,8 +183,8 @@ services:
       - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
-    ports:
-      - "2152:2152/udp"
+    # ports:
+    #   - "2152:2152/udp"
     cap_add:
       - NET_ADMIN
     privileged: true
@@ -228,8 +218,8 @@ services:
       - "38412/sctp"
       - "7777/tcp"
       - "9091/tcp"
-    ports:
-      - "38412:38412/sctp"
+    # ports:
+    #   - "38412:38412/sctp"
     networks:
       default:
         ipv4_address: ${AMF_IP}
@@ -297,52 +287,23 @@ services:
     networks:
       default:
         ipv4_address: ${NSSF_IP}
-  sepp:
-    image: docker_open5gs
-    depends_on:
-      - nrf
-      - scp
-      - dns
-    container_name: sepp
-    dns: ${DNS_IP}
+  metrics:
+    build: ./metrics
+    image: docker_metrics
+    container_name: metrics
     env_file:
       - .env
-    environment:
-      - COMPONENT_NAME=sepp-1
     volumes:
-      - ./sepp:/mnt/sepp
-      - ./log:/open5gs/install/var/log/open5gs
+      - ./metrics:/mnt/metrics
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "7777/tcp"
-      - "7779/tcp"
-      - "7780/tcp"
+      - "9090/tcp"
     ports:
-      # - "7779:7779/tcp"
-      - "7777:7777/tcp"
+      - "9090:9090/tcp"
     networks:
       default:
-        ipv4_address: ${SEPP_IP}
-        aliases:
-          - sepp.5gc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org
-  # metrics:
-  #   build: ./metrics
-  #   image: docker_metrics
-  #   container_name: metrics
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./metrics:/mnt/metrics
-  #     - /etc/timezone:/etc/timezone:ro
-  #     - /etc/localtime:/etc/localtime:ro
-  #   expose:
-  #     - "9090/tcp"
-  #   ports:
-  #     - "9090:9090/tcp"
-  #   networks:
-  #     default:
-  #       ipv4_address: ${METRICS_IP}
+        ipv4_address: ${METRICS_IP}
   dns:
     build: ./dns
     image: docker_dns
@@ -528,23 +489,6 @@ services:
     networks:
       default:
         ipv4_address: ${SMSC_IP}
-  # grafana:
-  #   build: ./grafana
-  #   image: docker_grafana
-  #   container_name: grafana
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./grafana:/mnt/grafana
-  #     - /etc/timezone:/etc/timezone:ro
-  #     - /etc/localtime:/etc/localtime:ro
-  #   expose:
-  #     - "3000/tcp"
-  #   ports:
-  #     - "3000:3000/tcp"
-  #   networks:
-  #     default:
-  #       ipv4_address: ${GRAFANA_IP}
 networks:
   default:
     ipam:

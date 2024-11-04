@@ -1,12 +1,9 @@
 db_uri: mongodb://MONGO_IP/open5gs
 
 logger:
-    file:
-      path: /open5gs/install/var/log/open5gs/hss.log
+    file: /open5gs/install/var/log/open5gs/hss.log
 
-global:
-  max:
-    ue: MAX_NUM_UE
+parameter:
 
 hss:
     freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf

@@ -34,12 +34,12 @@ RUN apt-get update && \
 					gcc flex bison libmysqlclient-dev make libssl-dev libcurl4-openssl-dev \
 					libxml2-dev libpcre2-dev bash-completion g++ autoconf libmnl-dev \
 					libsctp-dev libradcli-dev libradcli4 libjson-c-dev pkg-config iproute2 net-tools \
-					iputils-ping libgcrypt20-dev libjansson-dev libevent-dev libnghttp2-dev uuid-dev
+					iputils-ping
 
-# Fetch Kamailio code
+# Fetch Kamailio code (branch 5.3)
 RUN mkdir -p /usr/local/src/ && cd /usr/local/src/ && \
 	git clone https://github.com/kamailio/kamailio && \
-	cd kamailio && git checkout 0da3eb3f94c087b272ebbe19c42fd933146482f8
+	cd kamailio && git checkout 4df92312166d8aad700007ef0898d0a7c6ba40b7
 
 # Build and Install Kamailio
 RUN cd /usr/local/src/kamailio && make cfg
@@ -50,4 +50,4 @@ RUN cd /usr/local/src/kamailio && \
 	ldconfig
 
 COPY kamailio_init.sh /
-CMD ["/kamailio_init.sh"]
+CMD /kamailio_init.sh

@@ -54,7 +54,7 @@ amf:
         integrity_order : [ NIA2, NIA1, NIA0 ]
         ciphering_order : [ NEA0, NEA1, NEA2 ]
     network_name:
-        full: NAP
+        full: Open5GS
     amf_name: open5gs-amf0
     metrics:
       server:

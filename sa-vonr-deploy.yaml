@@ -1,4 +1,3 @@
-version: '3'
 services:
   mongo:
     image: mongo:6.0
@@ -490,15 +489,23 @@ services:
       default:
         ipv4_address: ${SMSC_IP}
   grafana:
-    build: ./grafana
-    image: docker_grafana
+    image: grafana/grafana:11.3.0
     container_name: grafana
     env_file:
       - .env
     volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/:/etc/grafana/provisioning/
       - ./grafana:/mnt/grafana
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      #- GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS}
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_PATHS_DATA=/var/lib/grafana
+      - METRICS_IP=${METRICS_IP}
     expose:
       - "3000/tcp"
     ports:
@@ -512,5 +519,7 @@ networks:
       config:
         - subnet: ${TEST_NETWORK}
 volumes:
+  grafana_data:
+    name: grafana_data
   mongodbdata: {}
   dbdata: {}

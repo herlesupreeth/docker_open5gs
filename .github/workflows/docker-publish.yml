@@ -47,9 +47,6 @@ jobs:
           - image: docker_metrics
             context: metrics
             file: Dockerfile
-          - image: docker_grafana
-            context: grafana
-            file: Dockerfile
           - image: docker_rtpengine
             context: rtpengine
             file: Dockerfile

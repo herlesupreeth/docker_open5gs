@@ -117,6 +117,10 @@ docker build --no-cache --force-rm -t docker_srsran .
 # Build docker images for UERANSIM (gNB + UE)
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
+
+# Build docker images for OpenAirInterface (gNB + eNB) - Need to specify SDR (USRP / LIMESDR / BLADERF)
+cd ../oai
+docker build --no-cache --force-rm --build-arg SDRPLATFORM="USRP" -t docker_oai .
 ```
 
 #### Build docker images for additional components

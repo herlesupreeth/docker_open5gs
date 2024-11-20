@@ -233,6 +233,7 @@ services:
       - .env
     volumes:
       - dbdata:/var/lib/mysql
+      - ./mysql:/mnt/mysql
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:

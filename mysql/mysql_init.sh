@@ -26,6 +26,40 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Path to the MySQL data directory
+DATA_DIR="/var/lib/mysql"
+
+# Function to check if the MySQL data directory is initialized
+is_mysql_initialized() {
+	# Essential files/directories for an initialized MySQL data directory
+	local essential_files=("ibdata1" "mysql")
+
+	for item in "${essential_files[@]}"; do
+		if [ ! -e "$DATA_DIR/$item" ]; then
+			return 1 # Not initialized
+		fi
+	done
+	return 0 # Initialized
+}
+
+if is_mysql_initialized; then
+	echo "MySQL data directory is already initialized. Continuing..."
+else
+	echo "MySQL data directory is not initialized."
+	echo "Initializing MySQL data directory..."
+	rm -rf $DATA_DIR/*
+	mysqld --initialize --datadir="$DATA_DIR"
+	if [ $? -eq 0 ]; then
+		echo "Initialization complete."
+	else
+		echo "Error: Initialization failed." >&2
+		# DEBUG: un-comment to print the MySQL logs to the output
+		#echo "MySQL log: /var/log/mysql/error.log"
+		#cat /var/log/mysql/error.log
+		exit 2
+	fi
+fi
+
 sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
 sed -i "s/# max_connections        = 151/max_connections        = 250/g" /etc/mysql/mysql.conf.d/mysqld.cnf
 cat > ~/.my.cnf <<EOF
@@ -34,10 +68,14 @@ user=root
 password=ims
 EOF
 
-usermod -d /var/lib/mysql/ mysql
+chown -R mysql:mysql $DATA_DIR
+usermod -d $DATA_DIR mysql
 
+echo 'Stopping any running MySQL instances'
+/etc/init.d/mysql stop
+pkill -9 mysqld
 echo 'Waiting for MySQL to start.'
-/etc/init.d/mysql restart
+/etc/init.d/mysql start
 while true; do
 	echo 'quit' | mysql --connect-timeout=1 && break
 done

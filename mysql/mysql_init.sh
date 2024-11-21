@@ -26,8 +26,29 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+echo "Script started with PID $$"
+
 # Path to the MySQL data directory
 DATA_DIR="/var/lib/mysql"
+
+# Function to gracefully shutdown the MySQL service to ensure data integrity
+stop_mysql() {
+	echo "Stopping MySQL..."
+	mysqladmin -u root shutdown || echo "Failed to shutdown MySQL gracefully"
+
+	# Kill mysqld_safe process if it's still running
+	if kill -0 "$MYSQLD_SAFE_PID" 2>/dev/null; then
+		echo "Stopping mysqld_safe..."
+		kill "$MYSQLD_SAFE_PID"
+		wait "$MYSQLD_SAFE_PID"
+	fi
+	echo "Shutdown complete."
+	exit 0
+}
+
+# Execute the stop_mysql() function if any command to exit the script is recieved
+trap 'echo "Trap triggered"; stop_mysql' SIGTERM SIGINT SIGHUP SIGQUIT SIGABRT
+trap 'echo "Caught EXIT signal! Cleaning up..."' EXIT
 
 # Function to check if the MySQL data directory is initialized
 is_mysql_initialized() {
@@ -73,7 +94,6 @@ usermod -d $DATA_DIR mysql
 
 echo 'Stopping any running MySQL instances'
 /etc/init.d/mysql stop
-pkill -9 mysqld
 echo 'Waiting for MySQL to start.'
 /etc/init.d/mysql start
 while true; do
@@ -93,6 +113,12 @@ then
 	mysql -u root -e "FLUSH PRIVILEGES;"
 fi
 
-pkill -9 mysqld
+mysqladmin -u root shutdown
 sleep 5
-mysqld_safe
+echo "Starting mysqld_safe..."
+mysqld_safe &
+MYSQLD_SAFE_PID=$!
+
+# Keep the script running and wait for mysqld_safe
+echo "mysqld_safe is running with PID $MYSQLD_SAFE_PID"
+wait "$MYSQLD_SAFE_PID"

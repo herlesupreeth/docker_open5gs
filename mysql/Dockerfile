@@ -32,6 +32,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y install mysql-server ca-certificates
 
+ADD mysql_init.sh /mysql_init.sh
+RUN chmod 755 /mysql_init.sh
+
 RUN /etc/init.d/mysql stop
 
-CMD /mnt/mysql/mysql_init.sh
+ENTRYPOINT ["/mysql_init.sh"]
+
+HEALTHCHECK --interval=30s --timeout=10s \
+    CMD mysqladmin ping -u root || exit 1

@@ -1,6 +1,13 @@
-amf:
-  addr: AMF_IP                                                    # The address or hostname of the AMF.
-  bind_addr: SRS_GNB_IP                                           # A local IP that the gNB binds to for traffic from the AMF.
+cu_cp:
+  amf:
+    addr: AMF_IP                                                  # The address or hostname of the AMF.
+    bind_addr: SRS_GNB_IP                                         # A local IP that the gNB binds to for traffic from the AMF.
+    supported_tracking_areas:                                     # Sets the list of tracking areas supported by this AMF.
+      - tac: 1                                                    # Tracking area code (needs to match the core configuration).
+        plmn_list:                                                # The list of PLMN items supported for this Tracking Area.
+          - plmn: "PLMN"                                          # PLMN broadcasted by the gNB.
+            tai_slice_support_list:                               # The list of TAI slices for this PLMN item.
+              - sst: 1                                            # Sets the Slice Service Type.
 
 ru_sdr:
   device_driver: uhd                                            # The RF driver name.
@@ -35,6 +42,8 @@ pcap:
   e1ap_enable: false                                              # Set to true to enable E1AP PCAPs.
   e1ap_filename: /mnt/srsran/gnb_e1ap.pcap                        # Path where the E1AP PCAP is stored.
   e2ap_enable: false                                              # Set to true to enable E2AP PCAPs.
-  e2ap_filename: /mnt/srsran/gnb_e2ap.pcap                        # Path where the E2AP PCAP is stored.
-  gtpu_enable: false                                              # Set to true to enable GTP-U PCAPs.
-  gtpu_filename: /mnt/srsran/gnb_gtpu.pcap                        # Path where the GTP-U PCAP is stored.
+  e2ap_cu_cp_filename: /mnt/srsran/cu_cp_e2ap.pcap                # Path where E2AP CU-CP PCAP is stored.
+  e2ap_cu_up_filename: /mnt/srsran/cu_up_e2ap.pcap                # Path where E2AP CU-UP PCAP is stored.
+  e2ap_du_filename: /mnt/srsran/du_e2ap.pcap                      # Path where E2AP CU PCAP is stored.
+  n3_enable: false                                                # Set to true to enable N3 PCAPs.
+  n3_filename: /mnt/srsran/gnb_n3.pcap                            # Path where the N3 PCAP is stored.

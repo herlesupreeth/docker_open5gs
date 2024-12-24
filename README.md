@@ -439,5 +439,26 @@ Take note of **auc_id** specified in **Response body** under **Server response**
 
 **Replace scscf_peer, scscf and scscf_realm as per your deployment**
 
+### Provisioning of Dialplan when using openSIPS IMS as follows:
+
+To ensure that the S-CSCF correctly recognizes the dialed numbers, it is necessary to configure the dial plan appropriately. This involves provisioning the dialplan table in MySQL by following these steps:
+
+1. Login into mysql openSIPS SCSCF database and insert dialplan rule
+
+```
+docker exec -it mysql mysql opensips_scscf
+# Insert the dialplan rule - make sure you adapt the rule according to the MSISDN values configured in previous step
+insert into dialplan (dpid, match_op, match_exp, repl_exp) values (1, 0, "9076543210", "USER");
+exit
+```
+
+More information regarding configuration of dialplan can be found in this link - https://github.com/OpenSIPS/opensips-ims-ce/blob/main/docs/scscf.md#configuration
+
+2. Once everything is set up, we need to reload OpenSIPS's dialplan cache
+
+```
+docker exec -it scscf opensips-cli -x mi dp_reload
+```
+
 ## Not supported
 - IPv6 usage in Docker

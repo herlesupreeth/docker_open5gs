@@ -1,0 +1,78 @@
+VENDOR 10415 TGPP
+VENDOR 13019 ETSI
+
+ATTRIBUTE Abort-Cause                         500 unsigned32 10415
+ATTRIBUTE AF-Application-Identifier           504 string     10415
+ATTRIBUTE Flow-Description                    507 string     10415
+ATTRIBUTE Flow-Number                         509 unsigned32 10415
+ATTRIBUTE Flow-Status                         511 unsigned32 10415
+ATTRIBUTE Flow-Usage                          512 unsigned32 10415
+ATTRIBUTE Specific-Action                     513 unsigned32 10415
+ATTRIBUTE Max-Requested-Bandwidth-DL          515 unsigned32 10415
+ATTRIBUTE Max-Requested-Bandwidth-UL          516 unsigned32 10415
+ATTRIBUTE Media-Component-Number              518 unsigned32 10415
+ATTRIBUTE Media-Type                          520 unsigned32 10415
+ATTRIBUTE Codec-Data                          524 string     10415
+ATTRIBUTE Media-Sub-Component                 519 grouped    10415
+{
+    Flow-Number | REQUIRED | 1
+    Flow-Usage | REQUIRED | 1
+    Flow-Description | REQUIRED | 9
+}
+
+ATTRIBUTE Media-Component-Description         517 grouped    10415
+{
+    Media-Component-Number | REQUIRED | 1
+    Media-Sub-Component | REQUIRED | 1
+    Media-Type | REQUIRED | 1
+    Max-Requested-Bandwidth-DL | REQUIRED | 1
+    Max-Requested-Bandwidth-UL | REQUIRED | 1
+    Flow-Status | REQUIRED | 1
+}
+ATTRIBUTE IP-CAN-Type                        1027 unsigned32 10415
+ATTRIBUTE RAT-Type                           1032 unsigned32 10415
+
+ATTRIBUTE Subscription-Id-Type                450 unsigned32
+ATTRIBUTE Subscription-Id-Data                444 string
+ATTRIBUTE Subscription-ID                     443 grouped
+{
+    Subscription-Id-Type | REQUIRED | 1
+    Subscription-Id-Data | REQUIRED | 1
+}
+ATTRIBUTE Frame-IP-Address                      8 ip
+ATTRIBUTE Reservation-Priority                458 unsigned32 13019
+
+APPLICATION-AUTH 16777236/10415 3GPP Rx
+
+REQUEST 265 AA Request
+{
+    Session-Id | REQUIRED | 1
+    Auth-Application-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Realm | REQUIRED | 1
+    AF-Application-Identifier | REQUIRED | 1
+    Authorization-Lifetime | REQUIRED | 1
+    Subscription-ID | REQUIRED | 1
+    Specific-Action | REQUIRED | 9
+    Frame-IP-Address | REQUIRED | 1
+    Reservation-Priority | REQUIRED | 1
+    Session-Timeout | OPTIONAL | 1
+    Auth-Grace-Period | OPTIONAL | 1
+}
+#    Vendor-Specific-Application-Id | REQUIRED | 1
+#    Media-Component-Description | REQUIRED | 1
+
+ANSWER 265 AA Answer
+{
+    Session-Id | REQUIRED | 1
+    Auth-Application-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Host | OPTIONAL | 1
+    Destination-Realm | OPTIONAL | 1
+    Result-Code | OPTIONAL | 1
+    Experimental-Result | OPTIONAL | 1
+    IP-CAN-Type | OPTIONAL | 1
+    RAT-Type | OPTIONAL | 1
+}

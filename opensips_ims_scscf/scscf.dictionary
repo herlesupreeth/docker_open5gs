@@ -1,0 +1,105 @@
+VENDOR 10415 TGPP
+
+ATTRIBUTE Visited-Network-Identifier          600 string     10415
+ATTRIBUTE Public-Identity                     601 string     10415
+ATTRIBUTE Server-Name                         602 string     10415
+ATTRIBUTE Mandatory-Capability                604 unsigned32 10415
+ATTRIBUTE Optional-Capability                 605 unsigned32 10415
+ATTRIBUTE Cx-User-Data                        606 string     10415
+ATTRIBUTE 3GPP-SIP-Number-Auth-Items          607 unsigned32 10415
+ATTRIBUTE 3GPP-SIP-Authentication-Scheme      608 utf8string 10415
+ATTRIBUTE 3GPP-SIP-Authenticate               609 hexstring  10415
+ATTRIBUTE 3GPP-SIP-Authorization              610 hexstring  10415
+ATTRIBUTE 3GPP-SIP-Authentication-Context     611 string     10415
+ATTRIBUTE 3GPP-SIP-Item-Number                613 unsigned32 10415
+ATTRIBUTE Server-Assignment-Type              614 unsigned32 10415
+ATTRIBUTE User-Data-Already-Available         624 unsigned32 10415
+ATTRIBUTE Confidentiality-Key                 625 hexstring  10415
+ATTRIBUTE Integrity-Key                       626 hexstring  10415
+
+ATTRIBUTE Primary-Event-Charging-Function-Name        619 string 10415
+ATTRIBUTE Secondary-Event-Charging-Function-Name      620 string 10415
+ATTRIBUTE Primary-Charging-Collection-Function-Name   621 string 10415
+ATTRIBUTE Secondary-Charging-Collection-Function-Name 622 string 10415
+
+ATTRIBUTE 3GPP-SIP-Auth-Data-Item             612 grouped    10415
+{
+    3GPP-SIP-Item-Number | OPTIONAL | 1
+    3GPP-SIP-Authentication-Scheme | OPTIONAL | 1
+    3GPP-SIP-Authenticate | OPTIONAL | 1
+    3GPP-SIP-Authorization | OPTIONAL | 1
+    3GPP-SIP-Authentication-Context | OPTIONAL | 1
+    Confidentiality-Key | OPTIONAL | 1
+    Integrity-Key | OPTIONAL | 1
+}
+
+ATTRIBUTE Charging-Information                618 grouped    10415
+{
+    Primary-Event-Charging-Function-Name | OPTIONAL | 1
+    Secondary-Event-Charging-Function-Name  | OPTIONAL | 1
+    Primary-Charging-Collection-Function-Name | OPTIONAL | 1
+    Secondary-Charging-Collection-Function-Name | OPTIONAL | 1
+}
+
+
+APPLICATION-AUTH 16777216/10415 3GPP Cx
+
+REQUEST 301 Server-Assignment Request
+{
+    Session-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Realm | REQUIRED | 1
+    Vendor-Specific-Application-Id | REQUIRED | 1
+    Auth-Session-State | REQUIRED | 1
+    Public-Identity | REQUIRED | 1
+    Server-Name | REQUIRED | 1
+    User-Name | REQUIRED | 1
+    Server-Assignment-Type | REQUIRED | 1
+    User-Data-Already-Available | REQUIRED | 1
+}
+
+ANSWER 301 Server-Assignment Answer
+{
+    Session-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Host | OPTIONAL | 1
+    Destination-Realm | OPTIONAL | 1
+    Vendor-Specific-Application-Id | REQUIRED | 1
+    Auth-Session-State | REQUIRED | 1
+    User-Name | REQUIRED | 1
+    Cx-User-Data | REQUIRED | 1
+    Charging-Information | OPTIONAL | 1
+    Result-Code | REQUIRED | 1
+}
+
+REQUEST 303 Multimedia-Auth Request
+{
+    Session-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Realm | REQUIRED | 1
+    Vendor-Specific-Application-Id | REQUIRED | 1
+    Auth-Session-State | REQUIRED | 1
+    Public-Identity | REQUIRED | 1
+    3GPP-SIP-Number-Auth-Items | REQUIRED | 1
+    3GPP-SIP-Auth-Data-Item | REQUIRED | 1
+    Server-Name | REQUIRED | 1
+}
+
+ANSWER 303 Multimedia-Auth Answer
+{
+    Session-Id | REQUIRED | 1
+    Origin-Host | REQUIRED | 1
+    Origin-Realm | REQUIRED | 1
+    Destination-Host | OPTIONAL | 1
+    Destination-Realm | OPTIONAL | 1
+    Vendor-Specific-Application-Id | REQUIRED | 1
+    Auth-Session-State | REQUIRED | 1
+    Public-Identity | REQUIRED | 1
+    3GPP-SIP-Number-Auth-Items | REQUIRED | 1
+    3GPP-SIP-Auth-Data-Item | REQUIRED | 1
+    User-Name | REQUIRED | 1
+    Result-Code | REQUIRED | 1
+}

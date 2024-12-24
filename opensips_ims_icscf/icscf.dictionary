@@ -1,0 +1,32 @@
+VENDOR 10415 TGPP
+
+ATTRIBUTE Visited-Network-Identifier          600 string     10415
+ATTRIBUTE Public-Identity                     601 string     10415
+ATTRIBUTE Server-Name                         602 string     10415
+
+APPLICATION-AUTH 16777216/10415 3GPP Cx
+
+REQUEST 300 User-Authorization Request
+{
+	Session-Id | REQUIRED | 1
+	Origin-Host | REQUIRED | 1
+	Origin-Realm | REQUIRED | 1
+	Destination-Realm | REQUIRED | 1
+	Vendor-Specific-Application-Id | REQUIRED | 1
+	Auth-Session-State | REQUIRED | 1
+	User-Name | REQUIRED | 1
+	Public-Identity | REQUIRED | 1
+	Visited-Network-Identifier | REQUIRED | 1
+}
+
+ANSWER 300 User-Authorization Answer
+{
+	Session-Id | REQUIRED | 1
+	Origin-Host | REQUIRED | 1
+	Origin-Realm | REQUIRED | 1
+	Destination-Host | OPTIONAL | 1
+	Destination-Realm | OPTIONAL | 1
+	Vendor-Specific-Application-Id | REQUIRED | 1
+	Auth-Session-State | REQUIRED | 1
+	Experimental-Result | REQUIRED | 1
+}

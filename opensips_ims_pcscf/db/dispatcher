@@ -1,0 +1,2 @@
+id(int,auto) setid(int) destination(string) socket(string,null) state(int) probe_mode(int) weight(string) priority(int) attrs(string) description(string) 
+1:1:sip\:172.22.0.41\:5060:null:0:1:1:1:'carrier':'icscf'

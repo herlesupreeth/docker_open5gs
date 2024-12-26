@@ -52,7 +52,7 @@ sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/gnb.yml
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start
 
-gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml
+exec gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml $@
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

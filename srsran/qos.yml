@@ -7,17 +7,7 @@
 qos:
   -
     five_qi: 1 # E.g. Conversational Voice
-    rlc:
-      mode: um-bidir
-      um-bidir:
-        tx:
-          sn: 12
-          queue-size: 4096
-        rx:
-          sn: 12
-          t-reassembly: 50
     pdcp:
-      integrity_required: false
       tx:
         sn: 12
         discard_timer: -1
@@ -26,28 +16,23 @@ qos:
         sn: 12
         t_reordering: 80
         out_of_order_delivery: false
-    f1u_du:
-      backoff_timer: 10
     f1u_cu_up:
       backoff_timer: 10
-    mac:
-      lc_priority: 4
-      lc_group_id: 1
-      bucket_size_duration_ms: 5
-      prioritized_bit_rate_kBps: 65537
+    f1u_du:
+      backoff_timer: 10
+    rlc:
+      mode: um-bidir
+      um-bidir:
+        tx:
+          sn: 12
+          queue-size: 16384
+          queue-bytes: 6172672
+        rx:
+          sn: 12
+          t-reassembly: 50
   -
     five_qi: 2 # E.g. Conversational Video
-    rlc:
-      mode: um-bidir
-      um-bidir:
-        tx:
-          sn: 12
-          queue-size: 4096
-        rx:
-          sn: 12
-          t-reassembly: 50
     pdcp:
-      integrity_required: false
       tx:
         sn: 12
         discard_timer: -1
@@ -56,15 +41,20 @@ qos:
         sn: 12
         t_reordering: 80
         out_of_order_delivery: false
-    f1u_du:
-      backoff_timer: 10
     f1u_cu_up:
       backoff_timer: 10
-    mac:
-      lc_priority: 4
-      lc_group_id: 1
-      bucket_size_duration_ms: 5
-      prioritized_bit_rate_kBps: 65537
+    f1u_du:
+      backoff_timer: 10
+    rlc:
+      mode: um-bidir
+      um-bidir:
+        tx:
+          sn: 12
+          queue-size: 16384
+          queue-bytes: 6172672
+        rx:
+          sn: 12
+          t-reassembly: 50
   -
     five_qi: 5 # E.g. IMS signaling
     rlc:
@@ -76,7 +66,8 @@ qos:
           max-retx-threshold: 4
           poll-pdu: 64
           poll-byte: 125
-          queue-size: 4096
+          queue-size: 16384
+          queue-bytes: 6172672
         rx:
           sn: 12
           t-reassembly: 80
@@ -95,73 +86,59 @@ qos:
       backoff_timer: 10
     f1u_cu_up:
       backoff_timer: 10
-    mac:
-      lc_priority: 5
-      lc_group_id: 2
-      bucket_size_duration_ms: 5
-      prioritized_bit_rate_kBps: 65537
   -
     five_qi: 7 # E.g. Voice, Video (live streaming)
+    pdcp:
+      integrity_required: false
+      tx:
+        sn: 12
+        discard_timer: -1
+        status_report_required: false
+      rx:
+        sn: 12
+        t_reordering: 80
+        out_of_order_delivery: false
+    f1u_cu_up:
+      backoff_timer: 10
+    f1u_du:
+      backoff_timer: 10
     rlc:
       mode: um-bidir
       um-bidir:
         tx:
           sn: 12
-          queue-size: 4096
+          queue-size: 16384
+          queue-bytes: 6172672
         rx:
           sn: 12
-          t-reassembly: 50
+          t-reassembly: 100
+  -
+    five_qi: 9 # E.g. Buffered video streaming, TCP-based traffic
     pdcp:
-      integrity_required: false
       tx:
-        sn: 12
+        sn: 18
         discard_timer: -1
         status_report_required: false
       rx:
-        sn: 12
-        t_reordering: 80
+        sn: 18
+        t_reordering: 220
         out_of_order_delivery: false
-    f1u_du:
-      backoff_timer: 10
     f1u_cu_up:
       backoff_timer: 10
-    mac:
-      lc_priority: 4
-      lc_group_id: 1
-      bucket_size_duration_ms: 5
-      prioritized_bit_rate_kBps: 65537
-  -
-    five_qi: 9 # E.g. Buffered video streaming, TCP-based traffic
+    f1u_du:
+      backoff_timer: 10
     rlc:
       mode: am
       am:
         tx:
-          sn: 12
-          t-poll-retransmit: 80
-          max-retx-threshold: 4
-          poll-pdu: 64
-          poll-byte: 125
-          queue-size: 4096
+          sn: 18
+          t-poll-retransmit: 20
+          max-retx-threshold: 32
+          poll-pdu: 16
+          poll-byte: -1
+          queue-size: 16384
+          queue-bytes: 6172672
         rx:
-          sn: 12
-          t-reassembly: 80
+          sn: 18
+          t-reassembly: 20
           t-status-prohibit: 10
-    pdcp:
-      integrity_required: false
-      tx:
-        sn: 12
-        discard_timer: -1
-        status_report_required: false
-      rx:
-        sn: 12
-        t_reordering: 80
-        out_of_order_delivery: false
-    f1u_du:
-      backoff_timer: 10
-    f1u_cu_up:
-      backoff_timer: 10
-    mac:
-      lc_priority: 5
-      lc_group_id: 2
-      bucket_size_duration_ms: 5
-      prioritized_bit_rate_kBps: 65537

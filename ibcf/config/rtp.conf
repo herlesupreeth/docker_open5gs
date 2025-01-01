@@ -1,0 +1,3 @@
+[general]
+rtpstart=10000
+rtpend=10100

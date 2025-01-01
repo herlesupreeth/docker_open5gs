@@ -11,5 +11,5 @@ $TTL 1h
 
 ; Wildcard to match any tel:+xxxx and change to sip:xxxx@IMS_DOMAIN
 *.9.4 IN NAPTR 20 100 "u" "E2U+sip" "!(^.*$)!sip:\\1@ibcf.IMS_DOMAIN!" .
-; add more country codes to route over IBCF :
+; add more country codes to route over IBCF using the same format as above, you may need also to adjust teh dialplan in Asterisk:
 ; * IN NAPTR 20 100 "u" "E2U+sip" "!(^.*$)!sip:\\1@ibcf.IMS_DOMAIN!" .

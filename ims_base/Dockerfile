@@ -38,8 +38,8 @@ RUN apt-get update && \
 
 # Fetch Kamailio code
 RUN mkdir -p /usr/local/src/ && cd /usr/local/src/ && \
-	git clone https://github.com/kamailio/kamailio && \
-	cd kamailio && git checkout 0da3eb3f94c087b272ebbe19c42fd933146482f8
+	git clone https://github.com/herlesupreeth/kamailio && \
+	cd kamailio && git checkout fix_notify_on_re_subscribe2
 
 # Build and Install Kamailio
 RUN cd /usr/local/src/kamailio && make cfg

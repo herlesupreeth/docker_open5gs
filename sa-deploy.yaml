@@ -323,8 +323,12 @@ services:
         ipv4_address: ${GRAFANA_IP}
 networks:
   default:
+    name: docker_open5gs_default
     ipam:
       config:
         - subnet: ${TEST_NETWORK}
 volumes:
-  mongodbdata: {}
+  grafana_data:
+    name: grafana_data
+  mongodbdata:
+    name: docker_open5gs_mongodbdata

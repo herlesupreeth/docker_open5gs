@@ -48,11 +48,9 @@ smf:
       - subnet: UE_IPV4_INTERNET_SUBNET
         gateway: UE_IPV4_INTERNET_TUN_IP
         dnn: internet
-        dev: ogstun
       - subnet: 2001:230:cafe::/48
         gateway: 2001:230:cafe::1
         dnn: internet
-        dev: ogstun
     dns:
       - SMF_DNS1
       - SMF_DNS2

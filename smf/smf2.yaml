@@ -47,11 +47,9 @@ smf:
       - subnet: UE_IPV4_PRIVATE_SUBNET
         gateway: UE_IPV4_PRIVATE_TUN_IP
         dnn: private
-        dev: ogstun
       - subnet: 2001:230:fafe::/48
         gateway: 2001:230:fafe::1
         dnn: private
-        dev: ogstun
     dns:
       - SMF_DNS1
       - SMF_DNS2

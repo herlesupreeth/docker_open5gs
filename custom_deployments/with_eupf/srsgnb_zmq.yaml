@@ -1,0 +1,28 @@
+version: '3'
+services:
+  srsgnb_zmq:
+    image: docker_srsran
+    container_name: srsgnb_zmq
+    stdin_open: true
+    tty: true
+    privileged: true
+    volumes:
+      - ../../srsran:/mnt/srsran
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=gnb_zmq
+    expose:
+      - "38412/sctp"
+      - "2152/udp"
+      - "2000/tcp"
+      - "2001/tcp"
+    networks:
+      default:
+        ipv4_address: ${SRS_GNB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

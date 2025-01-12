@@ -1,0 +1,28 @@
+version: '3'
+services:
+  srsue_5g_zmq:
+    image: docker_srslte
+    container_name: srsue_5g_zmq
+    stdin_open: true
+    tty: true
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    volumes:
+      - ../../srslte:/mnt/srslte
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=ue_5g_zmq
+    expose:
+      - "2000/tcp"
+      - "2001/tcp"
+    networks:
+      default:
+        ipv4_address: ${SRS_UE_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

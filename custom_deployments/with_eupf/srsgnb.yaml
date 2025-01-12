@@ -1,0 +1,30 @@
+version: '3'
+services:
+  srsgnb:
+    image: docker_srsran
+    container_name: srsgnb
+    stdin_open: true
+    tty: true
+    privileged: true
+    devices:
+      - "/dev/bus"
+    volumes:
+      - /dev/serial:/dev/serial:ro
+      - /dev/bus/usb:/dev/bus/usb:ro
+      - ../../srsran:/mnt/srsran
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=gnb
+    expose:
+      - "38412/sctp"
+      - "2152/udp"
+    networks:
+      default:
+        ipv4_address: ${SRS_GNB_IP}
+networks:
+  default:
+    external:
+      name: docker_open5gs_default

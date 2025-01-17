@@ -42,7 +42,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=nrf-1
+      - COMPONENT_NAME=nrf
     volumes:
       - ./nrf:/mnt/nrf
       - ./log:/open5gs/install/var/log/open5gs
@@ -59,7 +59,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=scp-1
+      - COMPONENT_NAME=scp
     volumes:
       - ./scp:/mnt/scp
       - ./log:/open5gs/install/var/log/open5gs
@@ -79,7 +79,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=ausf-1
+      - COMPONENT_NAME=ausf
     volumes:
       - ./ausf:/mnt/ausf
       - ./log:/open5gs/install/var/log/open5gs
@@ -100,7 +100,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=udr-1
+      - COMPONENT_NAME=udr
     volumes:
       - ./udr:/mnt/udr
       - ./log:/open5gs/install/var/log/open5gs
@@ -120,7 +120,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=udm-1
+      - COMPONENT_NAME=udm
     volumes:
       - ./udm:/mnt/udm
       - ./log:/open5gs/install/var/log/open5gs
@@ -141,7 +141,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=pcf-1
+      - COMPONENT_NAME=pcf
     volumes:
       - ./pcf:/mnt/pcf
       - ./log:/open5gs/install/var/log/open5gs
@@ -163,7 +163,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=bsf-1
+      - COMPONENT_NAME=bsf
     volumes:
       - ./bsf:/mnt/bsf
       - ./log:/open5gs/install/var/log/open5gs
@@ -184,7 +184,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=nssf-1
+      - COMPONENT_NAME=nssf
     volumes:
       - ./nssf:/mnt/nssf
       - ./log:/open5gs/install/var/log/open5gs
@@ -201,7 +201,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=hss-1
+      - COMPONENT_NAME=hss
     volumes:
       - ./hss:/mnt/hss
       - ./log:/open5gs/install/var/log/open5gs
@@ -228,7 +228,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=sgwc-1
+      - COMPONENT_NAME=sgwc
     volumes:
       - ./sgwc:/mnt/sgwc
       - ./log:/open5gs/install/var/log/open5gs
@@ -249,7 +249,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=sgwu-1
+      - COMPONENT_NAME=sgwu
     volumes:
       - ./sgwu:/mnt/sgwu
       - ./log:/open5gs/install/var/log/open5gs
@@ -273,7 +273,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=smf-1
+      - COMPONENT_NAME=smf
       - DEPLOY_MODE=ALL
     volumes:
       - ./smf:/mnt/smf
@@ -304,7 +304,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=upf-1
+      - COMPONENT_NAME=upf
     volumes:
       - ./upf:/mnt/upf
       - ./log:/open5gs/install/var/log/open5gs
@@ -339,7 +339,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=amf-1
+      - COMPONENT_NAME=amf
     volumes:
       - ./amf:/mnt/amf
       - ./log:/open5gs/install/var/log/open5gs
@@ -367,7 +367,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=mme-1
+      - COMPONENT_NAME=mme
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
@@ -394,7 +394,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=pcrf-1
+      - COMPONENT_NAME=pcrf
     depends_on:
       - mongo
     volumes:
@@ -507,7 +507,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=icscf-1
+      - COMPONENT_NAME=icscf
     depends_on:
       - dns
       - mysql
@@ -531,7 +531,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=scscf-1
+      - COMPONENT_NAME=scscf
     depends_on:
       - dns
       - mysql
@@ -558,7 +558,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=pcscf-1
+      - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=ALL
     depends_on:
       - dns
@@ -598,7 +598,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=smsc-1
+      - COMPONENT_NAME=smsc
     depends_on:
       - dns
       - mysql
@@ -619,7 +619,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=osmomsc-1
+      - COMPONENT_NAME=osmomsc
     depends_on:
       - osmohlr
     expose:
@@ -639,7 +639,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=osmohlr-1
+      - COMPONENT_NAME=osmohlr
     expose:
       - "4222/tcp"
     networks:

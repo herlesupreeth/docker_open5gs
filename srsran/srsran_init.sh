@@ -32,12 +32,12 @@ mkdir -p /etc/srsran
 
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
-elif [[ "$COMPONENT_NAME" =~ ^(gnb$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(gnb[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srsran/gnb.yml /etc/srsran/gnb.yml
-elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq$) ]]; then
+	cp /mnt/srsran/${COMPONENT_NAME}.yml /etc/srsran/gnb.yml
+elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srsran/gnb_zmq.yml /etc/srsran/gnb.yml
+	cp /mnt/srsran/${COMPONENT_NAME}.yml /etc/srsran/gnb.yml
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi

@@ -42,7 +42,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=nrf-1
+      - COMPONENT_NAME=nrf
     volumes:
       - ../../nrf:/mnt/nrf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -59,7 +59,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=scp-1
+      - COMPONENT_NAME=scp
     volumes:
       - ../../scp:/mnt/scp
       - ../../log:/open5gs/install/var/log/open5gs
@@ -79,7 +79,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=ausf-1
+      - COMPONENT_NAME=ausf
     volumes:
       - ../../ausf:/mnt/ausf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -100,7 +100,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=udr-1
+      - COMPONENT_NAME=udr
     volumes:
       - ../../udr:/mnt/udr
       - ../../log:/open5gs/install/var/log/open5gs
@@ -120,7 +120,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=udm-1
+      - COMPONENT_NAME=udm
     volumes:
       - ../../udm:/mnt/udm
       - ../../log:/open5gs/install/var/log/open5gs
@@ -141,7 +141,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=smf-1
+      - COMPONENT_NAME=smf
       - DEPLOY_MODE=5G
     volumes:
       - ../../smf:/mnt/smf
@@ -172,7 +172,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=eupf-1
+      - COMPONENT_NAME=eupf
     volumes:
       - ../../eupf:/mnt/eupf
       - /sys/fs/bpf:/sys/fs/bpf
@@ -228,7 +228,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=amf-1
+      - COMPONENT_NAME=amf
     volumes:
       - ../../amf:/mnt/amf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -253,7 +253,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=pcf-1
+      - COMPONENT_NAME=pcf
     volumes:
       - ../../pcf:/mnt/pcf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -275,7 +275,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=bsf-1
+      - COMPONENT_NAME=bsf
     volumes:
       - ../../bsf:/mnt/bsf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -296,7 +296,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=nssf-1
+      - COMPONENT_NAME=nssf
     volumes:
       - ../../nssf:/mnt/nssf
       - ../../log:/open5gs/install/var/log/open5gs
@@ -417,7 +417,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=icscf-1
+      - COMPONENT_NAME=icscf
     depends_on:
       - dns
       - mysql
@@ -441,7 +441,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=scscf-1
+      - COMPONENT_NAME=scscf
     depends_on:
       - dns
       - mysql
@@ -468,7 +468,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=pcscf-1
+      - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=5G
     depends_on:
       - dns
@@ -499,7 +499,7 @@ services:
     env_file:
       - .custom_env
     environment:
-      - COMPONENT_NAME=smsc-1
+      - COMPONENT_NAME=smsc
     depends_on:
       - dns
       - mysql

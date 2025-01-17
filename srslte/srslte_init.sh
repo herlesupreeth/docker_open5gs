@@ -30,37 +30,37 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
 mkdir -p /etc/srsran
 
-cp /mnt/srslte/rb.conf /etc/srsran
-cp /mnt/srslte/sib.conf /etc/srsran
+cp /mnt/srslte/rb_${COMPONENT_NAME}.conf /etc/srsran/rb.conf
+cp /mnt/srslte/sib_${COMPONENT_NAME}.conf /etc/srsran/sib.conf
 
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
-elif [[ "$COMPONENT_NAME" =~ ^(gnb$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(gnb[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/rr_gnb.conf /etc/srsran/rr.conf
-	cp /mnt/srslte/enb.conf /etc/srsran
+	cp /mnt/srslte/rr_${COMPONENT_NAME}.conf /etc/srsran/rr.conf
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/enb.conf
 	sed -i 's|MME_IP|'$AMF_IP'|g' /etc/srsran/enb.conf
-elif [[ "$COMPONENT_NAME" =~ ^(enb$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(enb[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/rr.conf /etc/srsran
-	cp /mnt/srslte/enb.conf /etc/srsran
+	cp /mnt/srslte/rr_${COMPONENT_NAME}.conf /etc/srsran/rr.conf
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/enb.conf
 	sed -i 's|MME_IP|'$MME_IP'|g' /etc/srsran/enb.conf
-elif [[ "$COMPONENT_NAME" =~ ^(enb_zmq$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(enb_zmq[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/rr.conf /etc/srsran
-	cp /mnt/srslte/enb_zmq.conf /etc/srsran/enb.conf
+	cp /mnt/srslte/rr_${COMPONENT_NAME}.conf /etc/srsran/rr.conf
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/enb.conf
 	sed -i 's|MME_IP|'$MME_IP'|g' /etc/srsran/enb.conf
-elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/rr_gnb_zmq.conf /etc/srsran/rr.conf
-	cp /mnt/srslte/gnb_zmq.conf /etc/srsran/enb.conf
+	cp /mnt/srslte/rr_${COMPONENT_NAME}.conf /etc/srsran/rr.conf
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/enb.conf
 	sed -i 's|MME_IP|'$AMF_IP'|g' /etc/srsran/enb.conf
-elif [[ "$COMPONENT_NAME" =~ ^(ue_zmq$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(ue_zmq[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/ue_zmq.conf /etc/srsran/ue.conf
-elif [[ "$COMPONENT_NAME" =~ ^(ue_5g_zmq$) ]]; then
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/ue.conf
+elif [[ "$COMPONENT_NAME" =~ ^(ue_5g_zmq[[:digit:]]*$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
-	cp /mnt/srslte/ue_5g_zmq.conf /etc/srsran/ue.conf
+	cp /mnt/srslte/${COMPONENT_NAME}.conf /etc/srsran/ue.conf
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
@@ -81,10 +81,10 @@ service dbus start && service avahi-daemon start
 
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
-elif [[ "$COMPONENT_NAME" =~ ^(gnb$) || "$COMPONENT_NAME" =~ ^(enb$) || "$COMPONENT_NAME" =~ ^(enb_zmq$) || "$COMPONENT_NAME" =~ ^(gnb_zmq$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(gnb[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(enb[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(enb_zmq[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(gnb_zmq[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/usr/local/bin/srsenb
-elif [[ "$COMPONENT_NAME" =~ ^(ue_zmq$) || "$COMPONENT_NAME" =~ ^(ue_5g_zmq$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(ue_zmq[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(ue_5g_zmq[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/usr/local/bin/srsue
 else

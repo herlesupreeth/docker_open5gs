@@ -28,27 +28,27 @@
 
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
-elif [[ "$COMPONENT_NAME" =~ ^(icscf-[[:digit:]]+$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(icscf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/icscf/icscf_init.sh && \
+	/mnt/icscf/${COMPONENT_NAME}_init.sh && \
 	mkdir -p /var/run/kamailio_icscf && \
 	rm -f /kamailio_icscf.pid && \
 	kamailio -f /etc/kamailio_icscf/kamailio_icscf.cfg -P /kamailio_icscf.pid -DD -E -e
-elif [[ "$COMPONENT_NAME" =~ ^(scscf-[[:digit:]]+$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(scscf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/scscf/scscf_init.sh && \
+	/mnt/scscf/${COMPONENT_NAME}_init.sh && \
 	mkdir -p /var/run/kamailio_scscf && \
 	rm -f /kamailio_scscf.pid && \
 	kamailio -f /etc/kamailio_scscf/kamailio_scscf.cfg -P /kamailio_scscf.pid -DD -E -e
-elif [[ "$COMPONENT_NAME" =~ ^(pcscf-[[:digit:]]+$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(pcscf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/pcscf/pcscf_init.sh && \
+	/mnt/pcscf/${COMPONENT_NAME}_init.sh && \
 	mkdir -p /var/run/kamailio_pcscf && \
 	rm -f /kamailio_pcscf.pid && \
 	kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e
-elif [[ "$COMPONENT_NAME" =~ ^(smsc-[[:digit:]]+$) ]]; then
+elif [[ "$COMPONENT_NAME" =~ ^(smsc[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/smsc/smsc_init.sh && \
+	/mnt/smsc/${COMPONENT_NAME}_init.sh && \
 	mkdir -p /var/run/kamailio_smsc && \
 	rm -f /kamailio_smsc.pid && \
 	kamailio -f /etc/kamailio_smsc/kamailio_smsc.cfg -P /kamailio_smsc.pid -DD -E -e

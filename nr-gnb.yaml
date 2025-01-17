@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=ueransim-gnb-1
+      - COMPONENT_NAME=ueransim-gnb
     expose:
       - "38412/sctp"
       - "2152/udp"

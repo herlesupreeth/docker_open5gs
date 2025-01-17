@@ -38,11 +38,36 @@ cp /mnt/pcscf/pcscf.dictionary /etc/opensips
 cp /mnt/pcscf/opensips.cfg /etc/opensips
 cp -r /mnt/pcscf/db /etc/opensips
 
+while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
+	sleep 5;
+done
+
+# Sleep until permissions are set
+sleep 10;
+
+# Create PCSCF database, populate tables and grant privileges
+if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='opensips_pcscf'" 2>&1`" ]];
+then
+	mysql -u root -h ${MYSQL_IP} -e "create database opensips_pcscf;"
+	mysql -u root -h ${MYSQL_IP} opensips_pcscf < /usr/share/opensips/mysql/standard-create.sql
+	mysql -u root -h ${MYSQL_IP} opensips_pcscf < /usr/share/opensips/mysql/presence-create.sql
+	PCSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'opensips_pcscf' AND Host = '%')"`
+	if [[ "$PCSCF_USER_EXISTS" == 0 ]]
+	then
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'opensips_pcscf'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'opensips_pcscf'@'$PCSCF_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON opensips_pcscf.* TO 'opensips_pcscf'@'%'";
+		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON opensips_pcscf.* TO 'opensips_pcscf'@'$PCSCF_IP'";
+		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
+	fi
+fi
+
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/opensips/opensips.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/opensips.cfg
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/opensips.cfg
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/opensips/opensips.cfg
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/opensips/opensips.cfg
+sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/opensips/opensips.cfg
 
 sed -i 's|PCRF_BIND_PORT|'$PCRF_BIND_PORT'|g' /etc/opensips/freeDiameter.conf
 sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' /etc/opensips/freeDiameter.conf

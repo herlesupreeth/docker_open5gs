@@ -1,0 +1,33 @@
+logger:
+    file:
+      path: /open5gs/install/var/log/open5gs/upf2.log
+
+global:
+  max:
+    ue: MAX_NUM_UE
+
+upf:
+    pfcp:
+      server:
+        - address: UPF2_IP
+      client:
+        smf:
+          - address: SMF2_IP
+            dnn: private
+    gtpu:
+      server:
+        - address: UPF2_IP
+          advertise: UPF2_ADVERTISE_IP
+    session:
+      - subnet: UE_IPV4_PRIVATE_SUBNET
+        gateway: UE_IPV4_PRIVATE_TUN_IP
+        dnn: private
+        dev: ogstun
+      - subnet: 2001:230:fafe::/48
+        gateway: 2001:230:fafe::1
+        dnn: private
+        dev: ogstun
+    metrics:
+      server:
+        - address: UPF2_IP
+          port: 9091

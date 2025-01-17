@@ -1,0 +1,34 @@
+logger:
+    file:
+      path: /open5gs/install/var/log/open5gs/nssf.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+global:
+  max:
+    ue: MAX_NUM_UE
+
+nssf:
+    sbi:
+      server:
+        - address: NSSF_IP
+          port: 7777
+      client:
+        nrf:
+          - uri: http://NRF_IP:7777
+        scp:
+          - uri: http://SCP_IP:7777
+        nsi:
+          - uri: http://NRF_IP:7777
+            s_nssai:
+              sst: 1
+              sd: 000001
+          - uri: http://NRF_IP:7777
+            s_nssai:
+              sst: 1
+              sd: 000002
+

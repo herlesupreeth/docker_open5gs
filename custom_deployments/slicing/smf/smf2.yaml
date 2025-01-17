@@ -1,0 +1,64 @@
+logger:
+    file:
+      path: /open5gs/install/var/log/open5gs/smf2.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+global:
+  max:
+    ue: MAX_NUM_UE
+  parameter:
+      no_ipv4v6_local_addr_in_packet_filter: true
+
+smf:
+    info:
+      - s_nssai:
+          - sst: 1
+            sd: 000002
+            dnn:
+              - private
+    sbi:
+      server:
+        - address: SMF2_IP
+          port: 7777
+      client:
+        nrf:
+          - uri: http://NRF_IP:7777
+        scp:
+          - uri: http://SCP_IP:7777
+    gtpc:
+      server:
+        - address: SMF2_IP
+    gtpu:
+      server:
+        - address: SMF2_IP
+    pfcp:
+      server:
+        - address: SMF2_IP
+      client:
+        upf:
+          - address: UPF2_IP
+            dnn: private
+    session:
+      - subnet: UE_IPV4_PRIVATE_SUBNET
+        gateway: UE_IPV4_PRIVATE_TUN_IP
+        dnn: private
+      - subnet: 2001:230:fafe::/48
+        gateway: 2001:230:fafe::1
+        dnn: private
+    dns:
+      - SMF_DNS1
+      - SMF_DNS2
+      - 2001:4860:4860::8888
+      - 2001:4860:4860::8844
+    p-cscf:
+      - PCSCF_IP
+    mtu: 1450
+    metrics:
+      server:
+        - address: SMF2_IP
+          port: 9091

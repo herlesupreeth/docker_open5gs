@@ -50,5 +50,5 @@ RUN . ./oaienv && cd cmake_targets && \
     ./build_oai -I -w USRP --eNB --verbose-compile
 
 
-CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/lte_build_oai/build && \
+CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/ran_build/build && \
     ./lte-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.tm1.50PRB.usrpb210.conf -d

@@ -80,8 +80,8 @@ docker tag ghcr.io/herlesupreeth/docker_srsran:master docker_srsran
 
 For UERANSIM components:
 ```
-docker pull ghcr.io/herlesupreeth/docker_nr-gnb:master
-docker tag ghcr.io/herlesupreeth/docker_nr-gnb:master docker_nr-gnb
+docker pull ghcr.io/herlesupreeth/docker_ueransim:master
+docker tag ghcr.io/herlesupreeth/docker_ueransim:master docker_ueransim
 ```
 
 For OAI components:

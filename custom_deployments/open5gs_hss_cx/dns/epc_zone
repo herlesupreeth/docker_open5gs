@@ -1,0 +1,15 @@
+$ORIGIN EPC_DOMAIN.
+$TTL 1W
+@                       1D IN SOA       localhost. root.localhost. (
+                                        1		; serial
+                                        3H              ; refresh
+                                        15M             ; retry
+                                        1W              ; expiry
+                                        1D )            ; minimum
+
+                        1D IN NS        epcns
+epcns                   1D IN A         DNS_IP
+
+pcrf                    1D IN A         PCRF_IP
+
+hss                     1D IN A         HSS_IP

@@ -1,0 +1,336 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    command: --bind_ip 0.0.0.0
+    env_file:
+      - .custom_env
+    volumes:
+      - mongodbdata:/data/db
+      - mongodbdata:/data/configdb
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "27017/udp"
+      - "27017/tcp"
+    networks:
+      default:
+        ipv4_address: ${MONGO_IP}
+  webui:
+    image: docker_open5gs
+    container_name: webui
+    depends_on:
+      - mongo
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=webui
+    volumes:
+      - ../../webui:/mnt/webui
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9999/tcp"
+    ports:
+      - "9999:9999/tcp"
+    networks:
+      default:
+        ipv4_address: ${WEBUI_IP}
+  hss:
+    image: docker_open5gs
+    container_name: hss
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=hss
+    volumes:
+      - ./hss:/mnt/hss
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - mongo
+    expose:
+      - "${HSS_BIND_PORT}/tcp"
+      - "${HSS_BIND_PORT}/sctp"
+      - "5868/tcp"
+      - "5868/sctp"
+    # ports:
+    #   - "${HSS_BIND_PORT}:${HSS_BIND_PORT}/sctp"
+    #   - "${HSS_BIND_PORT}:${HSS_BIND_PORT}/tcp"
+    networks:
+      default:
+        ipv4_address: ${HSS_IP}
+  sgwc:
+    image: docker_open5gs
+    depends_on:
+      - smf
+      - upf
+    container_name: sgwc
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=sgwc
+    volumes:
+      - ../../sgwc:/mnt/sgwc
+      - ../../log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "2123/udp"
+      - "8805/udp"
+    networks:
+      default:
+        ipv4_address: ${SGWC_IP}
+  sgwu:
+    image: docker_open5gs
+    depends_on:
+      - smf
+      - upf
+    container_name: sgwu
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=sgwu
+    volumes:
+      - ../../sgwu:/mnt/sgwu
+      - ../../log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "8805/udp"
+      - "2152/udp"
+    # ports:
+    #   - "${SGWU_ADVERTISE_IP}:2152:2152/udp"
+    networks:
+      default:
+        ipv4_address: ${SGWU_IP}
+  smf:
+    image: docker_open5gs
+    container_name: smf
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=smf
+      - DEPLOY_MODE=4G
+    volumes:
+      - ../../smf:/mnt/smf
+      - ../../log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "8805/udp"
+      - "2123/udp"
+      - "7777/tcp"
+      - "9091/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMF_IP}
+  upf:
+    image: docker_open5gs
+    depends_on:
+      - smf
+    container_name: upf
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=upf
+    volumes:
+      - ../../upf:/mnt/upf
+      - ../../log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "2152/udp"
+      - "8805/udp"
+      - "9091/tcp"
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    # sysctls:
+    #   - net.ipv4.ip_forward=1
+    #   - net.ipv6.conf.all.disable_ipv6=0
+    network_mode: host
+  mme:
+    image: docker_open5gs
+    depends_on:
+      - hss
+      - sgwc
+      - sgwu
+      - smf
+      - upf
+      - osmomsc
+    container_name: mme
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=mme
+    volumes:
+      - ./mme:/mnt/mme
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "36412/sctp"
+      - "2123/udp"
+      - "9091/tcp"
+    # ports:
+    #   - "36412:36412/sctp"
+    networks:
+      default:
+        ipv4_address: ${MME_IP}
+  pcrf:
+    image: docker_open5gs
+    container_name: pcrf
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=pcrf
+    depends_on:
+      - mongo
+    volumes:
+      - ../../pcrf:/mnt/pcrf
+      - ../../log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "${PCRF_BIND_PORT}/tcp"
+      - "${PCRF_BIND_PORT}/sctp"
+      - "5868/tcp"
+      - "5868/sctp"
+    # ports:
+    #   - "${PCRF_BIND_PORT}:${PCRF_BIND_PORT}/sctp"
+    #   - "${PCRF_BIND_PORT}:${PCRF_BIND_PORT}/tcp"
+    networks:
+      default:
+        ipv4_address: ${PCRF_IP}
+  dns:
+    build: ./dns
+    image: docker_dns
+    container_name: dns
+    env_file:
+      - .custom_env
+    volumes:
+      - ./dns:/mnt/dns
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "53/udp"
+    networks:
+      default:
+        ipv4_address: ${DNS_IP}
+  mysql:
+    build: ../../mysql
+    image: docker_mysql
+    container_name: mysql
+    env_file:
+      - .custom_env
+    volumes:
+      - dbdata:/var/lib/mysql
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3306/tcp"
+    networks:
+      default:
+        ipv4_address: ${MYSQL_IP}
+  osmomsc:
+    build: ../../osmomsc
+    image: docker_osmomsc
+    container_name: osmomsc
+    volumes:
+      - ../../osmomsc:/mnt/osmomsc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=osmomsc
+    depends_on:
+      - osmohlr
+    expose:
+      - "29118/sctp"
+      - "2775/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOMSC_IP}
+  osmohlr:
+    build: ../../osmohlr
+    image: docker_osmohlr
+    container_name: osmohlr
+    volumes:
+      - ../../osmohlr:/mnt/osmohlr
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .custom_env
+    environment:
+      - COMPONENT_NAME=osmohlr
+    expose:
+      - "4222/tcp"
+    networks:
+      default:
+        ipv4_address: ${OSMOHLR_IP}
+  metrics:
+    build: ../../metrics
+    image: docker_metrics
+    container_name: metrics
+    env_file:
+      - .custom_env
+    volumes:
+      - ../../metrics:/mnt/metrics
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9090/tcp"
+    ports:
+      - "9090:9090/tcp"
+    networks:
+      default:
+        ipv4_address: ${METRICS_IP}
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: grafana
+    env_file:
+      - .custom_env
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../../grafana/:/etc/grafana/provisioning/
+      - ../../grafana:/mnt/grafana
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      #- GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS}
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_PATHS_DATA=/var/lib/grafana
+      - METRICS_IP=${METRICS_IP}
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${GRAFANA_IP}
+networks:
+  default:
+    name: docker_open5gs_default
+    ipam:
+      config:
+        - subnet: ${TEST_NETWORK}
+volumes:
+  grafana_data:
+    name: grafana_data
+  mongodbdata:
+    name: docker_open5gs_mongodbdata
+  dbdata:
+    name: docker_open5gs_dbdata

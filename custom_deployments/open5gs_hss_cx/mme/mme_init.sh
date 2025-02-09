@@ -26,30 +26,32 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
 export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
-# Remove ogstun and ogstun2 if they exist
-ip link delete ogstun
-ip link delete ogstun2
+[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+cp /mnt/mme/mme.yaml install/etc/open5gs
+cp /mnt/mme/mme.conf install/etc/freeDiameter
+cp /mnt/mme/make_certs.sh install/etc/freeDiameter
 
-UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
-UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)
+sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/mme.yaml
+sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/mme.yaml
+sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|MME_IF|'$IF_NAME'|g' install/etc/open5gs/mme.yaml
+sed -i 's|OSMOMSC_IP|'$OSMOMSC_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|SGWC_IP|'$SGWC_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/mme.yaml
+sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/mme.yaml
+sed -i 's|MME_IP|'$MME_IP'|g' install/etc/freeDiameter/mme.conf
+sed -i 's|HSS_IP|'$HSS_IP'|g' install/etc/freeDiameter/mme.conf
+sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/mme.conf
+sed -i 's|HSS_BIND_PORT|'$HSS_BIND_PORT'|g' install/etc/freeDiameter/mme.conf
+sed -i 's|LD_LIBRARY_PATH|'$LD_LIBRARY_PATH'|g' install/etc/freeDiameter/mme.conf
+sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/make_certs.sh
 
-cp /mnt/upf/upf.yaml install/etc/open5gs
-sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_INTERNET_SUBNET|'$UE_IPV4_INTERNET'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UE_IPV4_IMS_SUBNET|'$UE_IPV4_IMS'|g' install/etc/open5gs/upf.yaml
-sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
-sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/upf.yaml
+# Generate TLS certificates
+./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

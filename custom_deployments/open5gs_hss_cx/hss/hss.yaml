@@ -1,0 +1,13 @@
+db_uri: mongodb://MONGO_IP/open5gs
+
+logger:
+    file:
+      path: /open5gs/install/var/log/open5gs/hss.log
+
+global:
+  max:
+    ue: MAX_NUM_UE
+
+hss:
+    freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf
+    sms_over_ims: "sip:smsc.IMS_DOMAIN:7090"

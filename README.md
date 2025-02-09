@@ -1,12 +1,14 @@
 # docker_open5gs
 Quite contrary to the name of the repository, this repository contains docker files to deploy an Over-The-Air (OTA) or RF simulated 4G/5G network using following projects:
 - Core Network (4G/5G) - open5gs - https://github.com/open5gs/open5gs
-- IMS (Only 4G supported i.e. VoLTE) - kamailio
+- IMS (Only 4G supported i.e. VoLTE) - kamailio - https://github.com/kamailio/kamailio
+- IMS (Only 4G supported i.e. VoLTE) - openSIP IMS CE - https://ce.opensips.org/opensips-ims
 - IMS HSS - https://github.com/nickvsnetworking/pyhss
 - Osmocom HLR - https://github.com/osmocom/osmo-hlr
 - Osmocom MSC - https://github.com/osmocom/osmo-msc
 - srsRAN (4G/5G) - https://github.com/srsran/srsRAN
 - UERANSIM (5G) - https://github.com/aligungr/UERANSIM
+- eUPF (5G) - https://github.com/edgecomllc/eupf
 
 ## Tested Setup
 
@@ -43,7 +45,6 @@ docker tag ghcr.io/herlesupreeth/docker_open5gs:master docker_open5gs
 docker pull ghcr.io/herlesupreeth/docker_grafana:master
 docker tag ghcr.io/herlesupreeth/docker_grafana:master docker_grafana
 
-
 docker pull ghcr.io/herlesupreeth/docker_metrics:master
 docker tag ghcr.io/herlesupreeth/docker_metrics:master docker_metrics
 ```
@@ -66,7 +67,6 @@ docker tag ghcr.io/herlesupreeth/docker_kamailio:master docker_kamailio
 
 docker pull ghcr.io/herlesupreeth/docker_mysql:master
 docker tag ghcr.io/herlesupreeth/docker_mysql:master docker_mysql
-
 ```
 
 For srsRAN components:
@@ -274,8 +274,11 @@ with
 ###### 4G deployment
 
 ```
-# 4G Core Network + IMS + SMS over SGs
+# 4G Core Network + IMS + SMS over SGs (uses Kamailio IMS)
 docker compose -f 4g-volte-deploy.yaml up
+
+# 4G Core Network + IMS + SMS over SGs (uses openSIPS IMS)
+docker compose -f 4g-volte-opensips-ims-deploy.yaml up
 
 # srsRAN eNB using SDR (OTA)
 docker compose -f srsenb.yaml up -d && docker container attach srsenb

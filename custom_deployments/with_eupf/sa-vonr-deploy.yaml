@@ -308,7 +308,7 @@ services:
       default:
         ipv4_address: ${NSSF_IP}
   metrics:
-    build: ./metrics
+    build: ../../metrics
     image: docker_metrics
     container_name: metrics
     env_file:
@@ -325,7 +325,7 @@ services:
       default:
         ipv4_address: ${METRICS_IP}
   dns:
-    build: ./dns
+    build: ../../dns
     image: docker_dns
     container_name: dns
     env_file:
@@ -340,7 +340,7 @@ services:
       default:
         ipv4_address: ${DNS_IP}
   rtpengine:
-    build: ./rtpengine
+    build: ../../rtpengine
     image: docker_rtpengine
     container_name: rtpengine
     privileged: true
@@ -368,7 +368,7 @@ services:
       default:
         ipv4_address: ${RTPENGINE_IP}
   mysql:
-    build: ./mysql
+    build: ../../mysql
     image: docker_mysql
     container_name: mysql
     env_file:
@@ -383,7 +383,7 @@ services:
       default:
         ipv4_address: ${MYSQL_IP}
   pyhss:
-    build: ./pyhss
+    build: ../../pyhss
     image: docker_pyhss
     container_name: pyhss
     dns: ${DNS_IP}

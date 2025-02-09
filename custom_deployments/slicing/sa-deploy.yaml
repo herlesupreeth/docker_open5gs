@@ -349,7 +349,7 @@ services:
       default:
         ipv4_address: ${NSSF_IP}
   metrics:
-    build: ./metrics
+    build: ../../metrics
     image: docker_metrics
     container_name: metrics
     env_file:

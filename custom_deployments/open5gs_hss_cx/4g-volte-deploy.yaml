@@ -119,7 +119,6 @@ services:
       - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
       - "8805/udp"
@@ -178,7 +177,6 @@ services:
       - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
       - "36412/sctp"
@@ -207,7 +205,6 @@ services:
       - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
     networks:

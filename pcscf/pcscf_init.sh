@@ -67,9 +67,13 @@ then
 	fi
 fi
 
+# The default configs are for LTE Rx
 if [[ ${DEPLOY_MODE} == 5G ]];
 then
-    sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
+elif [[ ${DEPLOY_MODE} == ALL ]];
+then
 	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
 fi
 

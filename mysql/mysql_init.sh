@@ -82,7 +82,7 @@ else
 fi
 
 sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
-sed -i "s/# max_connections        = 151/max_connections        = 250/g" /etc/mysql/mysql.conf.d/mysqld.cnf
+sed -i "s/# max_connections        = 151/max_connections        = 500/g" /etc/mysql/mysql.conf.d/mysqld.cnf
 cat > ~/.my.cnf <<EOF
 [mysql]
 user=root

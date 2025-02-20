@@ -98,10 +98,21 @@ sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
 sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
-sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo.cfg
-sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo.cfg
-sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt.cfg
-sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo_N5.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo_N5.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo_Rx.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo_Rx.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt_N5.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt_N5.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt_Rx.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt_Rx.cfg
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

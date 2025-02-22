@@ -95,9 +95,11 @@ sed -i 's|PCRF_BIND_PORT|'$PCRF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
+sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
 sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+sed -i 's|UDM_IP|'$UDM_IP'|g' /etc/kamailio_pcscf/route/register.cfg
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg
 sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg

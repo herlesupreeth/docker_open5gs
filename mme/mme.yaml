@@ -20,8 +20,9 @@ mme:
         smf:
           - address: SMF_IP
     sgsap:
-      server:
+      client:
         - address: OSMOMSC_IP
+          local_address: MME_IP
           map:
             tai:
               plmn_id:

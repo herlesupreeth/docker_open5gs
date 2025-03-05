@@ -55,6 +55,8 @@ services:
         ipv4_address: ${NRF_IP}
   scp:
     image: docker_open5gs
+    depends_on:
+      - nrf
     container_name: scp
     env_file:
       - .custom_env

@@ -1,14 +1,15 @@
 # docker_open5gs
 Quite contrary to the name of the repository, this repository contains docker files to deploy an Over-The-Air (OTA) or RF simulated 4G/5G network using following projects:
 - Core Network (4G/5G) - open5gs - https://github.com/open5gs/open5gs
-- IMS (Only 4G supported i.e. VoLTE) - kamailio - https://github.com/kamailio/kamailio
+- IMS (VoLTE + VoNR) - kamailio - https://github.com/kamailio/kamailio
 - IMS (Only 4G supported i.e. VoLTE) - openSIP IMS CE - https://ce.opensips.org/opensips-ims
 - IMS HSS - https://github.com/nickvsnetworking/pyhss
 - Osmocom HLR - https://github.com/osmocom/osmo-hlr
 - Osmocom MSC - https://github.com/osmocom/osmo-msc
-- srsRAN (4G/5G) - https://github.com/srsran/srsRAN
-- UERANSIM (5G) - https://github.com/aligungr/UERANSIM
-- eUPF (5G) - https://github.com/edgecomllc/eupf
+- srsRAN_4G (4G eNB + 4G UE + 5G UE) - https://github.com/srsran/srsRAN_4G
+- srsRAN_Project (5G gNB) - https://github.com/srsran/srsRAN_Project
+- UERANSIM (5G gNB + 5G UE) - https://github.com/aligungr/UERANSIM
+- eUPF (5G UPF) - https://github.com/edgecomllc/eupf
 
 ## Tested Setup
 
@@ -18,14 +19,15 @@ Docker host machine
 
 Over-The-Air setups: 
 
-- srsRAN (eNB/gNB) using Ettus USRP B210
-- srsRAN eNB using LimeSDR Mini v1.3
-- srsRAN eNB using LimeSDR-USB
+- srsRAN_Project gNB using Ettus USRP B210
+- srsRAN_4G eNB using LimeSDR Mini v1.3
+- srsRAN_4G eNB using LimeSDR-USB
 
 RF simulated setups:
 
- - srsRAN (gNB + UE) simulation over ZMQ
- - UERANSIM (gNB + UE) simulator
+- srsRAN_4G (eNB + UE) simulation over ZMQ
+- srsRAN_Project (5G gNB) + srsRAN_4G (5G UE) simulation over ZMQ
+- UERANSIM (gNB + UE) simulator
 
 ## Prepare Docker images
 

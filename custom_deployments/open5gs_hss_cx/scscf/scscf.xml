@@ -11,8 +11,8 @@
 	QueueLength="32"
 	TransactionTimeout="5"
 	SessionsHashSize="128"
-	DefaultAuthSessionTimeout="3600"
-	MaxAuthSessionTimeout="3600"
+	DefaultAuthSessionTimeout="SUBSCRIPTION_EXPIRES_ENV"
+	MaxAuthSessionTimeout="SUBSCRIPTION_EXPIRES_ENV"
 >
 	<Peer FQDN="hss.EPC_DOMAIN" Realm="EPC_DOMAIN" port="HSS_BIND_PORT"/>
 		

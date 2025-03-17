@@ -67,13 +67,17 @@ fi
 
 export IMS_SLASH_DOMAIN=`echo $IMS_DOMAIN | sed 's/\./\\\./g'`
 
+SUBSCRIPTION_EXPIRES_ENV=3600
+
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.cfg
+sed -i 's|SUBSCRIPTION_EXPIRES_ENV|'$SUBSCRIPTION_EXPIRES_ENV'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|IMS_SLASH_DOMAIN|'$IMS_SLASH_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_scscf/scscf.cfg
 
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.xml
+sed -i 's|SUBSCRIPTION_EXPIRES_ENV|'$SUBSCRIPTION_EXPIRES_ENV'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|HSS_BIND_PORT|'$HSS_BIND_PORT'|g' /etc/kamailio_scscf/scscf.xml

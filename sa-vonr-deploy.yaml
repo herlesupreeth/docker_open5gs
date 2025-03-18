@@ -517,8 +517,8 @@ services:
         ipv4_address: ${GRAFANA_IP}
 #  ibcf:
 #    build: ./ibcf
-#    image: ibcf_cloud
-#    container_name: ibcf_voicemail
+#    image: ibcf_voicemail
+#    container_name: ibcf
 #    dns: ${DNS_IP}
 #    privileged: true
 #    env_file:

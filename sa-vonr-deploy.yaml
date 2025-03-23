@@ -515,6 +515,28 @@ services:
     networks:
       default:
         ipv4_address: ${GRAFANA_IP}
+#  ibcf:
+#    build: ./ibcf
+#    image: ibcf_voicemail
+#    container_name: ibcf
+#    dns: ${DNS_IP}
+#    privileged: true
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./ibcf:/mnt/ibcf
+#    environment:
+#      - COMPONENT_NAME=ibcf_voicemail
+#    expose:
+#      - "5090/tcp"
+#      - "5090/udp"
+#      - "10000-10100/udp"
+#    ports:
+#      - "5090:5090/tcp"
+#      - "10000-10100:10000-10100/udp"      
+#    networks:
+#      default:
+#        ipv4_address: ${IBCF_IP}         
 networks:
   default:
     name: docker_open5gs_default

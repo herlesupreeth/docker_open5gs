@@ -1,5 +1,8 @@
-This is a basic kind of IBCF based on Asterisk to handle calls from and to Docker_open5gs, I tried my best to do all the configs, but it still requires your adjustments.
+This is a basic IBCF based on Asterisk to handle calls from and to docker_open5gs. Following files needs to be adapted based on your deployment:
 
-Please read the Comments carefully before starting the container, specially in : pjsip.conf, acl.conf, extenteions.conf and voiemail.conf, those files must be configured otherwise the IBCF will not work properly!!
+pjsip.conf
+acl.conf
+extensions.conf
+voiemail.conf
 
-have fun Testing!
+Parameters to be adapted in the above files are mentioned in the comment in respective files.

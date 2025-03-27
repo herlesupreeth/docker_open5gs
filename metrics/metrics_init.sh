@@ -42,4 +42,4 @@ sed -i 's|MME_IP|'$MME_IP'|g' /config/prometheus.yml
 sed -i 's|PCF_IP|'$PCF_IP'|g' /config/prometheus.yml
 sed -i 's|UPF_IP|'$UPF_IP'|g' /config/prometheus.yml
 
-./prometheus --config.file=/config/prometheus.yml
+./prometheus --config.file=/config/prometheus.yml --web.listen-address=0.0.0.0:$METRICS_BIND_PORT

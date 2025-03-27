@@ -42,6 +42,9 @@ else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
 
+cp /mnt/srsran/low_latency.yml /etc/srsran/low_latency.yml
+cp /mnt/srsran/mimo_usrp.yml /etc/srsran/mimo_usrp.yml
+cp /mnt/srsran/qam256.yml /etc/srsran/qam256.yml
 cp /mnt/srsran/qos.yml /etc/srsran/qos.yml
 
 sed -i 's|PLMN|'$MCC''$MNC'|g' /etc/srsran/gnb.yml
@@ -52,7 +55,19 @@ sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/gnb.yml
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start
 
-exec gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml $@
+extra_args=""
+
+if [[ "$ENABLE_USRP_MIMO" == true ]]; then
+	extra_args+=" -c /etc/srsran/mimo_usrp.yml"
+fi
+if [[ "$ENABLE_LOW_LATENCY" == true ]]; then
+	extra_args+=" -c /etc/srsran/low_latency.yml"
+fi
+if [[ "$ENABLE_QAM256" == true ]]; then
+	extra_args+=" -c /etc/srsran/qam256.yml"
+fi
+
+exec gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml $extra_args $@
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

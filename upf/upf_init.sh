@@ -31,6 +31,10 @@ export LANG=C.UTF-8
 export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
+# use nftables instead of iptables
+update-alternatives --set iptables `which iptables-nft`
+update-alternatives --set ip6tables `which ip6tables-nft`
+
 # Remove ogstun and ogstun2 if they exist
 ip link delete ogstun
 ip link delete ogstun2

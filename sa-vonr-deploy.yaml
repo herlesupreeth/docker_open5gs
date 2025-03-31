@@ -299,9 +299,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "9090/tcp"
+      - "${METRICS_BIND_PORT}/tcp"
     ports:
-      - "9090:9090/tcp"
+      - "${METRICS_BIND_PORT}:${METRICS_BIND_PORT}/tcp"
     networks:
       default:
         ipv4_address: ${METRICS_IP}
@@ -356,6 +356,7 @@ services:
       - .env
     volumes:
       - dbdata:/var/lib/mysql
+      - ./mysql:/mnt/mysql
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:

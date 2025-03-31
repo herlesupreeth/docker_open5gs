@@ -467,6 +467,7 @@ services:
       - .env
     volumes:
       - dbdata:/var/lib/mysql
+      - ./mysql:/mnt/mysql
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
@@ -490,11 +491,17 @@ services:
       - dns
       - mysql
     expose:
+      - "${PYHSS_BIND_PORT}/udp"
+      - "${PYHSS_BIND_PORT}/tcp"
+      - "${PYHSS_BIND_PORT}/sctp"
       - "3868/udp"
       - "3868/tcp"
       - "8080/tcp"
     ports:
       - "8080:8080/tcp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/sctp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/tcp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/udp"
     networks:
       default:
         ipv4_address: ${PYHSS_IP}
@@ -644,6 +651,9 @@ services:
       - COMPONENT_NAME=osmohlr
     expose:
       - "4222/tcp"
+      - "4259/tcp"
+    ports:
+      - "4259:4259/tcp"
     networks:
       default:
         ipv4_address: ${OSMOHLR_IP}
@@ -658,9 +668,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "9090/tcp"
+      - "${METRICS_BIND_PORT}/tcp"
     ports:
-      - "9090:9090/tcp"
+      - "${METRICS_BIND_PORT}:${METRICS_BIND_PORT}/tcp"
     networks:
       default:
         ipv4_address: ${METRICS_IP}

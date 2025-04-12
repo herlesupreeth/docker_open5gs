@@ -35,8 +35,13 @@ sh -c "echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind"
 mkdir -p /etc/opensips
 cp /mnt/pcscf/freeDiameter.conf /etc/opensips
 cp /mnt/pcscf/pcscf.dictionary /etc/opensips
-cp /mnt/pcscf/opensips.cfg /etc/opensips
+cp /mnt/pcscf/opensips.cfg /etc/opensips/opensips.cfg
 cp -r /mnt/pcscf/db /etc/opensips
+
+if [[ ${DEPLOY_MODE} == 5G ]];
+then
+    cp /mnt/pcscf/opensips_vonr.cfg /etc/opensips/opensips.cfg
+fi
 
 while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
 	sleep 5;
@@ -62,6 +67,7 @@ then
 	fi
 fi
 
+
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/opensips/opensips.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/opensips.cfg
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/opensips.cfg
@@ -76,6 +82,8 @@ sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/freeDiameter.conf
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' /etc/opensips/freeDiameter.conf
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/opensips/freeDiameter.conf
 
+# Add Rest_Client module to the container
+apt-get update && apt-get install -y opensips-restclient-module 
 # Add static route to route traffic back to UE as there is not NATing
 apt-get update && apt-get install -y iproute2
 ip r add ${UE_IPV4_IMS} via ${UPF_IP}

@@ -35,7 +35,7 @@ sh -c "echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind"
 mkdir -p /etc/opensips
 cp /mnt/pcscf/freeDiameter.conf /etc/opensips
 cp /mnt/pcscf/pcscf.dictionary /etc/opensips
-cp /mnt/pcscf/opensips.cfg /etc/opensips/opensips.cfg
+cp /mnt/pcscf/opensips.cfg /etc/opensips
 cp -r /mnt/pcscf/db /etc/opensips
 
 if [[ ${DEPLOY_MODE} == 5G ]];

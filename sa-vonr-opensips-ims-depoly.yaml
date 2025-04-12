@@ -184,8 +184,8 @@ services:
       - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
-    # ports:
-    #   - "2152:2152/udp"
+    ports:
+      - "2152:2152/udp"
     cap_add:
       - NET_ADMIN
     privileged: true
@@ -219,8 +219,8 @@ services:
       - "38412/sctp"
       - "7777/tcp"
       - "9091/tcp"
-    # ports:
-    #   - "38412:38412/sctp"
+    ports:
+      - "38412:38412/sctp"
     networks:
       default:
         ipv4_address: ${AMF_IP}
@@ -398,6 +398,8 @@ services:
     env_file:
       - .env
     environment:
+      - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
+      - OPENSIPS_CLI=true
       - COMPONENT_NAME=icscf
     entrypoint: /mnt/icscf/icscf_init.sh
     depends_on:
@@ -423,6 +425,8 @@ services:
     env_file:
       - .env
     environment:
+      - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
+      - OPENSIPS_CLI=true
       - COMPONENT_NAME=scscf
     entrypoint: /mnt/scscf/scscf_init.sh
     depends_on:
@@ -451,9 +455,10 @@ services:
     env_file:
       - .env
     environment:
-      - COMPONENT_NAME=pcscf
-    #  - DEPLOY_MODE=4G
       - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
+      - OPENSIPS_CLI=true
+      - COMPONENT_NAME=pcscf
+      - DEPLOY_MODE=5G
     entrypoint: /mnt/pcscf/pcscf_init.sh
     depends_on:
       - dns
@@ -519,28 +524,6 @@ services:
     networks:
       default:
         ipv4_address: ${GRAFANA_IP}
-  ibcf:
-    build: ./ibcf
-    image: ibcf_voicemail
-    container_name: ibcf
-    dns: ${DNS_IP}
-    privileged: true
-    env_file:
-      - .env
-    volumes:
-      - ./ibcf:/mnt/ibcf
-    environment:
-      - COMPONENT_NAME=ibcf_voicemail
-    expose:
-      - "5090/tcp"
-      - "5090/udp"
-      - "10000-10100/udp"
-    ports:
-      - "5090:5090/tcp"
-      - "10000-10100:10000-10100/udp"      
-    networks:
-      default:
-        ipv4_address: ${IBCF_IP}         
 networks:
   default:
     name: docker_open5gs_default

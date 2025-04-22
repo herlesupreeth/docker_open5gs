@@ -1,10 +1,7 @@
 version: '3'
 services:
   oaienb:
-    build:
-      context: oai
-      dockerfile: enb_dockerfile
-    image: docker_oai_enb
+    image: docker_oai
     container_name: oaienb
     stdin_open: true
     tty: true
@@ -20,6 +17,11 @@ services:
       - ./log:/openairinterface5g/cmake_targets/log/
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    environment:
+    environment:
+      # SDR USRP/LIMESDR/BLADERF
+      SDRPLATFORM: USRP
+      RADIO: LTE
     env_file:
       - .env
     expose:

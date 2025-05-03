@@ -34,6 +34,9 @@ cp /mnt/scscf/freeDiameter.conf /etc/opensips
 cp /mnt/scscf/scscf.dictionary /etc/opensips
 cp /mnt/scscf/opensips.cfg /etc/opensips
 
+# For mi_fifo module.
+mkdir -p /var/run/opensips
+
 while ! mysqladmin ping -h ${MYSQL_IP} --silent; do
 	sleep 5;
 done
@@ -73,4 +76,4 @@ sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/opensips/opensips.cfg
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-exec /usr/sbin/opensips -F $@
+exec opensips -f /etc/opensips/opensips.cfg -F $@

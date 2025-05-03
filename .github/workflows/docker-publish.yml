@@ -59,6 +59,9 @@ jobs:
           - image: docker_eupf
             context: eupf
             file: Dockerfile
+          - image: docker_opensips
+            context: opensips_ims_base
+            file: Dockerfile
 
     runs-on: ubuntu-latest
     permissions:

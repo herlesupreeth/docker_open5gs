@@ -388,7 +388,7 @@ services:
       default:
         ipv4_address: ${PYHSS_IP}
   icscf:
-    image: opensips/opensips:ims-ce
+    image: docker_opensips
     container_name: icscf
     dns: ${DNS_IP}
     volumes:
@@ -398,10 +398,7 @@ services:
     env_file:
       - .env
     environment:
-      - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
-      - OPENSIPS_CLI=true
       - COMPONENT_NAME=icscf
-    entrypoint: /mnt/icscf/icscf_init.sh
     depends_on:
       - dns
       - mysql
@@ -415,7 +412,7 @@ services:
       default:
         ipv4_address: ${ICSCF_IP}
   scscf:
-    image: opensips/opensips:ims-ce
+    image: docker_opensips
     container_name: scscf
     dns: ${DNS_IP}
     volumes:
@@ -425,10 +422,7 @@ services:
     env_file:
       - .env
     environment:
-      - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
-      - OPENSIPS_CLI=true
       - COMPONENT_NAME=scscf
-    entrypoint: /mnt/scscf/scscf_init.sh
     depends_on:
       - dns
       - mysql
@@ -442,7 +436,7 @@ services:
       default:
         ipv4_address: ${SCSCF_IP}
   pcscf:
-    image: opensips/opensips:ims-ce
+    image: docker_opensips
     container_name: pcscf
     dns: ${DNS_IP}
     privileged: true
@@ -455,11 +449,8 @@ services:
     env_file:
       - .env
     environment:
-      - OPENSIPS_EXTRA_MODULES=opensips-restclient-module
-      - OPENSIPS_CLI=true
       - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=5G
-    entrypoint: /mnt/pcscf/pcscf_init.sh
     depends_on:
       - dns
       - mysql

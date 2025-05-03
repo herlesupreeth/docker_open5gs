@@ -26,29 +26,17 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-
-mkdir -p /etc/opensips
-cp /mnt/icscf/freeDiameter.conf /etc/opensips
-cp /mnt/icscf/icscf.dictionary /etc/opensips
-cp /mnt/icscf/opensips.cfg /etc/opensips
-
-# For mi_fifo module.
-mkdir -p /var/run/opensips
-
-sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|HSS_IP|'$HSS_IP'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|HSS_BIND_PORT|'$HSS_BIND_PORT'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|ICSCF_BIND_PORT|'$ICSCF_BIND_PORT'|g' /etc/opensips/freeDiameter.conf
-
-sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/opensips/opensips.cfg
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/opensips.cfg
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/opensips.cfg
-
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-exec opensips -f /etc/opensips/opensips.cfg -F $@
+if [[ -z "$COMPONENT_NAME" ]]; then
+	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
+elif [[ "$COMPONENT_NAME" =~ ^(icscf[[:digit:]]*$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	/mnt/icscf/${COMPONENT_NAME}_init.sh
+elif [[ "$COMPONENT_NAME" =~ ^(scscf[[:digit:]]*$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	/mnt/scscf/${COMPONENT_NAME}_init.sh
+elif [[ "$COMPONENT_NAME" =~ ^(pcscf[[:digit:]]*$) ]]; then
+	echo "Deploying component: '$COMPONENT_NAME'"
+	/mnt/pcscf/${COMPONENT_NAME}_init.sh
+else
+	echo "Error: Invalid component name: '$COMPONENT_NAME'"
+fi

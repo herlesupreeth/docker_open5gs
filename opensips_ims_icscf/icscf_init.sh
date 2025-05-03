@@ -33,6 +33,9 @@ cp /mnt/icscf/freeDiameter.conf /etc/opensips
 cp /mnt/icscf/icscf.dictionary /etc/opensips
 cp /mnt/icscf/opensips.cfg /etc/opensips
 
+# For mi_fifo module.
+mkdir -p /var/run/opensips
+
 sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/opensips/freeDiameter.conf
 sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' /etc/opensips/freeDiameter.conf
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/freeDiameter.conf
@@ -45,4 +48,4 @@ sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/opensips.cfg
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-exec /usr/sbin/opensips -F $@
+exec opensips -f /etc/opensips/opensips.cfg -F $@

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -26,29 +24,29 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[ ${#MNC} == 3 ] && IMS_DOMAIN="ims.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || IMS_DOMAIN="ims.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
-[ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
+FROM debian:bullseye
 
-mkdir -p /etc/opensips
-cp /mnt/icscf/freeDiameter.conf /etc/opensips
-cp /mnt/icscf/icscf.dictionary /etc/opensips
-cp /mnt/icscf/opensips.cfg /etc/opensips
+ENV DEBIAN_FRONTEND=noninteractive
 
-# For mi_fifo module.
-mkdir -p /var/run/opensips
+# Install updates and dependencies
+RUN apt-get update && \
+	apt-get -y install tcpdump git gcc flex bison make pkg-config iproute2 net-tools iputils-ping \
+					libssl-dev libcurl4-openssl-dev libxml2-dev libpcre2-dev bash-completion g++ autoconf \
+					libmnl-dev libsctp-dev libradcli-dev libradcli4 libjson-c-dev libevent-dev libnghttp2-dev uuid-dev \
+					libfreediameter-dev default-libmysqlclient-dev libpcre3-dev libmicrohttpd-dev librabbitmq-dev \
+					libncurses-dev mariadb-client
 
-sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|HSS_IP|'$HSS_IP'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|HSS_BIND_PORT|'$HSS_BIND_PORT'|g' /etc/opensips/freeDiameter.conf
-sed -i 's|ICSCF_BIND_PORT|'$ICSCF_BIND_PORT'|g' /etc/opensips/freeDiameter.conf
+# Fetch OpenSIPS code
+RUN mkdir -p /usr/local && cd /usr/local && \
+	git clone https://github.com/OpenSIPS/opensips && \
+	cd opensips && git checkout tags/3.5.5
 
-sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/opensips/opensips.cfg
-sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/opensips/opensips.cfg
-sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/opensips/opensips.cfg
+# Build and Install OpenSIPS
+COPY Makefile.conf /usr/local/opensips
+RUN cd /usr/local/opensips && \
+	make -j`nproc` all | tee make_all.txt && \
+	make install | tee make_install.txt && \
+	ldconfig
 
-# Sync docker time
-#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-exec opensips -f /etc/opensips/opensips.cfg -F $@
+COPY opensips_init.sh /
+CMD ["/opensips_init.sh"]

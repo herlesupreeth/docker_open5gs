@@ -26,18 +26,76 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+echo "Script started with PID $$"
+
+# Path to the MySQL data directory
+DATA_DIR="/var/lib/mysql"
+
+# Function to gracefully shutdown the MySQL service to ensure data integrity
+stop_mysql() {
+	echo "Stopping MySQL..."
+	mysqladmin -u root shutdown || echo "Failed to shutdown MySQL gracefully"
+
+	# Kill mysqld_safe process if it's still running
+	if kill -0 "$MYSQLD_SAFE_PID" 2>/dev/null; then
+		echo "Stopping mysqld_safe..."
+		kill "$MYSQLD_SAFE_PID"
+		wait "$MYSQLD_SAFE_PID"
+	fi
+	echo "Shutdown complete."
+	exit 0
+}
+
+# Execute the stop_mysql() function if any command to exit the script is recieved
+trap 'echo "Trap triggered"; stop_mysql' SIGTERM SIGINT SIGHUP SIGQUIT SIGABRT
+trap 'echo "Caught EXIT signal! Cleaning up..."' EXIT
+
+# Function to check if the MySQL data directory is initialized
+is_mysql_initialized() {
+	# Essential files/directories for an initialized MySQL data directory
+	local essential_files=("ibdata1" "mysql")
+
+	for item in "${essential_files[@]}"; do
+		if [ ! -e "$DATA_DIR/$item" ]; then
+			return 1 # Not initialized
+		fi
+	done
+	return 0 # Initialized
+}
+
+if is_mysql_initialized; then
+	echo "MySQL data directory is already initialized. Continuing..."
+else
+	echo "MySQL data directory is not initialized."
+	echo "Initializing MySQL data directory..."
+	rm -rf $DATA_DIR/*
+	mysqld --initialize --datadir="$DATA_DIR"
+	if [ $? -eq 0 ]; then
+		echo "Initialization complete."
+	else
+		echo "Error: Initialization failed." >&2
+		# DEBUG: un-comment to print the MySQL logs to the output
+		#echo "MySQL log: /var/log/mysql/error.log"
+		#cat /var/log/mysql/error.log
+		exit 2
+	fi
+fi
+
 sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
-sed -i "s/# max_connections        = 151/max_connections        = 250/g" /etc/mysql/mysql.conf.d/mysqld.cnf
+sed -i "s/# max_connections        = 151/max_connections        = 500/g" /etc/mysql/mysql.conf.d/mysqld.cnf
 cat > ~/.my.cnf <<EOF
 [mysql]
 user=root
 password=ims
 EOF
 
-usermod -d /var/lib/mysql/ mysql
+chown -R mysql:mysql $DATA_DIR
+usermod -d $DATA_DIR mysql
 
+echo 'Stopping any running MySQL instances'
+/etc/init.d/mysql stop
 echo 'Waiting for MySQL to start.'
-/etc/init.d/mysql restart
+/etc/init.d/mysql start
 while true; do
 	echo 'quit' | mysql --connect-timeout=1 && break
 done
@@ -55,6 +113,12 @@ then
 	mysql -u root -e "FLUSH PRIVILEGES;"
 fi
 
-pkill -9 mysqld
+mysqladmin -u root shutdown
 sleep 5
-mysqld_safe
+echo "Starting mysqld_safe..."
+mysqld_safe &
+MYSQLD_SAFE_PID=$!
+
+# Keep the script running and wait for mysqld_safe
+echo "mysqld_safe is running with PID $MYSQLD_SAFE_PID"
+wait "$MYSQLD_SAFE_PID"

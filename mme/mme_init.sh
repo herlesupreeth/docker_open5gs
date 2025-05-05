@@ -37,6 +37,7 @@ cp /mnt/mme/make_certs.sh install/etc/freeDiameter
 
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/mme.yaml
+sed -i 's|NETWORK_NAME|'$NETWORK_NAME'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IP|'$MME_IP'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IF|'$IF_NAME'|g' install/etc/open5gs/mme.yaml
 sed -i 's|OSMOMSC_IP|'$OSMOMSC_IP'|g' install/etc/open5gs/mme.yaml

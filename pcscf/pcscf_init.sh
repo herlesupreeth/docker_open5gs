@@ -67,9 +67,13 @@ then
 	fi
 fi
 
+# The default configs are for LTE Rx
 if [[ ${DEPLOY_MODE} == 5G ]];
 then
-    sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
+elif [[ ${DEPLOY_MODE} == ALL ]];
+then
 	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
 fi
 
@@ -91,6 +95,26 @@ sed -i 's|PCRF_BIND_PORT|'$PCRF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
+sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+sed -i 's|UDM_IP|'$UDM_IP'|g' /etc/kamailio_pcscf/route/register.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/N5_common.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo_N5.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo_N5.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mo_Rx.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mo_Rx.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt_N5.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt_N5.cfg
+
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/route/mt_Rx.cfg
+sed -i 's|PCF_IP|'$PCF_IP'|g' /etc/kamailio_pcscf/route/mt_Rx.cfg
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

@@ -45,7 +45,7 @@ elif [[ "$COMPONENT_NAME" =~ ^(pcscf[[:digit:]]*$) ]]; then
 	/mnt/pcscf/${COMPONENT_NAME}_init.sh && \
 	mkdir -p /var/run/kamailio_pcscf && \
 	rm -f /kamailio_pcscf.pid && \
-	kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e
+	kamailio -M 16 -m 128 -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e
 elif [[ "$COMPONENT_NAME" =~ ^(smsc[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/smsc/${COMPONENT_NAME}_init.sh && \

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DiameterPeer 
+<DiameterPeer
 	FQDN="scscf.IMS_DOMAIN"
 	Realm="IMS_DOMAIN"
 	Vendor_Id="10415"
@@ -15,7 +15,7 @@
 	MaxAuthSessionTimeout="SUBSCRIPTION_EXPIRES_ENV"
 >
 	<Peer FQDN="hss.IMS_DOMAIN" Realm="IMS_DOMAIN" port="PYHSS_BIND_PORT"/>
-		
+
 	<Acceptor port="SCSCF_BIND_PORT" bind="SCSCF_IP"/>
 
 	<Auth id="16777216" vendor="10415"/><!-- 3GPP Cx -->
@@ -24,13 +24,13 @@
 	<Auth id="16777216" vendor="0"/><!-- ETSI/TISPAN Cx -->
 
 	<Auth id="4" vendor="10415"/> <!--3GPP Ro -->
-        <Acct id="4" vendor="10415" />
+	<Acct id="4" vendor="10415"/>
 
-        <!-- 
-                Supported Vendor IDs - list of values which will be sent in the CER/CEA in the
-                Supported-Vendor-ID AVPs
-        -->
-        <SupportedVendor vendor="10415" />
+	<!--
+		Supported Vendor IDs - list of values which will be sent in the CER/CEA in the
+		Supported-Vendor-ID AVPs
+	-->
+	<SupportedVendor vendor="10415"/>
 
 	<DefaultRoute FQDN="hss.IMS_DOMAIN" metric="10"/>
 </DiameterPeer>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DiameterPeer 
+<DiameterPeer
 	FQDN="icscf.IMS_DOMAIN"
 	Realm="IMS_DOMAIN"
 	Vendor_Id="10415"
@@ -24,11 +24,11 @@
 	<Auth id="16777216" vendor="13019"/><!-- ETSI/TISPAN Cx -->
 	<Auth id="16777216" vendor="0"/><!-- ETSI/TISPAN Cx -->
 
-        <!-- 
-                Supported Vendor IDs - list of values which will be sent in the CER/CEA in the
-                Supported-Vendor-ID AVPs
-        -->
-        <SupportedVendor vendor="10415" />
+	<!--
+		Supported Vendor IDs - list of values which will be sent in the CER/CEA in the
+		Supported-Vendor-ID AVPs
+	-->
+	<SupportedVendor vendor="10415"/>
 
 	<DefaultRoute FQDN="hss.IMS_DOMAIN" metric="10"/>
 </DiameterPeer>

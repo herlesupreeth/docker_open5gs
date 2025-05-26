@@ -191,22 +191,6 @@ UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip 
 UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
-Under **mme** section in docker compose file (**4g-volte-deploy.yaml**), uncomment the following part
-```
-...
-    # ports:
-    #   - "36412:36412/sctp"
-...
-```
-
-Then, uncomment the following part under **sgwu** section
-```
-...
-    # ports:
-    #   - "2152:2152/udp"
-...
-```
-
 ###### On the host running the eNB
 
 Edit only the following parameters in **.env** as per your setup

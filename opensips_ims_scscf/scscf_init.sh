@@ -47,8 +47,8 @@ sleep 10;
 if [[ -z "`mysql -u root -h ${MYSQL_IP} -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='opensips_scscf'" 2>&1`" ]];
 then
 	mysql -u root -h ${MYSQL_IP} -e "create database opensips_scscf;"
-	mysql -u root -h ${MYSQL_IP} opensips_scscf < /usr/share/opensips/mysql/standard-create.sql
-	mysql -u root -h ${MYSQL_IP} opensips_scscf < /usr/share/opensips/mysql/dialplan-create.sql
+	mysql -u root -h ${MYSQL_IP} opensips_scscf < /usr/local/share/opensips/mysql/standard-create.sql
+	mysql -u root -h ${MYSQL_IP} opensips_scscf < /usr/local/share/opensips/mysql/dialplan-create.sql
 	SCSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'opensips_scscf' AND Host = '%')"`
 	if [[ "$SCSCF_USER_EXISTS" == 0 ]]
 	then

@@ -24,10 +24,10 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/Debian_11"
+ENV OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/Debian_12"
 
 # Install updates and dependencies
 RUN apt-get update && \

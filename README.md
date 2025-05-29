@@ -353,22 +353,16 @@ sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd
 
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 
-1. First, login to the osmohlr container
+1. First, telnet to OsmoHLR from host machine using the following command:
 
 ```
-docker exec -it osmohlr /bin/bash
-```
-
-2. Then, telnet to localhost
-
-```
-$ telnet localhost 4258
+$ telnet 172.22.0.32 4258
 
 OsmoHLR> enable
 OsmoHLR#
 ```
 
-3. Finally, register the subscriber information as in following example:
+2. Then, register the subscriber information as in following example:
 
 ```
 OsmoHLR# subscriber imsi 001010123456790 create

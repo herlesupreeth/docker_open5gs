@@ -151,10 +151,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
       - "8805/udp"
@@ -379,8 +377,8 @@ services:
       - dns
       - mysql
     expose:
-      - "3868/udp"
-      - "3868/tcp"
+      - "${PYHSS_BIND_PORT}/tcp"
+      - "${PYHSS_BIND_PORT}/sctp"
       - "8080/tcp"
     ports:
       - "8080:8080/tcp"
@@ -404,8 +402,8 @@ services:
       - mysql
       - pyhss
     expose:
-      - "3869/udp"
-      - "3869/tcp"
+      - "${ICSCF_BIND_PORT}/tcp"
+      - "${ICSCF_BIND_PORT}/sctp"
       - "4060/udp"
       - "4060/tcp"
     networks:
@@ -428,8 +426,8 @@ services:
       - mysql
       - pyhss
     expose:
-      - "3870/udp"
-      - "3870/tcp"
+      - "${SCSCF_BIND_PORT}/tcp"
+      - "${SCSCF_BIND_PORT}/sctp"
       - "6060/udp"
       - "6060/tcp"
     networks:
@@ -458,8 +456,8 @@ services:
       - icscf
       - scscf
     expose:
-      - "3871/udp"
-      - "3871/tcp"
+      - "${PCSCF_BIND_PORT}/tcp"
+      - "${PCSCF_BIND_PORT}/sctp"
       - "5060/tcp"
       - "5060/udp"
       - "5100-5120/tcp"

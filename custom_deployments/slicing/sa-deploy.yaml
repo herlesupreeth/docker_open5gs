@@ -151,10 +151,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
       - "8805/udp"
@@ -182,10 +180,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3868/udp"
       - "3868/tcp"
       - "3868/sctp"
-      - "5868/udp"
       - "5868/tcp"
       - "5868/sctp"
       - "8805/udp"

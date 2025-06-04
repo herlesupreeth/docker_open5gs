@@ -49,6 +49,8 @@ smf:
     p-cscf:
       - PCSCF_IP
     mtu: 1450
+    ctf:
+      enabled: auto
     metrics:
       server:
         - address: SMF_IP

@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# SigScale Global Inc.
+#
+# Start Erlang/OTP Embedded system.
+#
+# Usage: start [Erlang Emulator Flags]
+
+if test -z "$NODENAME"; then
+	export NODENAME=ocs
+fi
+
+if test -z "$ERL_LIBS"; then
+	export ERL_LIBS=lib
+fi
+
+if test -z "$ROOTDIR"; then
+	export ROOTDIR=/usr/lib/erlang
+fi
+
+if test -z "$RELDIR"; then
+	export RELDIR=$HOME/releases
+fi
+START_ERL_DATA=$RELDIR/start_erl.data
+
+if test -n "$ERLANG_COOKIE"; then
+	if ! test -e ~/.erlang.cookie; then
+		echo -n $ERLANG_COOKIE > ~/.erlang.cookie
+		chmod 400 ~/.erlang.cookie
+	fi
+fi
+
+if test $# -gt 0; then
+	ERLARGS="$*"
+	shift $#
+else
+	ERLARGS="+K true +Bi -boot_var OTPHOME ${ROOTDIR} -noinput -name ${NODENAME} ${ERLARGS}"
+fi
+
+echo "ERLARGS: $ERLARGS"
+
+if test -n "$ERL_RPC"; then
+	ERLARGS="$ERLARGS -kernel inet_dist_listen_min $ERL_RPC -kernel inet_dist_listen_max $ERL_RPC"
+fi
+
+export TERM=xterm
+
+exec ${ROOTDIR}/bin/start_erl ${ROOTDIR} ${RELDIR} ${START_ERL_DATA} ${ERLARGS}

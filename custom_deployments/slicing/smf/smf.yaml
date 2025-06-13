@@ -44,8 +44,8 @@ smf:
           - address: UPF_IP
             dnn: internet
     session:
-      - subnet: UE_IPV4_INTERNET_SUBNET
-        gateway: UE_IPV4_INTERNET_TUN_IP
+      - subnet: UE_IPV4_INTERNET_APN_SUBNET
+        gateway: UE_IPV4_INTERNET_APN_GATEWAY_IP
         dnn: internet
       - subnet: 2001:230:cafe::/48
         gateway: 2001:230:cafe::1

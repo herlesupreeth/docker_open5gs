@@ -44,8 +44,8 @@ smf:
           - address: UPF2_IP
             dnn: private
     session:
-      - subnet: UE_IPV4_PRIVATE_SUBNET
-        gateway: UE_IPV4_PRIVATE_TUN_IP
+      - subnet: UE_IPV4_PRIVATE_APN_SUBNET
+        gateway: UE_IPV4_PRIVATE_APN_GATEWAY_IP
         dnn: private
       - subnet: 2001:230:fafe::/48
         gateway: 2001:230:fafe::1

@@ -30,6 +30,11 @@ SMF_DNS2=8.8.4.4
 # UPF
 UPF_IP=172.22.0.8
 UPF_ADVERTISE_IP=172.22.0.8
+# Allowed values for UPF_TUNTAP_MODE are 'tun' or 'tap'
+# If 'tap' is used as IF mode, then UPF_INTERNET_APN_IF_NAME and UPF_IMS_APN_IF_NAME must contain string 'tap'
+UPF_TUNTAP_MODE=tun
+UPF_INTERNET_APN_IF_NAME=ogstun
+UPF_IMS_APN_IF_NAME=ogstun2
 
 # MME
 MME_IP=172.22.0.9

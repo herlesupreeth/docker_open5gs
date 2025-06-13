@@ -19,14 +19,14 @@ upf:
         - address: UPF2_IP
           advertise: UPF2_ADVERTISE_IP
     session:
-      - subnet: UE_IPV4_PRIVATE_SUBNET
-        gateway: UE_IPV4_PRIVATE_TUN_IP
+      - subnet: UE_IPV4_PRIVATE_APN_SUBNET
+        gateway: UE_IPV4_PRIVATE_APN_GATEWAY_IP
         dnn: private
-        dev: ogstun
+        dev: UPF2_PRIVATE_APN_IF_NAME
       - subnet: 2001:230:fafe::/48
         gateway: 2001:230:fafe::1
         dnn: private
-        dev: ogstun
+        dev: UPF2_PRIVATE_APN_IF_NAME
     metrics:
       server:
         - address: UPF2_IP

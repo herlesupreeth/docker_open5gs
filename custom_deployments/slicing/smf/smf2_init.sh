@@ -33,7 +33,7 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 [ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
-UE_IPV4_PRIVATE_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_PRIVATE)
+UE_IPV4_PRIVATE_APN_GATEWAY_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_PRIVATE)
 
 cp /mnt/smf/smf2.yaml install/etc/open5gs/smf.yaml
 if [[ ${DEPLOY_MODE} == 4G ]];
@@ -48,8 +48,8 @@ sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UPF2_IP|'$UPF2_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_DNS1|'$SMF_DNS1'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_DNS2|'$SMF_DNS2'|g' install/etc/open5gs/smf.yaml
-sed -i 's|UE_IPV4_PRIVATE_TUN_IP|'$UE_IPV4_PRIVATE_TUN_IP'|g' install/etc/open5gs/smf.yaml
-sed -i 's|UE_IPV4_PRIVATE_SUBNET|'$UE_IPV4_PRIVATE'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV4_PRIVATE_APN_GATEWAY_IP|'$UE_IPV4_PRIVATE_APN_GATEWAY_IP'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV4_PRIVATE_APN_SUBNET|'$UE_IPV4_PRIVATE'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/smf.yaml
 

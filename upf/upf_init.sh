@@ -35,12 +35,28 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 update-alternatives --set iptables `which iptables-nft`
 update-alternatives --set ip6tables `which ip6tables-nft`
 
-# Remove ogstun and ogstun2 if they exist
-ip link delete ogstun
-ip link delete ogstun2
+# Remove UPF Interfaces if they exist
+ip link delete $UE_INTERNET_IF_NAME 2>/dev/null
+ip link delete $UE_IMS_IF_NAME 2>/dev/null
 
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+# Validate interface names based on UPF_TUNTAP_MODE
+if [ "$UPF_TUNTAP_MODE" = "tap" ]; then
+    if [[ "$UE_INTERNET_IF_NAME" != *"tap"* ]] || [[ "$UE_IMS_IF_NAME" != *"tap"* ]]; then
+        echo "Error: When UPF_TUNTAP_MODE is 'tap', both UE_INTERNET_IF_NAME and UE_IMS_IF_NAME must contain 'tap'"
+        exit 1
+    fi
+elif [ "$UPF_TUNTAP_MODE" = "tun" ]; then
+    if [[ "$UE_INTERNET_IF_NAME" == *"tap"* ]] || [[ "$UE_IMS_IF_NAME" == *"tap"* ]]; then
+        echo "Error: When UPF_TUNTAP_MODE is 'tun', UE_INTERNET_IF_NAME and UE_IMS_IF_NAME must not contain 'tap'"
+        exit 1
+    fi
+else
+    echo "Error: UPF_TUNTAP_MODE must be either 'tap' or 'tun'"
+    exit 1
+fi
+
+python3 /mnt/upf/tun_if.py --tun_ifname $UE_INTERNET_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
+python3 /mnt/upf/tun_if.py --tun_ifname $UE_IMS_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
 
 UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
 UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)
@@ -54,6 +70,8 @@ sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.ya
 sed -i 's|UE_IPV4_IMS_SUBNET|'$UE_IPV4_IMS'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_INTERNET_IF_NAME|'$UE_INTERNET_IF_NAME'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IMS_IF_NAME|'$UE_IMS_IF_NAME'|g' install/etc/open5gs/upf.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

@@ -31,7 +31,7 @@ import ipaddress
 """
 Usage in command line:
 e.g:
-$ python3 tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range 2001:230:cafe::/48
+$ python3 tun_if.py --tun_ifname ogstun --tun_ifmode tun --ipv4_range 192.168.100.0/24 --ipv6_range 2001:230:cafe::/48
 """
 
 
@@ -48,6 +48,10 @@ def validate_ip_net(ctx, param, value):
 @click.option('--tun_ifname',
               required=True,
               help='TUN interface name e.g. ogstun')
+@click.option('--tun_ifmode',
+              required=True,
+              type=click.Choice(['tun', 'tap']),
+              help='TUN interface mode e.g. tun or tap')
 @click.option('--ipv4_range',
               required=True,
               callback=validate_ip_net,
@@ -60,6 +64,7 @@ def validate_ip_net(ctx, param, value):
               default='yes',
               help='Option specifying whether to add NATing iptables rule or not')
 def start(tun_ifname,
+          tun_ifmode,
           ipv4_range,
           ipv6_range,
           nat_rule):
@@ -79,9 +84,8 @@ def start(tun_ifname,
     ipv4_netmask_prefix = ipv4_range.prefixlen
     ipv6_netmask_prefix = ipv6_range.prefixlen
 
-    # Setup the TUN interface, set IP address and setup IPtables
-    # if ls /sys/class/net | grep "ogstun" ; then ip link delete ogstun; fi
-    execute_bash_cmd('ip tuntap add name ' + tun_ifname + ' mode tun')
+    # Setup the TUN/TAP interface, set IP address and setup IPtables
+    execute_bash_cmd('ip tuntap add name ' + tun_ifname + ' mode ' + tun_ifmode)
     execute_bash_cmd('ip addr add ' + first_ipv4_addr + '/' +
                      str(ipv4_netmask_prefix) + ' dev ' + tun_ifname)
     execute_bash_cmd('ip addr add ' + first_ipv6_addr + '/' +
@@ -100,7 +104,6 @@ def start(tun_ifname,
 
 
 def execute_bash_cmd(bash_cmd):
-    # print("Executing: /bin/bash -c " + bash_cmd)
     return subprocess.run(bash_cmd, stdout=subprocess.PIPE, shell=True)
 
 

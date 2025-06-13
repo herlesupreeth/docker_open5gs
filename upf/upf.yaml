@@ -21,19 +21,19 @@ upf:
       - subnet: UE_IPV4_INTERNET_SUBNET
         gateway: UE_IPV4_INTERNET_TUN_IP
         dnn: internet
-        dev: ogstun
+        dev: UE_INTERNET_IF_NAME
       - subnet: 2001:230:cafe::/48
         gateway: 2001:230:cafe::1
         dnn: internet
-        dev: ogstun
+        dev: UE_INTERNET_IF_NAME
       - subnet: UE_IPV4_IMS_SUBNET
         gateway: UE_IPV4_IMS_TUN_IP
         dnn: ims
-        dev: ogstun2
+        dev: UE_IMS_IF_NAME
       - subnet: 2001:230:babe::/48
         gateway: 2001:230:babe::1
         dnn: ims
-        dev: ogstun2
+        dev: UE_IMS_IF_NAME
     metrics:
       server:
         - address: UPF_IP

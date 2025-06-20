@@ -34,6 +34,9 @@ sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/asterisk/pjsip.conf
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/asterisk/extensions.conf
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/asterisk/voicemail.conf
 
+# Add static route to route traffic back to UE as there is not NATing
+ip r add ${UE_IPV4_IMS} via ${UPF_IP}
+
 # Start server.
 echo 'Starting Asterisk'
 

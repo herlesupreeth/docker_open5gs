@@ -47,6 +47,7 @@ sed -i 's|SMF_COMMA_SEPARATED_IP|'$SMF_COMMA_SEPARATED_IP'|g' ./releases/$RELEAS
 sed -i 's|SMF_IF|'$SMF_IF'|g' ./releases/$RELEASENAME/sys.config
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' ./releases/$RELEASENAME/sys.config
 sed -i 's|OCS_BIND_PORT|'$OCS_BIND_PORT'|g' ./releases/$RELEASENAME/sys.config
+sed -i 's|RELEASENAME|'$RELEASENAME'|g' ./releases/$RELEASENAME/sys.config
 
 ./bin/initialize
 

@@ -27,7 +27,7 @@ mme:
               plmn_id:
                 mcc: MCC
                 mnc: MNC
-              tac: 1
+              tac: TAC
             lai:
               plmn_id:
                 mcc: MCC
@@ -43,7 +43,7 @@ mme:
       - plmn_id:
           mcc: MCC
           mnc: MNC
-        tac: 1
+        tac: TAC
     security:
         integrity_order : [ EIA2, EIA1, EIA0 ]
         ciphering_order : [ EEA0, EEA1, EEA2 ]

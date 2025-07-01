@@ -3,7 +3,7 @@ mnc: 'MNC'          # Mobile Network Code value (2 or 3 digits)
 
 nci: '0x000000010'  # NR Cell Identity (36-bit)
 idLength: 32        # NR gNB ID length in bits [22...32]
-tac: 1              # Tracking Area Code
+tac: TAC              # Tracking Area Code
 
 linkIp: NR_GNB_IP   # gNB's local IP address for Radio Link Simulation (Usually same with local IP)
 ngapIp: NR_GNB_IP   # gNB's local IP address for N2 Interface (Usually same with local IP)

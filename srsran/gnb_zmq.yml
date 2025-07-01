@@ -3,7 +3,7 @@ cu_cp:
     addr: AMF_IP                                                                              # The address or hostname of the AMF.
     bind_addr: SRS_GNB_IP                                                                     # A local IP that the gNB binds to for traffic from the AMF.
     supported_tracking_areas:                                                                 # Sets the list of tracking areas supported by this AMF.
-      - tac: 1                                                                                # Tracking area code (needs to match the core configuration).
+      - tac: TAC                                                                                # Tracking area code (needs to match the core configuration).
         plmn_list:                                                                            # The list of PLMN items supported for this Tracking Area.
           - plmn: "PLMN"                                                                      # PLMN broadcasted by the gNB.
             tai_slice_support_list:                                                           # The list of TAI slices for this PLMN item.
@@ -22,7 +22,7 @@ cell_cfg:
   channel_bandwidth_MHz: 20                                                                   # Bandwith in MHz. Number of PRBs will be automatically derived.
   common_scs: 15                                                                              # Subcarrier spacing in kHz used for data.
   plmn: "PLMN"                                                                                # PLMN broadcasted by the gNB.
-  tac: 1                                                                                      # Tracking area code (needs to match the core configuration).
+  tac: TAC                                                                                      # Tracking area code (needs to match the core configuration).
   pci: 1                                                                                      # Physical cell ID.
   pdcch:
     dedicated:
@@ -31,6 +31,10 @@ cell_cfg:
     common:
       ss0_index: 0
       coreset0_index: 13
+  pdsch:
+    mcs_table: qam64
+  pusch:
+    mcs_table: qam64
   prach:
     prach_config_index: 1
 

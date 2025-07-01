@@ -75,6 +75,7 @@ sed -i 's|UE1_IMSI|'$UE1_IMSI'|g' /etc/srsran/ue.conf
 sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/ue.conf
 sed -i 's|SRS_ENB_IP|'$SRS_ENB_IP'|g' /etc/srsran/ue.conf
 sed -i 's|SRS_GNB_IP|'$SRS_GNB_IP'|g' /etc/srsran/ue.conf
+sed -i 's|TAC|'$TAC'|g' /etc/srsran/rr.conf
 
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start

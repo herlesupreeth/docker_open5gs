@@ -91,6 +91,7 @@ sed -i 's|PCRF_BIND_PORT|'$PCRF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' /etc/kamailio_pcscf/pcscf.xml
 
 sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/kamailio_pcscf.cfg
+sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/route/rtp.cfg
 
 # Add static route to route traffic back to UE as there is not NATing
 ip r add ${UE_IPV4_IMS} via ${UPF_IP}

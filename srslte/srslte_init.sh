@@ -69,8 +69,19 @@ sed -i 's|MNC|'$MNC'|g' /etc/srsran/enb.conf
 sed -i 's|MCC|'$MCC'|g' /etc/srsran/enb.conf
 sed -i 's|SRS_ENB_IP|'$SRS_ENB_IP'|g' /etc/srsran/enb.conf
 sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/enb.conf
+if [ "$UE1_OP_TYPE" = "OP" ]; then
+    echo "Using OP key for authentication"
+    sed -i 's|op[[:space:]]*=[[:space:]]*UE1_OP|op = '$UE1_OP'|g' /etc/srsran/ue.conf
+    sed -i 's|opc[[:space:]]*=[[:space:]]*.*|# opc not used (OP mode)|g' /etc/srsran/ue.conf
+elif [ "$UE1_OP_TYPE" = "OPC" ]; then
+    echo "Using OPc key for authentication"
+    sed -i 's|op[[:space:]]*=[[:space:]]*UE1_OP|# op not used (OPc mode)|g' /etc/srsran/ue.conf
+    sed -i 's|opc[[:space:]]*=[[:space:]]*.*|opc = '$UE1_OP'|g' /etc/srsran/ue.conf
+else
+    echo "ERROR: UE1_OP_TYPE must be either 'OP' or 'OPC'"
+    exit 1
+fi
 sed -i 's|UE1_KI|'$UE1_KI'|g' /etc/srsran/ue.conf
-sed -i 's|UE1_OP|'$UE1_OP'|g' /etc/srsran/ue.conf
 sed -i 's|UE1_IMSI|'$UE1_IMSI'|g' /etc/srsran/ue.conf
 sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/ue.conf
 sed -i 's|SRS_ENB_IP|'$SRS_ENB_IP'|g' /etc/srsran/ue.conf

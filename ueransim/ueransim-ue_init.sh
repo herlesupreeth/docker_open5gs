@@ -33,8 +33,8 @@ sed -i 's|MNC|'$MNC'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 sed -i 's|MCC|'$MCC'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 
 sed -i 's|UE1_KI|'$UE1_KI'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
-sed -i 's|UE1_OP|'$UE1_OP'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 sed -i 's|UE1_OP_TYPE|'$UE1_OP_TYPE'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
+sed -i 's|UE1_OP|'$UE1_OP'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 sed -i 's|UE1_AMF|'$UE1_AMF'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 sed -i 's|UE1_IMEISV|'$UE1_IMEISV'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml
 sed -i 's|UE1_IMEI|'$UE1_IMEI'|g' /UERANSIM/config/${COMPONENT_NAME}.yaml

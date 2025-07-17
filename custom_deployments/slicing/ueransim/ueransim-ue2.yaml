@@ -10,7 +10,7 @@ key: 'UE2_KI'
 # Operator code (OP or OPC) of the UE
 op: 'UE2_OP'
 # This value specifies the OP type and it can be either 'OP' or 'OPC'
-opType: 'OP'
+opType: 'UE2_OP_TYPE'
 # Authentication Management Field (AMF) value
 amf: 'UE2_AMF'
 # IMEI number of the device. It is used if no SUPI is provided

@@ -226,6 +226,8 @@ services:
       - "${OCS_BIND_PORT}/tcp"
       - "${OCS_BIND_PORT}/sctp"
       - "8083/tcp"
+    ports:
+      - "8083:8083/tcp"
     networks:
       default:
         ipv4_address: ${OCS_IP}

@@ -98,7 +98,7 @@ services:
       - "8805/udp"
       - "2152/udp"
     # ports:
-    #   - "${SGWU_ADVERTISE_IP}:2152:2152/udp"
+    #   - "2152:2152/udp"
     networks:
       default:
         ipv4_address: ${SGWU_IP}
@@ -148,10 +148,11 @@ services:
     cap_add:
       - NET_ADMIN
     privileged: true
-    # sysctls:
-    #   - net.ipv4.ip_forward=1
-    #   - net.ipv6.conf.all.disable_ipv6=0
-    network_mode: host
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      default:
+        ipv4_address: ${UPF_IP}
   mme:
     image: docker_open5gs
     depends_on:
@@ -203,9 +204,6 @@ services:
       - "${PCRF_BIND_PORT}/sctp"
       - "5868/tcp"
       - "5868/sctp"
-    # ports:
-    #   - "${PCRF_BIND_PORT}:${PCRF_BIND_PORT}/sctp"
-    #   - "${PCRF_BIND_PORT}:${PCRF_BIND_PORT}/tcp"
     networks:
       default:
         ipv4_address: ${PCRF_IP}
@@ -248,6 +246,34 @@ services:
     networks:
       default:
         ipv4_address: ${DNS_IP}
+  rtpengine:
+    build: ./rtpengine
+    image: docker_rtpengine
+    container_name: rtpengine
+    privileged: true
+    env_file:
+      - .env
+    volumes:
+      - ./rtpengine:/mnt/rtpengine
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TABLE=0
+      - INTERFACE=${RTPENGINE_IP}
+      - LISTEN_NG=${RTPENGINE_IP}:2223
+      - PIDFILE=/run/ngcp-rtpengine-daemon.pid
+      - PORT_MAX=50000
+      - PORT_MIN=49000
+      - NO_FALLBACK=no
+      - TOS=184
+    expose:
+      - "2223/udp"
+      - "49000-50000/udp"
+    networks:
+      default:
+        ipv4_address: ${RTPENGINE_IP}
   mysql:
     build: ./mysql
     image: docker_mysql
@@ -281,13 +307,115 @@ services:
     expose:
       - "${PYHSS_BIND_PORT}/tcp"
       - "${PYHSS_BIND_PORT}/sctp"
+      - "8080/tcp"
     ports:
-      # - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/sctp"
-      # - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/tcp"
       - "8080:8080/tcp"
     networks:
       default:
         ipv4_address: ${PYHSS_IP}
+  icscf:
+    image: docker_kamailio
+    container_name: icscf
+    dns: ${DNS_IP}
+    volumes:
+      - ./icscf:/mnt/icscf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=icscf
+    depends_on:
+      - dns
+      - mysql
+      - pyhss
+    expose:
+      - "${ICSCF_BIND_PORT}/tcp"
+      - "${ICSCF_BIND_PORT}/sctp"
+      - "4060/udp"
+      - "4060/tcp"
+    networks:
+      default:
+        ipv4_address: ${ICSCF_IP}
+  scscf:
+    image: docker_kamailio
+    container_name: scscf
+    dns: ${DNS_IP}
+    volumes:
+      - ./scscf:/mnt/scscf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=scscf
+    depends_on:
+      - dns
+      - mysql
+      - pyhss
+    expose:
+      - "${SCSCF_BIND_PORT}/tcp"
+      - "${SCSCF_BIND_PORT}/sctp"
+      - "6060/udp"
+      - "6060/tcp"
+    networks:
+      default:
+        ipv4_address: ${SCSCF_IP}
+  pcscf:
+    image: docker_kamailio
+    container_name: pcscf
+    dns: ${DNS_IP}
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./pcscf:/mnt/pcscf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=pcscf
+      - DEPLOY_MODE=4G
+    depends_on:
+      - dns
+      - mysql
+      - rtpengine
+      - icscf
+      - scscf
+    expose:
+      - "${PCSCF_BIND_PORT}/tcp"
+      - "${PCSCF_BIND_PORT}/sctp"
+      - "5060/tcp"
+      - "5060/udp"
+      - "5100-5120/tcp"
+      - "5100-5120/udp"
+      - "6100-6120/tcp"
+      - "6100-6120/udp"
+    networks:
+      default:
+        ipv4_address: ${PCSCF_IP}
+  smsc:
+    image: docker_kamailio
+    container_name: smsc
+    dns: ${DNS_IP}
+    volumes:
+      - ./smsc:/mnt/smsc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=smsc
+    depends_on:
+      - dns
+      - mysql
+    expose:
+      - "7090/udp"
+      - "7090/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMSC_IP}
   osmomsc:
     build: ./osmomsc
     image: docker_osmomsc

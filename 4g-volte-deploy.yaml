@@ -207,30 +207,6 @@ services:
     networks:
       default:
         ipv4_address: ${PCRF_IP}
-  ocs:
-    build: ./ocs
-    image: docker_ocs
-    container_name: ocs
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=ocs
-    depends_on:
-      - smf
-    volumes:
-      - ./ocs:/mnt/ocs
-      - ocsdbdata:/home/otp/db
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "${OCS_BIND_PORT}/tcp"
-      - "${OCS_BIND_PORT}/sctp"
-      - "8083/tcp"
-    ports:
-      - "8083:8083/tcp"
-    networks:
-      default:
-        ipv4_address: ${OCS_IP}
   dns:
     build: ./dns
     image: docker_dns
@@ -508,5 +484,3 @@ volumes:
     name: docker_open5gs_mongodbdata
   dbdata:
     name: docker_open5gs_dbdata
-  ocsdbdata:
-    name: docker_open5gs_ocsdbdata

@@ -11,6 +11,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - UERANSIM (5G gNB + 5G UE) - https://github.com/aligungr/UERANSIM
 - eUPF (5G UPF) - https://github.com/edgecomllc/eupf
 - OpenSIPS IMS - https://github.com/OpenSIPS/opensips
+- Sigscale OCS - https://github.com/sigscale/ocs
 
 ## Tested Setup
 
@@ -21,8 +22,10 @@ Docker host machine
 Over-The-Air setups: 
 
 - srsRAN_Project gNB using Ettus USRP B210
+- srsRAN_Project (5G gNB) using LibreSDR (USRP B210 clone)
 - srsRAN_4G eNB using LimeSDR Mini v1.3
 - srsRAN_4G eNB using LimeSDR-USB
+- srsRAN_4G eNB using LibreSDR (USRP B210 clone)
 
 RF simulated setups:
 
@@ -103,6 +106,12 @@ For EUPF component:
 ```
 docker pull ghcr.io/herlesupreeth/docker_eupf:master
 docker tag ghcr.io/herlesupreeth/docker_eupf:master docker_eupf
+```
+
+For Sigscale OCS component:
+```
+docker pull ghcr.io/herlesupreeth/docker_ocs:master
+docker tag ghcr.io/herlesupreeth/docker_ocs:master docker_ocs
 ```
 
 ### Build Docker images from source
@@ -332,6 +341,32 @@ docker compose -f nr-gnb.yaml up -d && docker container attach nr_gnb
 docker compose -f nr-ue.yaml up -d && docker container attach nr_ue
 ```
 
+## Docker Compose files overview
+
+This repository provides several Docker Compose files to support different deployment scenarios and components. Below is a summary of the compose files and their purposes:
+
+| Compose File                       | Description                                                                                        |
+|------------------------------------|----------------------------------------------------------------------------------------------------|
+| `4g-volte-deploy.yaml`             | Deploys 4G Core Network (EPC) with IMS (VoLTE) using Kamailio.                                     |
+| `4g-volte-opensips-ims-deploy.yaml`| Deploys 4G Core Network with IMS using OpenSIPS.                                                   |
+| `sa-deploy.yaml`                   | Deploys 5G Standalone (SA) Core Network (5GC).                                                     |
+| `sa-vonr-deploy.yaml`              | Deploys 5G Standalone (SA) Core Network (5GC) with IMS (VoNR) using Kamailio.                      |
+| `srsenb.yaml`                      | Deploys srsRAN 4G eNB for OTA setups using SDR hardware.                                           |
+| `srsenb_zmq.yaml`                  | Deploys srsRAN 4G eNB for RF simulated setups over ZMQ.                                            |
+| `srsue_zmq.yaml`                   | Deploys srsRAN 4G UE for RF simulated setups over ZMQ.                                             |
+| `srsran.yaml`                      | Deploys srsRAN_4G components (eNB/UE).                                                             |
+| `srsgnb.yaml`                      | Deploys srsRAN 5G gNB for OTA setups using SDR hardware.                                           |
+| `srsgnb_zmq.yaml`                  | Deploys srsRAN 5G gNB for RF simulated setups over ZMQ.                                            |
+| `srsue_5g_zmq.yaml`                | Deploys srsRAN 5G UE for RF simulated setups over ZMQ.                                             |
+| `nr-gnb.yaml`                      | Deploys UERANSIM 5G gNB simulator.                                                                 |
+| `nr-ue.yaml`                       | Deploys UERANSIM 5G UE simulator.                                                                  |
+| `4g-volte-ocs-deploy.yaml`         | Deploys 4G Core Network (EPC) + Sigscale OCS with IMS (VoLTE) using Kamailio.                      |
+| `4g-external-ims-deploy.yaml`      | Deploys 4G Core Network (EPC) + Sigscale OCS + PyHSS (IMS) with no IMS components.                 |
+| `sa-vonr-ibcf-deploy.yaml`         | Deploys 5G Standalone (SA) Core Network (5GC) + IMS (VoNR) using Kamailio + IBCF.                  |
+| `sa-vonr-opensips-ims-deploy.yaml` | Deploys 5G Standalone (SA) Core Network (5GC) with IMS (VoNR) using OpenSIPS (Experimental).       |
+| `oaienb.yaml`                      | Deploys OAI eNB for OTA setups using SDR hardware (Untested and Unmaintained).                     |
+| `oaignb.yaml`                      | Deploys OAI 5G gNB for OTA setups using SDR hardware (Untested and Unmaintained).                  |
+
 ## Provisioning of SIM information
 
 ### Provisioning of SIM information in open5gs HSS as follows:
@@ -456,6 +491,23 @@ Take note of **auc_id** specified in **Response body** under **Server response**
 **Replace imsi, msisdn and msisdn_list as per your programmed SIM**
 
 **Replace scscf_peer, scscf and scscf_realm as per your deployment**
+
+### Provisioning of Diameter Peer + Subscriber information in Sigscale OCS as follows (Skip if OCS is not deployed):
+
+1. Goto http://<DOCKER_HOST_IP>:8083
+2. Login with following credentials
+```
+Username : admin
+Password : admin
+```
+3. Configure SMF as Diameter Peer as mentioned here - https://sigscale.atlassian.net/wiki/spaces/SO/pages/3833890/How-To+with+OCS#Add-an-DIAMETER-client-(DRA%2FSGSN%2FPGW)
+
+    NOTE: IP address must be equal to **SMF_IP** in **.env** file and the Protocol must be set to Diameter.
+
+4. Subscriber information can be provisioned as mentioned here - https://sigscale.atlassian.net/wiki/spaces/SO/pages/3833890/How-To+with+OCS#Add-a-subscriber
+
+    NOTE: The IMSI and the MSISDN must be equal to the one provisioned in open5gs HSS and/or pyHSS.
+
 
 ## Not supported
 - IPv6 usage in Docker

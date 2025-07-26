@@ -62,6 +62,9 @@ jobs:
           - image: docker_opensips
             context: opensips_ims_base
             file: Dockerfile
+          - image: docker_ocs
+            context: ocs
+            file: Dockerfile
 
     runs-on: ubuntu-latest
     permissions:

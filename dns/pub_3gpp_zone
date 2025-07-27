@@ -11,3 +11,5 @@ $TTL 1W
 pubns                   1D IN A         DNS_IP
 
 aes                     1D IN A         ENTITLEMENT_SERVER_IP
+
+epdg.epc                1D IN A         OSMOEPDG_IP

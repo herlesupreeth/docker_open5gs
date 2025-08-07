@@ -76,23 +76,8 @@ swanctl --load-all
 grep -qE "^${EPDG_ROUTING_TABLE_NUMBER} ${EPDG_ROUTING_TABLE_NAME}$" /etc/iproute2/rt_tables || \
     echo "${EPDG_ROUTING_TABLE_NUMBER} ${EPDG_ROUTING_TABLE_NAME}" >> /etc/iproute2/rt_tables
 
-# Ensure interfaces.d exists
-mkdir -p /etc/network/interfaces.d
-
-# Configure epdg specific interfaces (ifupdown)
-cat > /etc/network/interfaces.d/epdg.conf <<EOF
-# Managed by script
-allow-hotplug ${EPDG_TUN_INTERFACE}
-iface ${EPDG_TUN_INTERFACE} inet manual
-    up ip rule add fwmark ${IPSEC_TRAFFIC_FWMARK} table ${EPDG_ROUTING_TABLE_NAME} priority 220
-    up ip rule add fwmark ${IPSEC_TRAFFIC_FWMARK} priority 221 type blackhole
-    up ip route add default dev ${EPDG_TUN_INTERFACE} table ${EPDG_ROUTING_TABLE_NAME}
-    down ip route del default dev ${EPDG_TUN_INTERFACE} table ${EPDG_ROUTING_TABLE_NAME}
-    down ip rule del fwmark ${IPSEC_TRAFFIC_FWMARK} priority 221 type blackhole
-    down ip rule del fwmark ${IPSEC_TRAFFIC_FWMARK} table ${EPDG_ROUTING_TABLE_NAME} priority 220
-EOF
-
-ifup -a
+# Start configuration script in background
+/mnt/osmoepdg/configure_interface.sh &
 
 # Configure ipsec fwmark (nft)
 cp /mnt/osmoepdg/nftables.conf /etc/nftables.conf

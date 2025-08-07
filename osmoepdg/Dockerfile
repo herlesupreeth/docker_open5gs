@@ -39,7 +39,7 @@ RUN wget $OSMOCOM_REPO/Release.key && \
     echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list
 
 # Install dependencies and osmocom-epdg
-RUN apt-get update && apt-get install -f && apt-get -y install osmo-epdg libosmocore-utils libosmocore-dev libgtpnl-dev libgtpnl-tools libpcap-dev nftables ifupdown tcpdump
+RUN apt-get update && apt-get install -f && apt-get -y install osmo-epdg libosmocore-utils libosmocore-dev libgtpnl-dev libgtpnl-tools libpcap-dev nftables tcpdump
 
 RUN git clone https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg.git && \
     cd strongswan-epdg && \

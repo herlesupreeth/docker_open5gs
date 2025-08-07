@@ -2,7 +2,6 @@
 Quite contrary to the name of the repository, this repository contains docker files to deploy an Over-The-Air (OTA) or RF simulated 4G/5G network using following projects:
 - Core Network (4G/5G) - open5gs - https://github.com/open5gs/open5gs
 - IMS (VoLTE + VoNR) - kamailio - https://github.com/kamailio/kamailio
-- IMS (Only 4G supported i.e. VoLTE) - openSIP IMS CE - https://ce.opensips.org/opensips-ims
 - IMS HSS - https://github.com/nickvsnetworking/pyhss
 - Osmocom HLR - https://github.com/osmocom/osmo-hlr
 - Osmocom MSC - https://github.com/osmocom/osmo-msc
@@ -12,6 +11,10 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - eUPF (5G UPF) - https://github.com/edgecomllc/eupf
 - OpenSIPS IMS - https://github.com/OpenSIPS/opensips
 - Sigscale OCS - https://github.com/sigscale/ocs
+- Osmo-epdg + Strongswan-epdg
+  - https://gitea.osmocom.org/erlang/osmo-epdg
+  - https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg
+
 
 ## Tested Setup
 
@@ -112,6 +115,12 @@ For Sigscale OCS component:
 ```
 docker pull ghcr.io/herlesupreeth/docker_ocs:master
 docker tag ghcr.io/herlesupreeth/docker_ocs:master docker_ocs
+```
+
+For Osmo-epdg + Strongswan-epdg component:
+```
+docker pull ghcr.io/herlesupreeth/docker_osmoepdg:master
+docker tag ghcr.io/herlesupreeth/docker_osmoepdg:master docker_osmoepdg
 ```
 
 ### Build Docker images from source

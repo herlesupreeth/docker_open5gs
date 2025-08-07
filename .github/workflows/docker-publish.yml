@@ -65,6 +65,9 @@ jobs:
           - image: docker_ocs
             context: ocs
             file: Dockerfile
+          - image: docker_osmoepdg
+            context: osmoepdg
+            file: Dockerfile
 
     runs-on: ubuntu-latest
     permissions:

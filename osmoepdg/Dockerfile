@@ -58,4 +58,4 @@ RUN git clone https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg.git && 
 RUN cd strongswan-epdg && \
     make -j`nproc` && make install
 
-CMD /mnt/osmoepdg/osmoepdg_init.sh
+CMD ["/mnt/osmoepdg/osmoepdg_init.sh"]

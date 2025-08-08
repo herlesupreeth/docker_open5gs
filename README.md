@@ -371,7 +371,7 @@ This repository provides several Docker Compose files to support different deplo
 | `nr-ue.yaml`                       | Deploys UERANSIM 5G UE simulator.                                                                  |
 | `4g-volte-ocs-deploy.yaml`         | Deploys 4G Core Network (EPC) + Sigscale OCS with IMS (VoLTE) using Kamailio.                      |
 | `4g-external-ims-deploy.yaml`      | Deploys 4G Core Network (EPC) + Sigscale OCS + PyHSS (IMS) with no IMS components.                 |
-| `4g-volte-epdg-deploy.yaml`        | Deploys 4G Core Network (EPC) + Osmocom EPDG with IMS (VoLTE) using Kamailio.                      |
+| `4g-volte-vowifi-deploy.yaml`      | Deploys 4G Core Network (EPC) + Osmocom EPDG with IMS (VoLTE/VoWiFi) using Kamailio.               |
 | `sa-vonr-ibcf-deploy.yaml`         | Deploys 5G Standalone (SA) Core Network (5GC) + IMS (VoNR) using Kamailio + IBCF.                  |
 | `sa-vonr-opensips-ims-deploy.yaml` | Deploys 5G Standalone (SA) Core Network (5GC) with IMS (VoNR) using OpenSIPS (Experimental).       |
 | `oaienb.yaml`                      | Deploys OAI eNB for OTA setups using SDR hardware (Untested and Unmaintained).                     |

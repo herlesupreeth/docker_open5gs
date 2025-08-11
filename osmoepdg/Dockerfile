@@ -28,19 +28,27 @@ FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/Debian_12"
-ENV ERL_FLAGS="-config /etc/osmocom/osmo-epdg.config"
 
 # Install updates and dependencies
 RUN apt-get update && \
-    apt-get -y install wget gnupg telnet iproute2 net-tools git pkg-config autoconf make libtool gettext gperf libgmp-dev bison flex automake autotools-dev
+    apt-get -y install wget gnupg
 
 RUN wget $OSMOCOM_REPO/Release.key && \
     mv Release.key /etc/apt/trusted.gpg.d/osmocom-latest.asc && \
     echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list
 
-# Install dependencies and osmocom-epdg
-RUN apt-get update && apt-get install -f && apt-get -y install osmo-epdg libosmocore-utils libosmocore-dev libgtpnl-dev libgtpnl-tools libpcap-dev nftables tcpdump
+# Install more dependencies
+RUN apt-get update && \
+    apt-get -y install telnet iproute2 net-tools git pkg-config autoconf make libtool gettext gperf libgmp-dev bison flex automake autotools-dev rebar3 libosmocore-utils libosmocore-dev libgtpnl-dev libgtpnl-tools libpcap-dev nftables tcpdump
 
+# Compile osmocom-epdg
+RUN git clone https://gitea.osmocom.org/erlang/osmo-epdg && \
+    cd osmo-epdg && \
+    git checkout tags/0.1.1 && \
+    rebar3 compile && \
+    rebar3 escriptize
+
+# Compile strongswan-epdg
 RUN git clone https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg.git && \
     cd strongswan-epdg && \
     autoreconf -i && \

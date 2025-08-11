@@ -31,6 +31,7 @@
 mkdir -p /usr/local/etc/swanctl
 mkdir -p /usr/local/etc/strongswan.d
 mkdir -p /usr/local/etc/strongswan.d/charon
+mkdir -p /etc/osmocom
 cp /mnt/osmoepdg/osmo-epdg.config /etc/osmocom
 cp /mnt/osmoepdg/swanctl/swanctl.conf /etc/swanctl/swanctl.conf
 cp /mnt/osmoepdg/strongswan.d/charon/kernel-netlink.conf /etc/strongswan.d/charon/kernel-netlink.conf
@@ -88,7 +89,8 @@ nft -f /etc/nftables.conf
 
 # Start osmo-epdg
 cd /mnt/osmoepdg
-exec /usr/bin/osmo-epdg $@
+export ERL_FLAGS="-config /etc/osmocom/osmo-epdg.config"
+exec /osmo-epdg/_build/default/bin/osmo-epdg $@
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

@@ -49,8 +49,9 @@ RUN git clone https://gitea.osmocom.org/erlang/osmo-epdg && \
     rebar3 escriptize
 
 # Compile strongswan-epdg
-RUN git clone https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg.git && \
+RUN git clone https://github.com/herlesupreeth/strongswan-epdg && \
     cd strongswan-epdg && \
+    git checkout fix_dns_parse && \
     autoreconf -i && \
     ./configure \
         --sysconfdir=/etc \

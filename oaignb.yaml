@@ -21,6 +21,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - COMPONENT_NAME=oaignb
     expose:
       - "38412/sctp"
       - "2152/udp"

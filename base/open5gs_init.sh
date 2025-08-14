@@ -32,71 +32,55 @@ if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
 elif [[ "$COMPONENT_NAME" =~ ^(amf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/amf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-amfd
+	/mnt/amf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(ausf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/ausf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-ausfd
+	/mnt/ausf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(bsf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/bsf/${COMPONENT_NAME}_init.sh && sleep 10 && \
-	cd install/bin && ./open5gs-bsfd
+	/mnt/bsf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(hss[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/hss/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && sleep 10 && ./open5gs-hssd
+	/mnt/hss/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(mme[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/mme/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-mmed
+	/mnt/mme/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(nrf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/nrf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-nrfd
+	/mnt/nrf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(scp[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/scp/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-scpd
+	/mnt/scp/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(nssf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/nssf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-nssfd
+	/mnt/nssf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(pcf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/pcf/${COMPONENT_NAME}_init.sh && sleep 10 && \
-	cd install/bin && ./open5gs-pcfd
+	/mnt/pcf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(pcrf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/pcrf/${COMPONENT_NAME}_init.sh && sleep 10 && \
-	cd install/bin && ./open5gs-pcrfd
+	/mnt/pcrf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(sgwc[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/sgwc/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-sgwcd
+	/mnt/sgwc/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(sgwu[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/sgwu/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-sgwud
+	/mnt/sgwu/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(smf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/smf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-smfd
+	/mnt/smf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(udm[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/udm/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-udmd
+	/mnt/udm/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(udr[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/udr/${COMPONENT_NAME}_init.sh && sleep 10 && \
-	cd install/bin && ./open5gs-udrd
+	/mnt/udr/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(upf[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/mnt/upf/${COMPONENT_NAME}_init.sh  && \
-	cd install/bin && ./open5gs-upfd
+	/mnt/upf/${COMPONENT_NAME}_init.sh
 elif [[ "$COMPONENT_NAME" =~ ^(webui) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	sleep 10 && /mnt/webui/webui_init.sh
+	/mnt/webui/webui_init.sh
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi

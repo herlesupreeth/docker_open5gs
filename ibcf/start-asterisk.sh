@@ -40,4 +40,4 @@ ip r add ${UE_IPV4_IMS} via ${UPF_IP}
 # Start server.
 echo 'Starting Asterisk'
 
-asterisk -f
+exec asterisk -f $@

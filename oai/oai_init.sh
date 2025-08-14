@@ -52,5 +52,18 @@ sed -i 's|OAI_ENB_IF|'$IF_NAME'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/
 sed -i 's|OAI_ENB_IP|'$OAI_ENB_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
 sed -i 's|AMF_IP|'$AMF_IP'|g' $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE
 
+cd cmake_targets/ran_build/build
+if [[ -z "$COMPONENT_NAME" ]]; then
+	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
+elif [[ "$COMPONENT_NAME" =~ ^(oaignb[[:digit:]]*$) ]]; then
+	echo "Configuring component: '$COMPONENT_NAME'"
+	exec ./nr-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/$GNB_CONF_FILE --sa -d $@
+elif [[ "$COMPONENT_NAME" =~ ^(oaienb[[:digit:]]*$) ]]; then
+	echo "Configuring component: '$COMPONENT_NAME'"
+	exec ./lte-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/$ENB_CONF_FILE -d $@
+else
+	echo "Error: Invalid component name: '$COMPONENT_NAME'"
+fi
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

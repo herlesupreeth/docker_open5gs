@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:jammy as builder
+FROM ubuntu:jammy AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -72,7 +72,7 @@ COPY --from=builder /UERANSIM/build /UERANSIM/build
 COPY --from=builder /UERANSIM/config /UERANSIM/config
 
 # Set the working directory to UERANSIM
-WORKDIR UERANSIM/build
+WORKDIR /UERANSIM/build
 
 COPY ueransim_image_init.sh /
-CMD /ueransim_image_init.sh
+CMD ["/ueransim_image_init.sh"]

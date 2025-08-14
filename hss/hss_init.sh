@@ -50,5 +50,9 @@ sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/hss.yaml
 # Generate TLS certificates
 ./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter
 
+sleep 10
+cd install/bin
+exec ./open5gs-hssd $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

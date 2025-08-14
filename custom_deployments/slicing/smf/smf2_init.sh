@@ -53,5 +53,8 @@ sed -i 's|UE_IPV4_PRIVATE_APN_SUBNET|'$UE_IPV4_PRIVATE'|g' install/etc/open5gs/s
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/smf.yaml
 
+cd install/bin
+exec ./open5gs-smfd $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

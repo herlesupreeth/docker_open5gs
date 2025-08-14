@@ -50,6 +50,6 @@ RUN export PATH=$(go env GOPATH)/bin:${PATH} && \
     go build -v -o bin/eupf ./cmd/
 
 # Set the working directory to eupf
-WORKDIR eupf
+WORKDIR /eupf
 
-CMD /mnt/eupf/eupf_init.sh
+CMD ["/mnt/eupf/eupf_init.sh"]

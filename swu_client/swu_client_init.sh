@@ -28,6 +28,7 @@
 
 [ ${#MNC} == 3 ] && THREE_DIGIT_MNC="${MNC}" || THREE_DIGIT_MNC="0${MNC}"
 
+cd /mnt/swu_client
 exec python3 /SWu-IKEv2/swu_emulator.py -d $OSMOEPDG_IP -a $SWU_CLIENT_APN -n epdg -M $MCC -N $THREE_DIGIT_MNC -K "${UE1_KI}" -P "${UE1_OP}" -I $UE1_IMSI $@
 
 # Sync docker time

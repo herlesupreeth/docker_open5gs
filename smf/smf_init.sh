@@ -69,5 +69,8 @@ sed -i 's|OSMOEPDG_IP|'$OSMOEPDG_IP'|g' install/etc/freeDiameter/smf.conf
 # Generate TLS certificates
 ./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter
 
+cd install/bin
+exec ./open5gs-smfd $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

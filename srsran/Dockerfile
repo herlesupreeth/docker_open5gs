@@ -47,4 +47,4 @@ RUN git clone https://github.com/srsran/srsRAN_Project.git && \
 
 ENV UHD_IMAGES_DIR=/usr/share/uhd/images/
 
-CMD cd /mnt/srsran && /mnt/srsran/srsran_init.sh
+CMD ["/mnt/srsran/srsran_init.sh"]

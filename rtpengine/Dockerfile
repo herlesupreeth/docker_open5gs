@@ -44,4 +44,4 @@ RUN git clone https://github.com/sipwise/rtpengine && \
 	dpkg-buildpackage -b -uc -us && cd .. && \
 	dpkg -i *.deb && ldconfig
 
-CMD /mnt/rtpengine/rtpengine_init.sh
+CMD ["/mnt/rtpengine/rtpengine_init.sh"]

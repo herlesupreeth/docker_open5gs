@@ -35,5 +35,8 @@ sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/udm.yaml
 cp /mnt/udm/curve25519-1.key install/etc/open5gs/hnet
 cp /mnt/udm/secp256r1-2.key install/etc/open5gs/hnet
 
+cd install/bin
+exec ./open5gs-udmd $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

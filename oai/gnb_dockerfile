@@ -44,10 +44,9 @@ RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
     cd openairinterface5g/ && git checkout v2.1.0
 
 # Set the working directory to openairinterface5g
-WORKDIR openairinterface5g
+WORKDIR /openairinterface5g
 
 RUN . ./oaienv && cd cmake_targets && \
     ./build_oai -I -w USRP --gNB --verbose-compile
 
-CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/ran_build/build && \
-    ./nr-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-NR-5GC/CONF/gnb.sa.band41.fr1.52PRB.usrpb210.conf --sa -d
+CMD [". ./oaienv && /mnt/oai/oai_init.sh"]

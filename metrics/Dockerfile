@@ -35,4 +35,4 @@ RUN apt-get update && \
     wget -q https://github.com/prometheus/prometheus/releases/download/v$PROMETHEUS_VERSION/prometheus-$PROMETHEUS_VERSION.linux-$(dpkg --print-architecture).tar.gz && \
     tar xvfz prometheus-$PROMETHEUS_VERSION.linux-$(dpkg --print-architecture).tar.gz
 
-CMD /mnt/metrics/metrics_init.sh
+CMD ["/mnt/metrics/metrics_init.sh"]

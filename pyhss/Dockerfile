@@ -59,6 +59,6 @@ RUN cd pyhss && pip3 install -r requirements.txt
 
 RUN mkdir -p /pyhss/log/
 
-WORKDIR pyhss
+WORKDIR /pyhss
 
-CMD /mnt/pyhss/pyhss_init.sh
+CMD ["/mnt/pyhss/pyhss_init.sh"]

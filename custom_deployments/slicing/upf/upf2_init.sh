@@ -68,5 +68,8 @@ sed -i 's|UPF2_ADVERTISE_IP|'$UPF2_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF2_PRIVATE_APN_IF_NAME|'$UPF2_PRIVATE_APN_IF_NAME'|g' install/etc/open5gs/upf.yaml
 
+cd install/bin
+exec ./open5gs-upfd $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

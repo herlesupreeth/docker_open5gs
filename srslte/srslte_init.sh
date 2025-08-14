@@ -80,14 +80,15 @@ sed -i 's|TAC|'$TAC'|g' /etc/srsran/rr.conf
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start
 
+cd /mnt/srslte
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
 elif [[ "$COMPONENT_NAME" =~ ^(gnb[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(enb[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(enb_zmq[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(gnb_zmq[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/usr/local/bin/srsenb
+	exec /usr/local/bin/srsenb $@
 elif [[ "$COMPONENT_NAME" =~ ^(ue_zmq[[:digit:]]*$) || "$COMPONENT_NAME" =~ ^(ue_5g_zmq[[:digit:]]*$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
-	/usr/local/bin/srsue
+	exec /usr/local/bin/srsue $@
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi

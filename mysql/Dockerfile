@@ -37,4 +37,4 @@ RUN chmod 755 /mysql_init.sh
 
 RUN /etc/init.d/mysql stop
 
-CMD /mysql_init.sh
+CMD ["/mysql_init.sh"]

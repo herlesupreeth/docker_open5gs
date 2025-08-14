@@ -48,4 +48,4 @@ RUN git clone https://github.com/herlesupreeth/SWu-IKEv2 && \
     pip3 list && \
     pip3 install -r requirements.txt
 
-CMD ["/bin/bash", "-c", "cd /mnt/swu_client && /mnt/swu_client/swu_client_init.sh"]
+CMD ["/mnt/swu_client/swu_client_init.sh"]

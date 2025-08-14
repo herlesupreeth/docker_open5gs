@@ -38,6 +38,4 @@ RUN wget $OSMOCOM_REPO/Release.key && \
     echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list && \
     apt-get update && apt-get install -f && apt-get --install-suggests -y install osmo-msc
 
-CMD /mnt/osmomsc/osmomsc_init.sh && \
-    rm -f /mnt/osmomsc/sms.db* && \
-    cd /mnt/osmomsc && /usr/bin/osmo-msc -c /etc/osmocom/osmo-msc.cfg
+CMD ["/mnt/osmomsc/osmomsc_init.sh"]

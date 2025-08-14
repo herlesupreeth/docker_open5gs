@@ -66,5 +66,9 @@ sed -i 's|SMSC_IP|'$SMSC_IP'|g' /etc/kamailio_smsc/smsc.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_smsc/smsc.cfg
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_smsc/smsc.cfg
 
+mkdir -p /var/run/kamailio_smsc
+rm -f /kamailio_smsc.pid
+exec kamailio -f /etc/kamailio_smsc/kamailio_smsc.cfg -P /kamailio_smsc.pid -DD -E -e $@
+
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

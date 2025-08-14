@@ -44,11 +44,10 @@ RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
     cd openairinterface5g/ && git checkout v2.1.0
 
 # Set the working directory to openairinterface5g
-WORKDIR openairinterface5g
+WORKDIR /openairinterface5g
 
 RUN . ./oaienv && cd cmake_targets && \
     ./build_oai -I -w USRP --eNB --verbose-compile
 
 
-CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/ran_build/build && \
-    ./lte-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.tm1.50PRB.usrpb210.conf -d
+CMD [". ./oaienv && /mnt/oai/oai_init.sh"]

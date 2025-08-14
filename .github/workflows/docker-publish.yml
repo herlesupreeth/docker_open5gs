@@ -68,6 +68,9 @@ jobs:
           - image: docker_osmoepdg
             context: osmoepdg
             file: Dockerfile
+          - image: docker_swu_client
+            context: swu_client
+            file: Dockerfile
 
     runs-on: ubuntu-latest
     permissions:

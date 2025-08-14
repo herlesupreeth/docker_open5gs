@@ -14,7 +14,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - Osmo-epdg + Strongswan-epdg
   - https://gitea.osmocom.org/erlang/osmo-epdg
   - https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg
-
+- SWu-IKEv2 - https://github.com/fasferraz/SWu-IKEv2
 
 ## Tested Setup
 
@@ -123,6 +123,12 @@ docker pull ghcr.io/herlesupreeth/docker_osmoepdg:master
 docker tag ghcr.io/herlesupreeth/docker_osmoepdg:master docker_osmoepdg
 ```
 
+For SWu-IKEv2 component:
+```
+docker pull ghcr.io/herlesupreeth/docker_swu_client:master
+docker tag ghcr.io/herlesupreeth/docker_swu_client:master docker_swu_client
+```
+
 ### Build Docker images from source
 #### Clone repository and build base docker image of open5gs, kamailio, srsRAN_4G, srsRAN_Project, ueransim
 
@@ -155,6 +161,10 @@ docker build --no-cache --force-rm -t docker_eupf .
 # Build docker images for OpenSIPS IMS
 cd ../opensips_ims_base
 docker build --no-cache --force-rm -t docker_opensips .
+
+# Build docker images for SWu-IKEv2
+cd ../swu_client
+docker build --no-cache --force-rm -t docker_swu_client .
 ```
 
 #### Build docker images for additional components
@@ -326,6 +336,12 @@ docker compose -f srsenb_zmq.yaml up -d && docker container attach srsenb_zmq
 
 # srsRAN ZMQ 4G UE (RF simulated)
 docker compose -f srsue_zmq.yaml up -d && docker container attach srsue_zmq
+
+# 4G Core Network + IMS + SMS over SGs (uses Kamailio IMS) + Osmo-epdg + Strongswan-epdg
+docker compose -f 4g-volte--vowifi-deploy.yaml up
+
+# SWu-IKEv2 (ePDG testing)
+docker compose -f swu_client.yaml up -d && docker container attach swu_client
 ```
 
 ###### 5G SA deployment
@@ -372,6 +388,7 @@ This repository provides several Docker Compose files to support different deplo
 | `4g-volte-ocs-deploy.yaml`         | Deploys 4G Core Network (EPC) + Sigscale OCS with IMS (VoLTE) using Kamailio.                      |
 | `4g-external-ims-deploy.yaml`      | Deploys 4G Core Network (EPC) + Sigscale OCS + PyHSS (IMS) with no IMS components.                 |
 | `4g-volte-vowifi-deploy.yaml`      | Deploys 4G Core Network (EPC) + Osmocom EPDG with IMS (VoLTE/VoWiFi) using Kamailio.               |
+| `swu_client.yaml`                  | Deploys SWu-IKEv2 client for ePDG testing.                                                         |
 | `sa-vonr-ibcf-deploy.yaml`         | Deploys 5G Standalone (SA) Core Network (5GC) + IMS (VoNR) using Kamailio + IBCF.                  |
 | `sa-vonr-opensips-ims-deploy.yaml` | Deploys 5G Standalone (SA) Core Network (5GC) with IMS (VoNR) using OpenSIPS (Experimental).       |
 | `oaienb.yaml`                      | Deploys OAI eNB for OTA setups using SDR hardware (Untested and Unmaintained).                     |

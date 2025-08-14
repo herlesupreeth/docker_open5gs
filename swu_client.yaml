@@ -1,0 +1,27 @@
+services:
+  swu_client:
+    image: docker_swu_client
+    container_name: swu_client
+    stdin_open: true
+    tty: true
+    privileged: true
+    volumes:
+      - ./swu_client:/mnt/swu_client
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=swu_client
+      - SWU_CLIENT_APN=internet
+    expose:
+      - "500/udp"
+      - "2152/udp"
+      - "2123/udp"
+    networks:
+      default:
+        ipv4_address: ${SWU_CLIENT_IP}
+networks:
+  default:
+    external: true
+    name: docker_open5gs_default

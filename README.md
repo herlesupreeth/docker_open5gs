@@ -329,8 +329,8 @@ Replace the following part in the docker compose file (**srsgnb.yaml**)
         ipv4_address: ${SRS_GNB_IP}
 networks:
   default:
-    external:
-      name: docker_open5gs_default
+    external: true
+    name: docker_open5gs_default
 ```
 with 
 ```

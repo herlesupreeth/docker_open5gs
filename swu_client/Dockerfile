@@ -44,7 +44,7 @@ RUN apt-get update && \
 
 # Get SWu-IKEv2 code
 RUN git clone https://github.com/herlesupreeth/SWu-IKEv2 && \
-    cd SWu-IKEv2 && git checkout install_dep && \
+    cd SWu-IKEv2 && \
     pip3 list && \
     pip3 install -r requirements.txt
 

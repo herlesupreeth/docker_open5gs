@@ -16,6 +16,26 @@ Quite contrary to the name of the repository, this repository contains docker fi
   - https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg
 - SWu-IKEv2 - https://github.com/fasferraz/SWu-IKEv2
 
+## Table of Contents
+
+- [Tested Setup](#tested-setup)
+- [Prepare Docker images](#prepare-docker-images)
+  - [Get Pre-built Docker images](#get-pre-built-docker-images)
+  - [Build Docker images from source](#build-docker-images-from-source)
+- [Network and deployment configuration](#network-and-deployment-configuration)
+  - [Single Host setup configuration](#single-host-setup-configuration)
+  - [Multihost setup configuration](#multihost-setup-configuration)
+    - [4G deployment](#4g-deployment)
+    - [5G SA deployment](#5g-sa-deployment)
+- [Network Deployment](#network-deployment)
+- [Docker Compose files overview](#docker-compose-files-overview)
+- [Provisioning of SIM information](#provisioning-of-sim-information)
+  - [Provisioning of SIM information in open5gs HSS](#provisioning-of-sim-information-in-open5gs-hss-as-follows)
+  - [Provisioning of IMSI and MSISDN with OsmoHLR](#provisioning-of-imsi-and-msisdn-with-osmohlr-as-follows)
+  - [Provisioning of SIM information in pyHSS](#provisioning-of-sim-information-in-pyhss-is-as-follows)
+  - [Provisioning of Diameter Peer + Subscriber information in Sigscale OCS](#provisioning-of-diameter-peer--subscriber-information-in-sigscale-ocs-as-follows-skip-if-ocs-is-not-deployed)
+- [Not supported](#not-supported)
+
 ## Tested Setup
 
 Docker host machine

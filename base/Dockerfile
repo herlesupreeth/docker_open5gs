@@ -24,9 +24,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal AS builder
+FROM ubuntu:jammy AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y gnupg curl && \
+    curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor && \
+    echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/8.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list && \
+    apt-get update
 
 # Install updates and dependencies
 RUN apt-get update && \
@@ -49,7 +55,7 @@ RUN apt-get update && \
         libbson-dev \
         libyaml-dev \
         meson \
-        mongodb \
+        mongodb-org \
         curl \
         gnupg \
         ca-certificates \
@@ -76,9 +82,16 @@ RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
 RUN cd open5gs/webui && npm ci
 
 # Build final image
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Add MongoDB repository and install mongodb-org
+RUN apt-get update && \
+    apt-get install -y gnupg curl && \
+    curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor && \
+    echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/8.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list && \
+    apt-get update
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -105,7 +118,7 @@ RUN apt-get update && \
         iperf3 \
         traceroute \
         tcpdump \
-        mongodb-clients \
+        mongodb-org \
         gnupg && \
     apt-get autoremove -y && apt-get autoclean
 

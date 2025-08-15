@@ -57,4 +57,4 @@ fi
 
 pkill -9 mysqld
 sleep 5
-mysqld_safe
+exec mysqld_safe $@

@@ -24,13 +24,13 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install updates and dependencies
 RUN apt-get update && \
-	apt-get -y install tcpdump screen tmux ntp ntpdate iproute2 net-tools \
+	apt-get -y install tcpdump ntp ntpdate iproute2 net-tools \
 					iputils-ping bind9
 
 CMD ["/mnt/dns/dns_init.sh"]

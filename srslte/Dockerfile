@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -32,14 +32,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y install cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev git \
     libzmq3-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-qt5-dev qtbase5-dev \
-    software-properties-common g++ make pkg-config libpython2-dev python-numpy swig libi2c-dev \
+    software-properties-common g++ make pkg-config libpython2-dev python3-numpy swig libi2c-dev \
     libboost-program-options-dev libconfig++-dev net-tools iputils-ping libusb-1.0-0-dev libpython3-dev python3-numpy swig \
     python3-distutils iproute2 wget
 
 # Get SoapySDR, compile and install
 RUN git clone https://github.com/pothosware/SoapySDR.git && \
     cd SoapySDR && \
-    git checkout 637023d5e1b60e117a6533daddc4d991a33375f9 && \
+    git checkout 640ac414f7c8bd77a581661d5d99372cd79419f3 && \
     mkdir build && cd build && \
     cmake ../ && make && make install && \
     ldconfig
@@ -47,7 +47,7 @@ RUN git clone https://github.com/pothosware/SoapySDR.git && \
 # Get Limesuite, compile and install
 RUN git clone https://github.com/myriadrf/LimeSuite.git && \
     cd LimeSuite && \
-    git checkout tags/v22.09.1 -b v22.09.1 && \
+    git checkout 524cd2e548b11084e6f739b2dfe0f958c2e30354 && \
     mkdir builddir && cd builddir && \
     cmake ../ && make && make install && \
     ldconfig

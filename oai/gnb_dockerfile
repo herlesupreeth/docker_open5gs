@@ -27,26 +27,19 @@
 FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV BUILD_UHD_FROM_SOURCE=True
-ENV UHD_VERSION=4.4.0.0
 
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install build-essential cmake git subversion software-properties-common apt-utils unzip xxd iproute2
 
-# Install SoapySDR and Lime Suite
-RUN apt-get update && \
-    apt-get -y install limesuite liblimesuite-dev limesuite-udev \
-    soapysdr-tools soapysdr-module-lms7
-
-# Cloning RAN repository (eNB RAN + UE RAN)
+# Cloning RAN repository (gNB RAN + UE RAN)
 RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
-    cd openairinterface5g/ && git checkout v2.1.0
+    cd openairinterface5g/ && git checkout v2.3.0
 
 # Set the working directory to openairinterface5g
 WORKDIR /openairinterface5g
 
 RUN . ./oaienv && cd cmake_targets && \
-    ./build_oai -I -w USRP --gNB --verbose-compile
+    ./build_oai -I -w USRP --gNB
 
 CMD [". ./oaienv && /mnt/oai/oai_init.sh"]

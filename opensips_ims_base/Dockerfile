@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -39,7 +39,7 @@ RUN apt-get update && \
 # Fetch OpenSIPS code
 RUN mkdir -p /usr/local && cd /usr/local && \
 	git clone https://github.com/OpenSIPS/opensips && \
-	cd opensips && git checkout tags/3.5.5
+	cd opensips && git checkout tags/3.6.0
 
 # Build and Install OpenSIPS
 COPY Makefile.conf /usr/local/opensips

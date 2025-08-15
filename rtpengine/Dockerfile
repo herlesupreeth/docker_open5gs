@@ -24,24 +24,23 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEB_BUILD_PROFILES="pkg.ngcp-rtpengine.nobcg729"
+ENV DIST=bookworm
+ENV REL=LTS
 
-# Install updates and dependencies
+# Install RTPEngine
 RUN apt-get update && \
-	apt-get -y install git vim tmux dpkg-dev debhelper libxtables-dev default-libmysqlclient-dev gperf libavcodec-dev libavfilter-dev libavformat-dev \
-					libavutil-dev libbencode-perl libcrypt-openssl-rsa-perl libcrypt-rijndael-perl libdigest-crc-perl libdigest-hmac-perl \
-					libevent-dev libhiredis-dev libio-multiplex-perl libio-socket-inet6-perl libiptc-dev libjson-glib-dev libnet-interface-perl \
-					libpcap0.8-dev libpcre3-dev libsocket6-perl libspandsp-dev libssl-dev libswresample-dev libsystemd-dev libxmlrpc-core-c3-dev \
-					markdown dkms module-assistant keyutils libnfsidmap2 nfs-common rpcbind libglib2.0-dev zlib1g-dev libavcodec-extra \
-					libcurl4-openssl-dev netcat-openbsd netcat iptables iproute2 net-tools iputils-ping libconfig-tiny-perl libwebsockets-dev
+	apt-get -y install wget git gnupg && \
+	wget https://rtpengine.dfx.at/latest/pool/main/r/rtpengine-dfx-repo-keyring/rtpengine-dfx-repo-keyring_1.0_all.deb && \
+	dpkg -i rtpengine-dfx-repo-keyring_1.0_all.deb && \
+	apt-get install -f
 
-# Fetch RTPEngine code (tag mr7.4.1), build and install
-RUN git clone https://github.com/sipwise/rtpengine && \
-	cd rtpengine && git checkout mr9.4.1 && dpkg-checkbuilddeps && \
-	dpkg-buildpackage -b -uc -us && cd .. && \
-	dpkg -i *.deb && ldconfig
+# Fetch RTPEngine code, build and install
+RUN echo "deb [signed-by=/usr/share/keyrings/dfx.at-rtpengine-archive-keyring.gpg] https://rtpengine.dfx.at/$REL $DIST main" | tee /etc/apt/sources.list.d/dfx.at-rtpengine.list && \
+	apt-get update && \
+	apt-get -y install rtpengine iptables iproute2 nftables
 
 CMD ["/mnt/rtpengine/rtpengine_init.sh"]

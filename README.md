@@ -116,15 +116,6 @@ docker pull ghcr.io/herlesupreeth/docker_ueransim:master
 docker tag ghcr.io/herlesupreeth/docker_ueransim:master docker_ueransim
 ```
 
-For OAI components:
-```
-docker pull ghcr.io/herlesupreeth/docker_oai_enb:master
-docker tag ghcr.io/herlesupreeth/docker_oai_enb:master docker_oai_enb
-
-docker pull ghcr.io/herlesupreeth/docker_oai_gnb:master
-docker tag ghcr.io/herlesupreeth/docker_oai_gnb:master docker_oai_gnb
-```
-
 For EUPF component:
 ```
 docker pull ghcr.io/herlesupreeth/docker_eupf:master

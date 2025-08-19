@@ -50,12 +50,12 @@ jobs:
           - image: docker_rtpengine
             context: rtpengine
             file: Dockerfile
-          - image: docker_oai_enb
-            context: oai
-            file: enb_dockerfile
-          - image: docker_oai_gnb
-            context: oai
-            file: gnb_dockerfile
+          # - image: docker_oai_enb
+          #   context: oai
+          #   file: enb_dockerfile
+          # - image: docker_oai_gnb
+          #   context: oai
+          #   file: gnb_dockerfile
           - image: docker_eupf
             context: eupf
             file: Dockerfile

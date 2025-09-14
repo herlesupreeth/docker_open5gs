@@ -55,8 +55,8 @@ else
     exit 1
 fi
 
-python3 /mnt/upf/tun_if.py --tun_ifname $UPF_INTERNET_APN_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname $UPF_IMS_APN_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+python3 /mnt/upf/tun_if.py --tun_ifname $UPF_INTERNET_APN_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48 --no_nat_ipv4_addr $PCSCF_IP --no_nat_ipv6_addr 2001:230:eafe::1
+python3 /mnt/upf/tun_if.py --tun_ifname $UPF_IMS_APN_IF_NAME --tun_ifmode $UPF_TUNTAP_MODE --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --no_nat_ipv4_addr $PCSCF_IP --no_nat_ipv6_addr 2001:230:eafe::1 --nat_rule 'no'
 
 UE_IPV4_INTERNET_APN_GATEWAY_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
 UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)

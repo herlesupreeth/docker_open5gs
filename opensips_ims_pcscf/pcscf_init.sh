@@ -87,6 +87,8 @@ sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/opensips/freeDiameter.conf
 
 # Add static route to route traffic back to UE as there is not NATing
 ip r add ${UE_IPV4_IMS} via ${UPF_IP}
+# Route needed for VoWiFi client where internet APN is used
+ip r add ${UE_IPV4_INTERNET} via ${UPF_IP}
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

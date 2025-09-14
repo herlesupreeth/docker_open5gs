@@ -95,6 +95,8 @@ sed -i 's|RTPENGINE_IP|'$RTPENGINE_IP'|g' /etc/kamailio_pcscf/route/rtp.cfg
 
 # Add static route to route traffic back to UE as there is not NATing
 ip r add ${UE_IPV4_IMS} via ${UPF_IP}
+# Route needed for VoWiFi client where internet APN is used
+ip r add ${UE_IPV4_INTERNET} via ${UPF_IP}
 
 mkdir -p /var/run/kamailio_pcscf
 rm -f /kamailio_pcscf.pid

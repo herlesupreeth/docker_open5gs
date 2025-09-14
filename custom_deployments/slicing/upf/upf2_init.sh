@@ -54,7 +54,7 @@ else
     exit 1
 fi
 
-python3 /mnt/upf/tun_if.py --tun_ifname $UPF2_PRIVATE_APN_IF_NAME --tun_ifmode $UPF2_TUNTAP_MODE --ipv4_range $UE_IPV4_PRIVATE --ipv6_range 2001:230:fafe::/48
+python3 /mnt/upf/tun_if.py --tun_ifname $UPF2_PRIVATE_APN_IF_NAME --tun_ifmode $UPF2_TUNTAP_MODE --ipv4_range $UE_IPV4_PRIVATE --ipv6_range 2001:230:fafe::/48 --no_nat_ipv4_addr $PCSCF_IP --no_nat_ipv6_addr 2001:230:eafe::1
 
 UE_IPV4_PRIVATE_APN_GATEWAY_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_PRIVATE)
 

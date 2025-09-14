@@ -219,9 +219,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "53/udp"
-    # ports:
-    #   - "${DOCKER_HOST_IP}:53:53/tcp"
-    #   - "${DOCKER_HOST_IP}:53:53/udp"
+    ports:
+      - "${DOCKER_HOST_IP}:53:53/tcp"
+      - "${DOCKER_HOST_IP}:53:53/udp"
     networks:
       default:
         ipv4_address: ${DNS_IP}
@@ -462,9 +462,9 @@ services:
       - "500/udp"
       - "500/tcp"
       - "4500/udp"
-    # ports:
-    #   - "${DOCKER_HOST_IP}:500:500/udp"
-    #   - "${DOCKER_HOST_IP}:4500:4500/udp"
+    ports:
+      - "${DOCKER_HOST_IP}:500:500/udp"
+      - "${DOCKER_HOST_IP}:4500:4500/udp"
     networks:
       default:
         ipv4_address: ${OSMOEPDG_IP}

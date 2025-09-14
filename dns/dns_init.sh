@@ -53,7 +53,7 @@ sed -i 's|IBCF_IP|'$IBCF_IP'|g' /etc/bind/ims_zone
 sed -i 's|PUB_3GPP_DOMAIN|'$PUB_3GPP_DOMAIN'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|ENTITLEMENT_SERVER_IP|'$ENTITLEMENT_SERVER_IP'|g' /etc/bind/pub_3gpp_zone
-sed -i 's|OSMOEPDG_IP|'$OSMOEPDG_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|DOCKER_HOST_IP|'$DOCKER_HOST_IP'|g' /etc/bind/pub_3gpp_zone
 
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/e164.arpa
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/e164.arpa

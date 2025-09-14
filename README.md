@@ -144,36 +144,40 @@ docker tag ghcr.io/herlesupreeth/docker_swu_client:master docker_swu_client
 #### Clone repository and build base docker image of open5gs, kamailio, srsRAN_4G, srsRAN_Project, ueransim
 
 ```
-# Build docker images for open5gs EPC/5GC components
+# Build docker image for open5gs EPC/5GC components
 git clone https://github.com/herlesupreeth/docker_open5gs
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
-# Build docker images for kamailio IMS components
+# Build docker image for kamailio IMS components
 cd ../ims_base
 docker build --no-cache --force-rm -t docker_kamailio .
 
-# Build docker images for srsRAN_4G eNB + srsUE (4G+5G)
+# Build docker image for srsRAN_4G eNB + srsUE (4G+5G)
 cd ../srslte
 docker build --no-cache --force-rm -t docker_srslte .
 
-# Build docker images for srsRAN_Project gNB
+# Build docker image for srsRAN_Project gNB
 cd ../srsran
 docker build --no-cache --force-rm -t docker_srsran .
 
-# Build docker images for UERANSIM (gNB + UE)
+# Build docker image for UERANSIM (gNB + UE)
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
 
-# Build docker images for EUPF
+# Build docker image for EUPF
 cd ../eupf
 docker build --no-cache --force-rm -t docker_eupf .
 
-# Build docker images for OpenSIPS IMS
+# Build docker image for OpenSIPS IMS
 cd ../opensips_ims_base
 docker build --no-cache --force-rm -t docker_opensips .
 
-# Build docker images for SWu-IKEv2
+# Build docker image for Osmo-epdg + Strongswan-epdg
+cd ../osmoepdg
+docker build --no-cache --force-rm -t docker_osmoepdg .
+
+# Build docker image for SWu-IKEv2
 cd ../swu_client
 docker build --no-cache --force-rm -t docker_swu_client .
 ```

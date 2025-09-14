@@ -34,6 +34,12 @@ Quite contrary to the name of the repository, this repository contains docker fi
   - [Provisioning of IMSI and MSISDN with OsmoHLR](#provisioning-of-imsi-and-msisdn-with-osmohlr-as-follows)
   - [Provisioning of SIM information in pyHSS](#provisioning-of-sim-information-in-pyhss-is-as-follows)
   - [Provisioning of Diameter Peer + Subscriber information in Sigscale OCS](#provisioning-of-diameter-peer--subscriber-information-in-sigscale-ocs-as-follows-skip-if-ocs-is-not-deployed)
+- [Testing VoWiFi with COTS UE](#testing-vowifi-with-cots-ue)
+  - [Pre-requisites](#pre-requisites)
+  - [Deploy the required components](#deploy-the-required-components)
+  - [Provision SIM and IMS subscriber information](#provision-sim-and-ims-subscriber-information)
+  - [Manually configure DNS settings on your phone (WiFi connection)](#manually-configure-dns-settings-on-your-phone-wifi-connection)
+  - [UE configuration](#ue-configuration)
 - [Not supported](#not-supported)
 
 ## Tested Setup
@@ -544,12 +550,44 @@ Password : admin
 ```
 3. Configure SMF as Diameter Peer as mentioned here - https://sigscale.atlassian.net/wiki/spaces/SO/pages/3833890/How-To+with+OCS#Add-an-DIAMETER-client-(DRA%2FSGSN%2FPGW)
 
-    NOTE: IP address must be equal to **SMF_IP** in **.env** file and the Protocol must be set to Diameter.
+    **NOTE:** IP address must be equal to **SMF_IP** in **.env** file and the Protocol must be set to Diameter.
 
 4. Subscriber information can be provisioned as mentioned here - https://sigscale.atlassian.net/wiki/spaces/SO/pages/3833890/How-To+with+OCS#Add-a-subscriber
 
-    NOTE: The IMSI and the MSISDN must be equal to the one provisioned in open5gs HSS and/or pyHSS.
+    **NOTE:** The IMSI and the MSISDN must be equal to the one provisioned in open5gs HSS and/or pyHSS.
 
+## Testing VoWiFi with COTS UE
+
+#### Pre-requisites
+  - Set DOCKER_HOST_IP to the IP of the host machine where docker_open5gs is deployed.
+
+#### Deploy the required components
+  Ensure you have the following services running:
+  - 4G Core Network (EPC)
+  - IMS (Kamailio or OpenSIPS)
+  - Osmo-ePDG and Strongswan-ePDG
+
+  Start the VoWiFi-enabled deployment using:
+  ```
+  docker compose -f 4g-volte-vowifi-deploy.yaml up
+  ```
+
+#### Provision SIM and IMS subscriber information
+  - Add subscriber details in open5gs HSS or pyHSS as described in the provisioning sections above.
+  - Ensure the IMSI, MSISDN, and authentication keys match those programmed on your SIM.
+
+#### Manually configure DNS settings on your phone (WiFi connection)
+  - On your phone, go to the WiFi settings and select the network you are connected to.
+  - Edit the network settings and look for the DNS configuration option (may be under "Advanced" or "IP settings").
+    - On Android devices, switch from DHCP to Static IP configuration to manually set DNS.
+    - On iOS devices, you can directly set the DNS server.
+  - Set the DNS server to point to DOCKER_HOST_IP.
+  - Save the settings and reconnect to the WiFi network.
+
+  **Tip:** Proper DNS resolution is required for the UE to locate and register with IMS and ePDG services.
+
+#### UE configuration
+  - On your UE (User Equipment), ensure VoWiFi (WiFi calling) is enabled.
 
 ## Not supported
 - IPv6 usage in Docker

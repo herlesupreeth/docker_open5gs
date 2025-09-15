@@ -425,14 +425,35 @@ Username : admin
 Password : 1423
 ```
 
-Using Web UI, add a subscriber
+Using Web UI, add a subscriber with following details:
+
+```
+IMSI : <SIM_IMSI> (e.g. 001010123456790)
+MSISDN : <DESIRED_MSISDN> (e.g. 9076543210)
+AMF : 8000
+K : <SIM_K> (e.g. 8baf473f2f8fd09487cccbd7097c6862)
+OPC : <SIM_OPC> (e.g. 8E27B6AF0E692E750F32667A3B14605D)
+
+APN Configuration:
+---------------------------------------------------------------------------------------------------------------------
+| APN      | Type | QCI | ARP | Capability | Vulnerablility | MBR DL/UL(Kbps)     | GBR DL/UL(Kbps) | PGW IP        |
+---------------------------------------------------------------------------------------------------------------------
+| internet | IPv4 | 9   | 8   | Disabled   | Disabled       | unlimited/unlimited |                 |               |
+|          |      | 1   | 2   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+|          |      | 2   | 4   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+---------------------------------------------------------------------------------------------------------------------
+| ims      | IPv4 | 5   | 1   | Disabled   | Disabled       | 3850/1530           |                 |               |
+|          |      | 1   | 2   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+|          |      | 2   | 4   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+---------------------------------------------------------------------------------------------------------------------
+```
 
 #### or using cli 
 
 ```
 sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd09487cccbd7097c6862 8E27B6AF0E692E750F32667A3B14605D
 ```
-
+**NOTE:** Adding via CLI does not add the desired APN configuration. You need to add the APN configuration via Web UI as mentioned above.
 
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 

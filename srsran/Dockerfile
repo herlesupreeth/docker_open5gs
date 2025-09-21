@@ -39,8 +39,8 @@ RUN add-apt-repository ppa:ettusresearch/uhd && \
     uhd_images_downloader
 
 # Get srsRAN_Project, compile and install
-RUN git clone https://github.com/srsran/srsRAN_Project.git && \
-    cd srsRAN_Project && git checkout 920ee6ecebfdfc8595165d4b42ebafca630854f7 && \
+RUN git clone https://github.com/herlesupreeth/srsRAN_Project.git && \
+    cd srsRAN_Project && git checkout 11c9bbabb69873752500d676f55e0034f6caa5c5 && \
     mkdir build && cd build && \
     cmake ../ -DENABLE_EXPORT=ON -DENABLE_ZEROMQ=ON && make -j`nproc` && make install && \
     ldconfig

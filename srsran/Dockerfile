@@ -31,12 +31,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install cmake make gcc g++ pkg-config libfftw3-dev libmbedtls-dev libsctp-dev libyaml-cpp-dev libgtest-dev \
-    libzmq3-dev software-properties-common pkg-config net-tools iputils-ping git
+    libzmq3-dev software-properties-common pkg-config net-tools iputils-ping git libuhd-dev uhd-host
 
-# UHD drivers for USRP
-RUN add-apt-repository ppa:ettusresearch/uhd && \
-    apt update && apt -y install libuhd-dev uhd-host && \
-    uhd_images_downloader
+# Download FPGA images for USRP devices
+RUN uhd_images_downloader
 
 # Get srsRAN_Project, compile and install
 RUN git clone https://github.com/herlesupreeth/srsRAN_Project.git && \

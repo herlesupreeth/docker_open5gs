@@ -246,7 +246,7 @@ services:
       - TOS=184
     expose:
       - "2223/udp"
-      - "49000-50000/udp"
+      # - "49000-50000/udp"
     networks:
       default:
         ipv4_address: ${RTPENGINE_IP}
@@ -364,10 +364,10 @@ services:
       - "${PCSCF_BIND_PORT}/sctp"
       - "5060/tcp"
       - "5060/udp"
-      - "5100-5120/tcp"
-      - "5100-5120/udp"
-      - "6100-6120/tcp"
-      - "6100-6120/udp"
+      # - "5100-5120/tcp"
+      # - "5100-5120/udp"
+      # - "6100-6120/tcp"
+      # - "6100-6120/udp"
     networks:
       default:
         ipv4_address: ${PCSCF_IP}

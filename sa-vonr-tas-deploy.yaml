@@ -550,6 +550,7 @@ services:
       - 9060/tcp
       - 5060/udp
       - 5060/tcp      
+    restart: unless-stopped
     env_file:
       - .env
     depends_on:

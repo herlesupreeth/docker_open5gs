@@ -80,7 +80,7 @@ then
 	mysql -u root -h ${MYSQL_IP} icscf -e "INSERT INTO s_cscf_capabilities (id_s_cscf, capability) VALUES ('$SCSCF_ID', 0),('$SCSCF_ID', 1);"
 fi
 
-SUBSCRIPTION_EXPIRES_ENV=3600
+SUBSCRIPTION_EXPIRES_ENV=603600
 
 sed -i 's|ICSCF_IP|'$ICSCF_IP'|g' /etc/kamailio_icscf/icscf.cfg
 sed -i 's|SUBSCRIPTION_EXPIRES_ENV|'$SUBSCRIPTION_EXPIRES_ENV'|g' /etc/kamailio_icscf/icscf.cfg

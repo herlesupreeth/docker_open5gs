@@ -162,7 +162,7 @@
             </TriggerPoint>
             <ApplicationServer>
                 <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=orig</ServerName>
-                <DefaultHandling>1</DefaultHandling>
+                <DefaultHandling>0</DefaultHandling>
             </ApplicationServer>
         </InitialFilterCriteria> 
 
@@ -184,7 +184,7 @@
             </TriggerPoint>
             <ApplicationServer>
                 <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=term</ServerName>
-                <DefaultHandling>1</DefaultHandling>
+                <DefaultHandling>0</DefaultHandling>
             </ApplicationServer>
         </InitialFilterCriteria>
         
@@ -205,7 +205,7 @@
             </TriggerPoint>
             <ApplicationServer>
                 <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=term</ServerName>
-                <DefaultHandling>1</DefaultHandling>
+                <DefaultHandling>0</DefaultHandling>
             </ApplicationServer>
         </InitialFilterCriteria>
 

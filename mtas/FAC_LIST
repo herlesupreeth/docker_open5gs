@@ -1,0 +1,37 @@
+Voicemail listen
+*98
+
+Don't disturb
+*78 Turn on
+*79 Turn off
+
+Caller ID Restriction (OIR)
+*31*1 Turn on
+*31*2 Turn off
+
+Connected Lind ID restriction (TIR)
+*77*1 Turn on
+*77*2 Turn off
+
+Call forwarding always
+*21*Destination_Number
+*21* To turn off
+
+Call forwarding Busy:
+*67*Destination_Number
+*67* To trun off
+
+Call Forwarding no Answer
+*61*Destination_Number
+*61* To trun off
+
+Call Forwarding not reachable
+*62*Destination_Number
+*62* To trun off
+
+Call Forwarding to VM
+*22*5 Always
+*22*7 When Busy
+*22*8 When no Answer
+*22*0 to turn it off
+

@@ -38,6 +38,7 @@ RUN apt-get update \
         curl \
         openssh-server \
         net-tools \
+        iproute2
     && apt-get clean
 RUN apt --no-install-recommends --assume-yes install unzip autoconf automake build-essential pkg-config libedit-dev libjansson-dev libsqlite3-dev uuid-dev libxslt1-dev xmlstarlet \
     && apt clean

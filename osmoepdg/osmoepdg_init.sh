@@ -32,10 +32,12 @@ mkdir -p /usr/local/etc/swanctl
 mkdir -p /usr/local/etc/strongswan.d
 mkdir -p /usr/local/etc/strongswan.d/charon
 mkdir -p /etc/osmocom
+mkdir -p /wireshark_keys
 cp /mnt/osmoepdg/osmo-epdg.config /etc/osmocom
 cp /mnt/osmoepdg/swanctl/swanctl.conf /etc/swanctl/swanctl.conf
 cp /mnt/osmoepdg/strongswan.d/charon/kernel-netlink.conf /etc/strongswan.d/charon/kernel-netlink.conf
 cp /mnt/osmoepdg/eap-aka.conf /etc/strongswan.d/charon/eap-aka.conf
+cp /mnt/osmoepdg/save-keys.conf /etc/strongswan.d/charon/save-keys.conf
 
 OSMOEPDG_COMMA_SEPARATED_IP="${OSMOEPDG_IP//./,}"
 

@@ -73,7 +73,7 @@ then
 	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
 fi
 
-SUBSCRIPTION_EXPIRES_ENV=603600
+SUBSCRIPTION_EXPIRES_ENV=3600
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|SUBSCRIPTION_EXPIRES_ENV|'$SUBSCRIPTION_EXPIRES_ENV'|g' /etc/kamailio_pcscf/pcscf.cfg

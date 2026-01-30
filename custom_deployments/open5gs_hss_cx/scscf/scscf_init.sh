@@ -67,7 +67,7 @@ fi
 
 export IMS_SLASH_DOMAIN=`echo $IMS_DOMAIN | sed 's/\./\\\./g'`
 
-SUBSCRIPTION_EXPIRES_ENV=603600
+SUBSCRIPTION_EXPIRES_ENV=3600
 
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|SUBSCRIPTION_EXPIRES_ENV|'$SUBSCRIPTION_EXPIRES_ENV'|g' /etc/kamailio_scscf/scscf.cfg

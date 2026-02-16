@@ -20,9 +20,9 @@ scrape_configs:
   - job_name: 'mme'
     static_configs:
       - targets: ['MME_IP:9091']
-   - job_name: 'pcrf'
-     static_configs:
-       - targets: ['PCRF_IP:9091']
-   - job_name: 'hss'
-     static_configs:
-       - targets: ['HSS_IP:9091']
+  - job_name: 'pcrf'
+    static_configs:
+      - targets: ['PCRF_IP:9091']
+  - job_name: 'hss'
+    static_configs:
+      - targets: ['HSS_IP:9091']

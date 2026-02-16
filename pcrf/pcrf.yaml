@@ -10,3 +10,6 @@ global:
 
 pcrf:
     freeDiameter: /open5gs/install/etc/freeDiameter/pcrf.conf
+    server:
+      - address: PCRF_IP
+        port: 9091

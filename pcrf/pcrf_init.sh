@@ -47,6 +47,7 @@ sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/freeDiameter/pcrf.conf
 sed -i 's|PCSCF_BIND_PORT|'$PCSCF_BIND_PORT'|g' install/etc/freeDiameter/pcrf.conf
 sed -i 's|LD_LIBRARY_PATH|'$LD_LIBRARY_PATH'|g' install/etc/freeDiameter/pcrf.conf
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/make_certs.sh
+sed -i 's|PCRF_IP|'$PCRF_IP'|g' install/etc/open5gs/pcrf.yaml
 
 # Generate TLS certificates
 ./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter

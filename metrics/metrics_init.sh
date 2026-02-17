@@ -41,5 +41,7 @@ sed -i 's|SMF_IP|'$SMF_IP'|g' /config/prometheus.yml
 sed -i 's|MME_IP|'$MME_IP'|g' /config/prometheus.yml
 sed -i 's|PCF_IP|'$PCF_IP'|g' /config/prometheus.yml
 sed -i 's|UPF_IP|'$UPF_IP'|g' /config/prometheus.yml
+sed -i 's|HSS_IP|'$HSS_IP'|g' /config/prometheus.yml
+sed -i 's|PCRF_IP|'$PCRF_IP'|g' /config/prometheus.yml
 
 exec ./prometheus --config.file=/config/prometheus.yml $@

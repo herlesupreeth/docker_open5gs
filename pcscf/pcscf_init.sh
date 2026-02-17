@@ -98,7 +98,6 @@ ip r add ${UE_IPV4_IMS} via ${UPF_IP}
 # Route needed for VoWiFi client where internet APN is used
 ip r add ${UE_IPV4_INTERNET} via ${UPF_IP}
 
-mkdir -p /var/run/kamailio_pcscf
 rm -f /kamailio_pcscf.pid
 exec kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e $@
 

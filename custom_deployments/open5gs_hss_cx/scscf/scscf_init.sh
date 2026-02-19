@@ -83,7 +83,6 @@ sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|HSS_BIND_PORT|'$HSS_BIND_PORT'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|SCSCF_BIND_PORT|'$SCSCF_BIND_PORT'|g' /etc/kamailio_scscf/scscf.xml
 
-mkdir -p /var/run/kamailio_scscf
 rm -f /kamailio_scscf.pid
 exec kamailio -f /etc/kamailio_scscf/kamailio_scscf.cfg -P /kamailio_scscf.pid -DD -E -e $@
 

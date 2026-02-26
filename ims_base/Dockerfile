@@ -39,7 +39,7 @@ RUN apt-get update && \
 # Fetch Kamailio code
 RUN mkdir -p /usr/local/src/ && cd /usr/local/src/ && \
 	git clone https://github.com/herlesupreeth/kamailio && \
-	cd kamailio && git checkout fix_indialog_downgrade_to_audio_call
+	cd kamailio && git fetch && git checkout fix_indialog_downgrade_to_audio_call
 
 # Build and Install Kamailio
 RUN cd /usr/local/src/kamailio && make cfg

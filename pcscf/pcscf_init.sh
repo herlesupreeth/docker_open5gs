@@ -99,7 +99,7 @@ ip r add ${UE_IPV4_IMS} via ${UPF_IP}
 ip r add ${UE_IPV4_INTERNET} via ${UPF_IP}
 
 rm -f /kamailio_pcscf.pid
-exec kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -DD -E -e $@
+exec kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -m 32 -M 1024 -DD -E -e $@
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

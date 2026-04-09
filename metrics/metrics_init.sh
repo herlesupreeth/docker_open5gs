@@ -44,4 +44,4 @@ sed -i 's|UPF_IP|'$UPF_IP'|g' /config/prometheus.yml
 sed -i 's|HSS_IP|'$HSS_IP'|g' /config/prometheus.yml
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' /config/prometheus.yml
 
-exec ./prometheus --config.file=/config/prometheus.yml $@
+exec ./prometheus --config.file=/config/prometheus.yml --web.listen-address=0.0.0.0:$METRICS_BIND_PORT $@

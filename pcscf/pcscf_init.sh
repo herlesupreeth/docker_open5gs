@@ -67,9 +67,13 @@ then
 	fi
 fi
 
+# The default configs are for LTE Rx
 if [[ ${DEPLOY_MODE} == 5G ]];
 then
-    sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
+	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
+elif [[ ${DEPLOY_MODE} == ALL ]];
+then
 	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
 fi
 
@@ -99,7 +103,7 @@ ip r add ${UE_IPV4_IMS} via ${UPF_IP}
 ip r add ${UE_IPV4_INTERNET} via ${UPF_IP}
 
 rm -f /kamailio_pcscf.pid
-exec kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -m 32 -M 1024 -DD -E -e $@
+exec kamailio -f /etc/kamailio_pcscf/kamailio_pcscf.cfg -P /kamailio_pcscf.pid -m 64 -M 1024 -DD -E -e $@
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

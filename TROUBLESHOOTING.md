@@ -73,7 +73,7 @@ sudo kill <tcpdump>
  - iPhone: on by default; **do not add an ims APN entry**.
  - Check the toggle: Settings → Cellular → SIM → Voice & Data → VoLTE.
 2. **Never hand-select `ims` as the phone's active APN** — `internet` must be active; the phone attaches `ims` on its own. Hand-selecting makes IMS the default/internet APN and breaks everything.
-3. **PLMN mismatch = roaming = VoLTE off.** Align network PLMN with the SIM (should not see "R" in the status bar). Use **00101**; private PLMNs (99970 etc.) have IMS disabled on phones.
+3. **PLMN mismatch = roaming = VoLTE off.** Align network PLMN with the SIM (should not see "R" in the status bar). Use **00101**; private PLMNs (99970, US CBRS 315-010, etc.) have IMS disabled on phones — Apple treats 315-010 as a data-only private network (see §12).
 4. Phone APN list: `internet` first (type `default`), then `ims` (type `ims`, nothing else in its fields).
 5. IMS domain mismatch: phone uses `ims.mncXXX.mccXXX.3gppnetwork.org` from the SIM's MCC/MNC; SIM/ISIM must match the core's PLMN. Custom IMS domains need ISIM.
 6. Phone gave up after failed attempts → **reboot the phone**.
@@ -192,7 +192,7 @@ Two docker-ce installs (snap+apt) break things — keep one.
 | OAI RAN images | Not actively maintained |
 | Per-slice access restriction at the UPF | Not configurable; code change or iptables |
 | Device-to-device VoNR calls | N5 merged to master; verified on iPhone 13 Pro + Xiaomi 11T |
-| VoNR / voice on private PLMNs (99970…) | Not possible — Apple disables voice on private networks |
+| VoNR / VoLTE / voice on private PLMNs (99970, US CBRS 315-010) | Not possible — Apple treats these as data-only private networks ([Apple docs](https://support.apple.com/guide/deployment/support-for-private-5g-and-lte-networks-depac6747317/web)); voice must go via a dual-SIM public carrier or Wi-Fi Calling. VoLTE on iPhone works with the 00101 test PLMN |
 | VoWiFi with dedicated bearer | Blocked on osmo-epdg kernel-GTP limitation |
 | IMS conferencing | Not in kamailio IMS; use FreeSWITCH as AS or IBCF+trunk for PSTN (5G) |
 | Emergency calling | Not supported (no open5gs + IMS logic) |

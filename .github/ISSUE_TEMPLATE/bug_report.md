@@ -4,7 +4,7 @@ about: Something does not work in a docker_open5gs deployment
 labels: bug
 ---
 
-**First check [TROUBLESHOOTING.md](../TROUBLESHOOTING.md)** — most reported
+**First check [TROUBLESHOOTING.md](https://github.com/herlesupreeth/docker_open5gs/blob/master/TROUBLESHOOTING.md)** — most reported
 problems are answered there (setup-dependent phone/PLMN issues, harmless
 logs, unsupported features). If you find your symptom, follow its checklist
 before opening this issue.

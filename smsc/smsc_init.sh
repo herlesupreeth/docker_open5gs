@@ -51,12 +51,10 @@ then
 	mysql -u root -h ${MYSQL_IP} smsc < /usr/local/src/kamailio/utils/kamctl/mysql/dialplan-create.sql
 	mysql -u root -h ${MYSQL_IP} smsc < /usr/local/src/kamailio/utils/kamctl/mysql/presence-create.sql
 
-	SMSC_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'smsc' AND Host = '%')"`
+	SMSC_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'smsc' AND Host = '$SMSC_IP')"`
 	if [[ "$SMSC_USER_EXISTS" == 0 ]]
 	then
-		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'smsc'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
 		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'smsc'@'$SMSC_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
-		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON smsc.* TO 'smsc'@'%'";
 		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON smsc.* TO 'smsc'@'$SMSC_IP'";
 		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 	fi
@@ -66,7 +64,6 @@ sed -i 's|SMSC_IP|'$SMSC_IP'|g' /etc/kamailio_smsc/smsc.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_smsc/smsc.cfg
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_smsc/smsc.cfg
 
-mkdir -p /var/run/kamailio_smsc
 rm -f /kamailio_smsc.pid
 exec kamailio -f /etc/kamailio_smsc/kamailio_smsc.cfg -P /kamailio_smsc.pid -DD -E -e $@
 

@@ -46,16 +46,12 @@ then
 	mysql -u root -h ${MYSQL_IP} -e "create database icscf;"
 	mysql -u root -h ${MYSQL_IP} icscf < /usr/local/src/kamailio/misc/examples/ims/icscf/icscf.sql
 
-	ICSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'icscf' AND Host = '%')"`
+	ICSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'icscf' AND Host = '$ICSCF_IP')"`
 	if [[ "$ICSCF_USER_EXISTS" == 0 ]]
 	then
-		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'icscf'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
-		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'provisioning'@'%' IDENTIFIED WITH mysql_native_password BY 'provi'";
 		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'icscf'@'$ICSCF_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
 		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'provisioning'@'$ICSCF_IP' IDENTIFIED WITH mysql_native_password BY 'provi'";
-		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'icscf'@'%'";
 		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'icscf'@'$ICSCF_IP'";
-		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'provisioning'@'%'";
 		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON icscf.* TO 'provisioning'@'$ICSCF_IP'";
 		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 	fi

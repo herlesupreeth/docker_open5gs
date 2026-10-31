@@ -43,6 +43,8 @@ else
 fi
 
 cp /mnt/srsran/qos.yml /etc/srsran/qos.yml
+# Copy custom UHD images to the default UHD images directory. e.g. LibreSDR images.
+cp /mnt/srsran/custom_uhd_images/* /usr/share/uhd/images
 
 sed -i 's|PLMN|'$MCC''$MNC'|g' /etc/srsran/gnb.yml
 sed -i 's|AMF_IP|'$AMF_IP'|g' /etc/srsran/gnb.yml

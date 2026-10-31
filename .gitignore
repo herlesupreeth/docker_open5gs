@@ -7,4 +7,5 @@ log/
 **/*.db-wal
 dev_docs/
 dev_scripts/
-*.bin
+srslte/custom_uhd_images/*
+srsran/custom_uhd_images/*

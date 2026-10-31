@@ -7,3 +7,4 @@ log/
 **/*.db-wal
 dev_docs/
 dev_scripts/
+*.bin

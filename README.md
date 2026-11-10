@@ -8,6 +8,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - srsRAN_4G (4G eNB + 4G UE + 5G UE) - https://github.com/srsran/srsRAN_4G
 - srsRAN_Project (5G gNB) - https://github.com/srsran/srsRAN_Project
 - UERANSIM (5G gNB + 5G UE) - https://github.com/aligungr/UERANSIM
+- Open Exposure NEF (AS Session with QoS) - https://gitlab.eurecom.fr/open-exposure/nef/as-session-with-qos
 - eUPF (5G UPF) - https://github.com/edgecomllc/eupf
 - OpenSIPS IMS - https://github.com/OpenSIPS/opensips
 - Sigscale OCS - https://github.com/sigscale/ocs
@@ -206,6 +207,11 @@ docker compose -f 4g-volte-deploy.yaml build
 # For 5G deployment only
 docker compose -f sa-deploy.yaml build
 ```
+
+### Open Exposure NEF (optional)
+
+The [NEF custom deployment](custom_deployments/openexposure_nef/README.md) adds Open
+Exposure's AS Session with QoS API to the 5G SA core.
 
 ## Network and deployment configuration
 

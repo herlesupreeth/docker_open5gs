@@ -1,0 +1,15 @@
+{
+  "ueIpv4Addr": "192.168.100.250",
+  "notificationDestination": "http://172.22.0.1:8090/notifications",
+  "dnn": "internet",
+  "snssai": {"sst": 1},
+  "qosReference": "qos1",
+  "flowInfo": [
+    {
+      "flowId": 1,
+      "flowDescriptions": [
+        "permit out ip from any to 192.168.100.250"
+      ]
+    }
+  ]
+}

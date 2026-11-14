@@ -53,12 +53,10 @@ then
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_usrloc_scscf-create.sql
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_dialog-create.sql
 	mysql -u root -h ${MYSQL_IP} scscf < /usr/local/src/kamailio/utils/kamctl/mysql/ims_charging-create.sql
-	SCSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'scscf' AND Host = '%')"`
+	SCSCF_USER_EXISTS=`mysql -u root -h ${MYSQL_IP} -s -N -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = 'scscf' AND Host = '$SCSCF_IP')"`
 	if [[ "$SCSCF_USER_EXISTS" == 0 ]]
 	then
-		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'scscf'@'%' IDENTIFIED WITH mysql_native_password BY 'heslo'";
 		mysql -u root -h ${MYSQL_IP} -e "CREATE USER 'scscf'@'$SCSCF_IP' IDENTIFIED WITH mysql_native_password BY 'heslo'";
-		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON scscf.* TO 'scscf'@'%'";
 		mysql -u root -h ${MYSQL_IP} -e "GRANT ALL ON scscf.* TO 'scscf'@'$SCSCF_IP'";
 		mysql -u root -h ${MYSQL_IP} -e "FLUSH PRIVILEGES;"
 	fi

@@ -1,0 +1,39 @@
+add_column() {
+    table_name=$1
+    column_name=$2
+    column_options=${3:-'VARCHAR(255) DEFAULT NULL'}
+
+    COLUMN_EXISTS=$(mysql -h ${MYSQL_MTAS_IP} -P ${MYSQL_MTAS_PORT} -u ${MYSQL_MTAS_USER} -p"${MYSQL_MTAS_PASSWORD}" -D ${MYSQL_MTAS_DATABASE} -e \
+        "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table_name}' AND COLUMN_NAME = '${column_name}';")
+
+    [ -z "$COLUMN_EXISTS" ] && mysql -h ${MYSQL_MTAS_IP} -P ${MYSQL_MTAS_PORT} -u ${MYSQL_MTAS_USER} -p"${MYSQL_MTAS_PASSWORD}" -D ${MYSQL_MTAS_DATABASE} -e \
+        "ALTER TABLE ${table_name} ADD COLUMN ${column_name} ${column_options};"
+}
+
+add_parameter() {
+    module_name=$1
+    param_name=$2
+    value=$3
+
+    mysql -h ${MYSQL_MTAS_IP} -P ${MYSQL_MTAS_PORT} -u ${MYSQL_MTAS_USER} -p"${MYSQL_MTAS_PASSWORD}" -D ${MYSQL_MTAS_DATABASE} -e \
+	"INSERT INTO ocp_tools_config (module, param, value)
+	 SELECT '${module_name}', '${param_name}', ${value}
+		 WHERE NOT EXISTS (
+		 SELECT 1 FROM ocp_tools_config WHERE module = '${module_name}' AND param = '${param_name}');"
+}
+
+extract_table_name() {
+    local sql_file="$1"
+
+    table_name=$(grep -m 1 -oP 'CREATE TABLE\s+\K[`'\'']?(\w+)[`'\'']?' $sql_file | grep -oP '[`'\'']?\K\w+')
+    
+    echo $table_name
+}
+
+add_table() {
+    local sql_file="$1"
+
+    echo "Adding tables from $sql_file"
+    
+    mysql --force -h ${MYSQL_MTAS_IP} -P ${MYSQL_MTAS_PORT} -u ${MYSQL_MTAS_USER} -p"${MYSQL_MTAS_PASSWORD}" -D ${MYSQL_MTAS_DATABASE} < $sql_file
+}

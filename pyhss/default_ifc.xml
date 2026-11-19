@@ -29,27 +29,48 @@
         </PublicIdentity>
 
 
-        <!-- Copy SIP REGISTER towards Application Server -->
-        <!-- <InitialFilterCriteria>
+        <!-- Copy SIP REGISTER towards Application Server-->
+        <InitialFilterCriteria>
             <Priority>10</Priority>
-            <TriggerPoint>
-                <ConditionTypeCNF>0</ConditionTypeCNF>
-                <SPT>
-                    <ConditionNegated>0</ConditionNegated>
-                    <Group>0</Group>
-                    <Method>REGISTER</Method>
-                    <Extension></Extension>
-                </SPT>
-            </TriggerPoint>
+            <!-- Initial Register OR Re-register OR de-register -->
+     <TriggerPoint>
+        <!-- there are three SPTs, and we want OR, so ConditionTypeCNF 1 -->
+        <ConditionTypeCNF>1</ConditionTypeCNF>
+        <!-- Register -->
+        <SPT>
+            <Group>0</Group>
+            <Method>REGISTER</Method>
+            <Extension>
+                <RegistrationType>0</RegistrationType> <!-- INITIAL_REGISTRATION -->
+            </Extension>
+        </SPT>
+        <!-- re-register -->
+        <SPT>
+            <Group>0</Group>
+            <Method>REGISTER</Method>
+            <Extension>
+                <RegistrationType>1</RegistrationType> <!-- RE_REGISTRATION -->
+            </Extension>
+        </SPT>
+        <!-- de-register -->
+        <SPT>
+            <Group>0</Group>
+            <Method>REGISTER</Method>
+            <Extension>
+                <RegistrationType>2</RegistrationType> <!-- DE_REGISTRATION -->
+            </Extension>
+        </SPT>
+    </TriggerPoint>
             <ApplicationServer>
-                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</ServerName>
                 <DefaultHandling>0</DefaultHandling>
                 <Extension>
                     <IncludeRegisterRequest/>
                     <IncludeRegisterResponse/>
                 </Extension>
             </ApplicationServer>
-        </InitialFilterCriteria> -->
+        </InitialFilterCriteria>
+        
         <!-- Copy SIP REGISTER towards SMSc -->
         <!-- <InitialFilterCriteria>
             <Priority>11</Priority>
@@ -124,16 +145,15 @@
             </ApplicationServer>
         </InitialFilterCriteria> -->
 
-        <!-- SIP INVITE Traffic from Registered Sub-->
-        <!-- <InitialFilterCriteria>
-            <Priority>30</Priority>
+        <!-- SIP INVITE Traffic from Originating Registered Sub(Originating_Registered)-->
+         <InitialFilterCriteria>
+            <Priority>20</Priority>
             <TriggerPoint>
-                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
                 <SPT>
                     <ConditionNegated>0</ConditionNegated>
                     <Group>0</Group>
                     <Method>INVITE</Method>
-                    <Extension></Extension>
                 </SPT>
                 <SPT>
                     <Group>0</Group>
@@ -141,14 +161,35 @@
                 </SPT>             
             </TriggerPoint>
             <ApplicationServer>
-                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</ServerName>
+                <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=orig</ServerName>
                 <DefaultHandling>0</DefaultHandling>
             </ApplicationServer>
-        </InitialFilterCriteria> -->
+        </InitialFilterCriteria> 
 
 
-        <!-- SIP INVITE Traffic for calls to Unregistered Sub (TERMINATING_UNREGISTERED) -->
-        <!-- <InitialFilterCriteria>
+        <!-- SIP INVITE Traffic for calls to Terminating Registered Sub (TERMINATING_REGISTERED) -->
+         <InitialFilterCriteria>
+            <Priority>30</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                </SPT>
+                <SPT>
+                    <Group>0</Group>
+                    <SessionCase>1</SessionCase>
+                </SPT>           
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=term</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+        
+        <!-- SIP INVITE Traffic for calls to Terminating Unregistered Sub (TERMINATING_UNREGISTERED) -->
+         <InitialFilterCriteria>
             <Priority>40</Priority>
             <TriggerPoint>
                 <ConditionTypeCNF>0</ConditionTypeCNF>
@@ -156,7 +197,6 @@
                     <ConditionNegated>0</ConditionNegated>
                     <Group>0</Group>
                     <Method>INVITE</Method>
-                    <Extension></Extension>
                 </SPT>
                 <SPT>
                     <Group>0</Group>
@@ -164,10 +204,10 @@
                 </SPT>           
             </TriggerPoint>
             <ApplicationServer>
-                <ServerName>sip:voicemail.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <ServerName>sip:mtas.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org;call=term</ServerName>
                 <DefaultHandling>0</DefaultHandling>
             </ApplicationServer>
-        </InitialFilterCriteria> -->
+        </InitialFilterCriteria>
 
 
     </ServiceProfile>

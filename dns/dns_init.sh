@@ -49,6 +49,7 @@ sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/bind/ims_zone
 sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' /etc/bind/ims_zone
 sed -i 's|SMSC_IP|'$SMSC_IP'|g' /etc/bind/ims_zone
 sed -i 's|IBCF_IP|'$IBCF_IP'|g' /etc/bind/ims_zone
+sed -i 's|OPENSIPS_IP|'$OPENSIPS_IP'|g' /etc/bind/ims_zone
 
 sed -i 's|PUB_3GPP_DOMAIN|'$PUB_3GPP_DOMAIN'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/pub_3gpp_zone

@@ -67,7 +67,7 @@ sed -i 's|INSTALL_PREFIX|'$INSTALL_PREFIX'|g' ./config.yaml
 redis-server --daemonize yes
 
 cd services
-python3 apiService.py --host=$PYHSS_IP --port=8080 &
+python3 apiService.py &
 # Sleep is needed to let db be populated in a non-overlapping fashion
 sleep 5
 python3 diameterService.py &

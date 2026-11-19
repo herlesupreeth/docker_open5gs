@@ -25,3 +25,6 @@ _sip._tcp.scscf         1D SRV 0 0 6060 scscf
 smsc                    1D IN A         SMSC_IP
 _sip._udp.smsc          1D SRV 0 0 7090 smsc
 _sip._tcp.smsc          1D SRV 0 0 7090 smsc
+
+@ 1D IN NAPTR 100 10 "s" "SIP+D2T" "" _sip._tcp.IMS_DOMAIN.
+@ 1D IN NAPTR 100 10 "s" "SIP+D2U" "" _sip._udp.IMS_DOMAIN.

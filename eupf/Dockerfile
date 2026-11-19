@@ -45,7 +45,7 @@ RUN go install github.com/swaggo/swag/cmd/swag@v1.8.12
 # Get eupf, compile and install
 RUN export PATH=$(go env GOPATH)/bin:${PATH} && \
     git clone https://github.com/edgecomllc/eupf.git && \
-    cd eupf && git checkout tags/v0.6.4 && \
+    cd eupf && git checkout 241af932a40582f490b10e4467651bcb0d843a92 && \
     go generate -v ./cmd/... && \
     go build -v -o bin/eupf ./cmd/
 

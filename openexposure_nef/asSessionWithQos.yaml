@@ -1,0 +1,34 @@
+nbi:
+  httpVersion: 1
+  useTLS: false
+  fqdn: ${NEF_IP}
+  port: 8080
+
+sbi:
+  useNrf: false
+  pcfSvc: http://${PCF_IP}:7777
+  httpVersion: 2
+
+# Local lab deployment. Empty capifSvc avoids CAPIF registration and middleware.
+capifSvc: ""
+disableCapifSecurity: true
+supportedFeatures: "12"
+
+# PCF BitRate values require units.
+qosConfig:
+  qos1:
+    marBwDl: "1 Mbps"
+    marBwUl: "1 Mbps"
+    mediaType: CONTROL
+  qos2:
+    marBwDl: "2 Mbps"
+    marBwUl: "2 Mbps"
+    mediaType: CONTROL
+  qos3:
+    marBwDl: "4 Mbps"
+    marBwUl: "4 Mbps"
+    mediaType: AUDIO
+  qos4:
+    marBwDl: "8 Mbps"
+    marBwUl: "8 Mbps"
+    mediaType: VIDEO

@@ -7,7 +7,6 @@ services:
     privileged: true
     volumes:
       - ./swu_client:/mnt/swu_client
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env

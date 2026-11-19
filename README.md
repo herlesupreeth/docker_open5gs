@@ -8,6 +8,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - srsRAN_4G (4G eNB + 4G UE + 5G UE) - https://github.com/srsran/srsRAN_4G
 - srsRAN_Project (5G gNB) - https://github.com/srsran/srsRAN_Project
 - UERANSIM (5G gNB + 5G UE) - https://github.com/aligungr/UERANSIM
+- Open Exposure NEF (AS Session with QoS) - https://gitlab.eurecom.fr/open-exposure/nef/as-session-with-qos
 - eUPF (5G UPF) - https://github.com/edgecomllc/eupf
 - OpenSIPS IMS - https://github.com/OpenSIPS/opensips
 - Sigscale OCS - https://github.com/sigscale/ocs
@@ -41,6 +42,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
   - [Manually configure DNS settings on your phone (WiFi connection)](#manually-configure-dns-settings-on-your-phone-wifi-connection)
   - [UE configuration](#ue-configuration)
 - [Not supported](#not-supported)
+- [Troubleshooting](#troubleshooting)
 
 ## Tested Setup
 
@@ -205,6 +207,11 @@ docker compose -f 4g-volte-deploy.yaml build
 # For 5G deployment only
 docker compose -f sa-deploy.yaml build
 ```
+
+### Open Exposure NEF (optional)
+
+The [NEF custom deployment](custom_deployments/openexposure_nef/README.md) adds Open
+Exposure's AS Session with QoS API to the 5G SA core.
 
 ## Network and deployment configuration
 
@@ -440,20 +447,20 @@ APN Configuration:
 ---------------------------------------------------------------------------------------------------------------------
 | internet | IPv4 | 9   | 8   | Disabled   | Disabled       | unlimited/unlimited |                 |               |
 |          |      | 1   | 2   | Enabled    | Enabled        | 128/128             | 128/128         |               |
-|          |      | 2   | 4   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+|          |      | 2   | 4   | Enabled    | Enabled        | 512/512             | 512/512         |               |
 ---------------------------------------------------------------------------------------------------------------------
 | ims      | IPv4 | 5   | 1   | Disabled   | Disabled       | 3850/1530           |                 |               |
 |          |      | 1   | 2   | Enabled    | Enabled        | 128/128             | 128/128         |               |
-|          |      | 2   | 4   | Enabled    | Enabled        | 128/128             | 128/128         |               |
+|          |      | 2   | 4   | Enabled    | Enabled        | 512/512             | 512/512         |               |
 ---------------------------------------------------------------------------------------------------------------------
 ```
 
 #### or using cli 
 
 ```
-sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd09487cccbd7097c6862 8E27B6AF0E692E750F32667A3B14605D
+docker exec -it webui misc/db/open5gs-dbctl add_ue_with_apn 001010123456790 8baf473f2f8fd09487cccbd7097c6862 8E27B6AF0E692E750F32667A3B14605D internet
+docker exec -it webui misc/db/open5gs-dbctl update_apn 001010123456790 ims 0
 ```
-**NOTE:** Adding via CLI does not add the desired APN configuration. You need to add the APN configuration via Web UI as mentioned above.
 
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 
@@ -612,3 +619,20 @@ Password : admin
 
 ## Not supported
 - IPv6 usage in Docker
+- NSA mode
+- SMS concatenation (UDH) / SMS buffering for unregistered UEs
+- USSD over IMS
+- VoLTE on Samsung devices without root (CoIMS does not work)
+
+## Troubleshooting
+
+If something does not work, start with **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** —
+symptom-first checklists (attach / data / VoLTE-IMS-APN / call drops / SMS /
+VoWiFi / multi-host / radio), the standard pcap procedure, a list of harmless
+log messages, and the full "not supported" table.
+
+Quick answers:
+
+- **VoLTE symbol missing / no `ims` APN attach**: VoLTE is usually not truly enabled on the phone (Samsung: not possible; MediaTek: secret-code IMS menu; others: CoIMS). Never hand-select the `ims` APN on the phone, and keep the network PLMN aligned with the SIM PLMN (use 00101).
+- **Authentication failures**: don't mix up OP and OPc. The WebUI has a single "Operator Key (OPc/OP)" field — the value must match the selected type (OPc is derived from Ki+OP; pasting the OP value under "OPc" is the most common cause of MAC/EAP-AKA failures). The provisioning section's example uses the derived OPc (select **OPc**).
+- **"Address already in use" / duplicate RAN**: `docker compose down && docker system prune -f`, then redeploy.

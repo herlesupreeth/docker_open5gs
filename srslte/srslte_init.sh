@@ -32,6 +32,8 @@ mkdir -p /etc/srsran
 
 cp /mnt/srslte/rb_${COMPONENT_NAME}.conf /etc/srsran/rb.conf
 cp /mnt/srslte/sib_${COMPONENT_NAME}.conf /etc/srsran/sib.conf
+# Copy custom UHD images to the default UHD images directory. e.g. LibreSDR images.
+cp /mnt/srslte/custom_uhd_images/* /usr/share/uhd/images
 
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;

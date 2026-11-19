@@ -56,6 +56,9 @@ jobs:
           # - image: docker_oai_gnb
           #   context: oai
           #   file: gnb_dockerfile
+          - image: openexposure_nef
+            context: openexposure_nef
+            file: Dockerfile
           - image: docker_eupf
             context: eupf
             file: Dockerfile

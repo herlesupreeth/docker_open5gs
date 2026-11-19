@@ -32,10 +32,14 @@ mkdir -p /usr/local/etc/swanctl
 mkdir -p /usr/local/etc/strongswan.d
 mkdir -p /usr/local/etc/strongswan.d/charon
 mkdir -p /etc/osmocom
+mkdir -p /wireshark_keys
 cp /mnt/osmoepdg/osmo-epdg.config /etc/osmocom
 cp /mnt/osmoepdg/swanctl/swanctl.conf /etc/swanctl/swanctl.conf
 cp /mnt/osmoepdg/strongswan.d/charon/kernel-netlink.conf /etc/strongswan.d/charon/kernel-netlink.conf
+cp /mnt/osmoepdg/strongswan.d/charon.conf /etc/strongswan.d/charon.conf
 cp /mnt/osmoepdg/eap-aka.conf /etc/strongswan.d/charon/eap-aka.conf
+cp /mnt/osmoepdg/save-keys.conf /etc/strongswan.d/charon/save-keys.conf
+cp /mnt/osmoepdg/attr.conf /etc/strongswan.d/charon/attr.conf
 
 OSMOEPDG_COMMA_SEPARATED_IP="${OSMOEPDG_IP//./,}"
 
@@ -53,6 +57,9 @@ sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/osmocom/osmo-epdg.config
 sed -i 's|SMF_IP|'$SMF_IP'|g' /etc/osmocom/osmo-epdg.config
 sed -i 's|EPDG_TUN_INTERFACE|'$EPDG_TUN_INTERFACE'|g' /etc/osmocom/osmo-epdg.config
 sed -i 's|GTP_TRAFFIC_FWMARK|'$GTP_TRAFFIC_FWMARK'|g' /etc/strongswan.d/charon/kernel-netlink.conf
+sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/strongswan.d/charon/attr.conf
+sed -i 's|SMF_DNS1|'$SMF_DNS1'|g' /etc/strongswan.d/charon/attr.conf
+sed -i 's|SMF_DNS2|'$SMF_DNS2'|g' /etc/strongswan.d/charon/attr.conf
 sed -i 's|GTP_TRAFFIC_FWMARK|'$GTP_TRAFFIC_FWMARK'|g' /etc/swanctl/swanctl.conf
 sed -i 's|OSMOEPDG_IP|'$OSMOEPDG_IP'|g' /etc/swanctl/swanctl.conf
 sed -i 's|IPSEC_TRAFFIC_FWMARK|'$IPSEC_TRAFFIC_FWMARK'|g' /etc/swanctl/swanctl.conf

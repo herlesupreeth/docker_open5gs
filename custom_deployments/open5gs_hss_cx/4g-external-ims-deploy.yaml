@@ -8,7 +8,6 @@ services:
     volumes:
       - mongodbdata:/data/db
       - mongodbdata:/data/configdb
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "27017/udp"
@@ -25,9 +24,9 @@ services:
       - .custom_env
     environment:
       - COMPONENT_NAME=webui
+      - DB_URI=mongodb://${MONGO_IP}/open5gs
     volumes:
       - ../../webui:/mnt/webui
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "9999/tcp"
@@ -43,10 +42,10 @@ services:
       - .custom_env
     environment:
       - COMPONENT_NAME=hss
+      - DB_URI=mongodb://${MONGO_IP}/open5gs
     volumes:
       - ./hss:/mnt/hss
       - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - mongo
@@ -74,7 +73,6 @@ services:
     volumes:
       - ../../sgwc:/mnt/sgwc
       - ../../log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "2123/udp"
@@ -95,7 +93,6 @@ services:
     volumes:
       - ../../sgwu:/mnt/sgwu
       - ../../log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "8805/udp"
@@ -116,7 +113,6 @@ services:
     volumes:
       - ../../smf:/mnt/smf
       - ../../log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "3868/tcp"
@@ -142,7 +138,6 @@ services:
     volumes:
       - ../../upf:/mnt/upf
       - ../../log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "2152/udp"
@@ -172,7 +167,6 @@ services:
     volumes:
       - ./mme:/mnt/mme
       - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "3868/tcp"
@@ -194,12 +188,12 @@ services:
       - .custom_env
     environment:
       - COMPONENT_NAME=pcrf
+      - DB_URI=mongodb://${MONGO_IP}/open5gs
     depends_on:
       - mongo
     volumes:
       - ../../pcrf:/mnt/pcrf
       - ../../log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "${PCRF_BIND_PORT}/tcp"
@@ -220,7 +214,6 @@ services:
       - .custom_env
     volumes:
       - ./dns:/mnt/dns
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "53/udp"
@@ -235,7 +228,6 @@ services:
       - .custom_env
     volumes:
       - dbdata:/var/lib/mysql
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "3306/tcp"
@@ -248,7 +240,6 @@ services:
     container_name: osmomsc
     volumes:
       - ../../osmomsc:/mnt/osmomsc
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .custom_env
@@ -268,7 +259,6 @@ services:
     container_name: osmohlr
     volumes:
       - ../../osmohlr:/mnt/osmohlr
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .custom_env
@@ -287,12 +277,11 @@ services:
       - .custom_env
     volumes:
       - ../../metrics:/mnt/metrics
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "9090/tcp"
+      - "${METRICS_BIND_PORT}/tcp"
     ports:
-      - "9090:9090/tcp"
+      - "${METRICS_BIND_PORT}:${METRICS_BIND_PORT}/tcp"
     networks:
       default:
         ipv4_address: ${METRICS_IP}
@@ -305,7 +294,6 @@ services:
       - grafana_data:/var/lib/grafana
       - ../../grafana/:/etc/grafana/provisioning/
       - ../../grafana:/mnt/grafana
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}

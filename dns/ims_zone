@@ -39,3 +39,5 @@ _sip._tcp.voicemail     1D SRV 0 0 5090 voicemail
 mtas                    1D IN A         OPENSIPS_IP
 _sip._udp.mtas          1D SRV 0 0 5060 mtas
 _sip._tcp.mtas          1D SRV 0 0 5060 mtas
+@ 1D IN NAPTR 100 10 "s" "SIP+D2T" "" _sip._tcp.IMS_DOMAIN.
+@ 1D IN NAPTR 100 10 "s" "SIP+D2U" "" _sip._udp.IMS_DOMAIN.

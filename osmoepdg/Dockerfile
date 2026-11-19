@@ -42,9 +42,9 @@ RUN apt-get update && \
     apt-get -y install telnet iproute2 net-tools git pkg-config autoconf make libtool gettext gperf libgmp-dev bison flex automake autotools-dev rebar3 libosmocore-utils libosmocore-dev libgtpnl-dev libgtpnl-tools libpcap-dev nftables tcpdump
 
 # Compile osmocom-epdg
-RUN git clone https://gitea.osmocom.org/erlang/osmo-epdg && \
+RUN git clone https://github.com/herlesupreeth/osmo-epdg.git && \
     cd osmo-epdg && \
-    git checkout tags/0.1.1 && \
+    git checkout fix_vowifi_qos_provisioning && \
     rebar3 compile && \
     rebar3 escriptize
 

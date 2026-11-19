@@ -7,7 +7,6 @@ services:
     privileged: true
     volumes:
       - ../../srsran:/mnt/srsran
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .custom_env

@@ -10,3 +10,7 @@ global:
 
 hss:
     freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf
+    metrics:
+      server:
+        - address: HSS_IP
+          port: 9091

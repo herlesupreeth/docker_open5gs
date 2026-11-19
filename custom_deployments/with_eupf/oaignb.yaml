@@ -17,7 +17,6 @@ services:
       - /dev/bus/usb:/dev/bus/usb:ro
       - ../../oai:/mnt/oai
       - ../../log:/openairinterface5g/cmake_targets/log/
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .custom_env

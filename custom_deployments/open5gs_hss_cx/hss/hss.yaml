@@ -11,3 +11,7 @@ global:
 hss:
     freeDiameter: /open5gs/install/etc/freeDiameter/hss.conf
     sms_over_ims: "sip:smsc.IMS_DOMAIN:7090"
+    metrics:
+      server:
+        - address: HSS_IP
+          port: 9091

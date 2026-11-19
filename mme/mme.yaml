@@ -49,7 +49,7 @@ mme:
         integrity_order : [ EIA2, EIA1, EIA0 ]
         ciphering_order : [ EEA0, EEA1, EEA2 ]
     network_name:
-        full: Open5GS
+        full: NETWORK_NAME
     mme_name: open5gs-mme0
     metrics:
       server:

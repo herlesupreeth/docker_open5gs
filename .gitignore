@@ -5,3 +5,7 @@ log/
 **/*.db
 **/*.db-shm
 **/*.db-wal
+dev_docs/
+dev_scripts/
+srslte/custom_uhd_images/*
+srsran/custom_uhd_images/*
